@@ -29,7 +29,7 @@ See `src/styles/element/index.scss`.
 
 This project was bootstraped from (element-plus-vite-starter)(https://github.com/element-plus/element-plus-vite-starter). and inspired by (Pathfinder-2e-Spell-DB)[https://github.com/fyjham-ts/Pathfinder-2E-Spell-DB].
 
-## Tooling
+### Tooling
 
 - Web framework - (Vue)[https://vuejs.org/guide/quick-start.html]
 - Component library - (Element Plus)[https://element-plus.org/en-US/component/overview.html]
