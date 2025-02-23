@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
+    "@elastic/elasticsearch": "^8.8.1",
     "@iconify-json/ep": "^1.2.1",
     "@iconify-json/ri": "^1.2.3",
     "@types/node": "^22.13.5",
