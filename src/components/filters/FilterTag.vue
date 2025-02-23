@@ -36,9 +36,14 @@ const handleChange = () => {
 </script>
 
 <style scoped>
-.tag {
+.tag.ep-tag {
   color: black;
+  border-color: black;
   margin: 12px 4px;
+}
+.tag.ep-tag .ep-tag__close {
+  color: black;
+  background-color: hotpink;
 }
 .tag.inactive {
   color: grey;
