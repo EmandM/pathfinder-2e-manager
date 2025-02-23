@@ -1,5 +1,5 @@
 <template>
-    <el-tag :key="props.title"
+    <el-tag
       :hit="props.active"
       :color="color"
       size="large"
