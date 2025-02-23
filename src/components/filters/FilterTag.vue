@@ -1,10 +1,13 @@
+<!-- Uses Element tag component https://element-plus.org/en-US/component/tag.html -->
+
 <template>
     <el-tag
       :hit="props.active"
       :color="color"
       size="large"
       class="tag"
-      :class="{ inactive: !props.active }"
+      type="info"
+      :class="{ active: props.active }"
       closable
       @click="handleChange"
       @close="emit('close')"
@@ -17,7 +20,7 @@
 import { ref } from 'vue'
 import { disabled } from './filter-colors';
 
-const props = defineProps<{title: String, active: boolean, color: string}>();
+const props = defineProps<{title: string, active: boolean, color: string}>();
 
 const color = ref(props.color);
 
@@ -37,15 +40,14 @@ const handleChange = () => {
 
 <style scoped>
 .tag.ep-tag {
-  color: black;
-  border-color: black;
+  color: grey;
   margin: 12px 4px;
 }
-.tag.ep-tag .ep-tag__close {
+.tag.active {
   color: black;
-  background-color: hotpink;
 }
-.tag.inactive {
-  color: grey;
+.tag.ep-tag.active >>> .ep-tag__close {
+  color: black;
+  border-color: black;
 }
 </style>

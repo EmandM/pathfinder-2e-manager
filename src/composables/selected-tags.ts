@@ -1,18 +1,21 @@
 import { ref, type Ref, reactive, } from "vue";
 
-type AppliedFilter = {
-  filterType: String;
-  filterValue: String;
+export type AppliedFilter = {
+  filterType: string;
+  filterValue: string;
 };
 type AppliedFilterCollection = AppliedFilter[];
 
-const selectedByPage = ref<Map<String, Ref<AppliedFilterCollection>>>(new Map());
+// Global state
+const selectedByPage = ref<Map<string, Ref<AppliedFilterCollection>>>(new Map());
 
-export function usePersistAppliedFilters() {
-  // local state, created per-component
-  const appliedFilters = ref<AppliedFilterCollection>([])
-
-  return {
-    appliedFilters,
+export function usePersistentAppliedFilters(pageName: string): Ref<AppliedFilterCollection> {
+  let appliedFilters = selectedByPage.value.get(pageName);
+  if (!appliedFilters) {
+    appliedFilters = ref<AppliedFilterCollection>([]);
+    selectedByPage.value.set(pageName, appliedFilters);
   }
+
+  return appliedFilters;
 }
+

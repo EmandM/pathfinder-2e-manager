@@ -1,9 +1,9 @@
 import * as color from './filter-colors';
 
 export type Filter = {
-  name: String;
-  options: String[]
-  color: String
+  name: string;
+  options: string[]
+  color: string
 };
 
 const traits: Filter = {

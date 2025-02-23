@@ -1,9 +1,10 @@
+<!-- Uses Element select component https://element-plus.org/en-US/component/select.html -->
+
 <template>
   <div class="">
     <div class="select-label">{{title}}</div>
     <el-select
       v-model="value"
-      :placeholder=placeholder
       size="large"
       filterable
       style="width: 180px"
@@ -23,10 +24,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const { title, placeholder="Select", options} = defineProps<{
-  title: String
-  placeholder?: String
-  options: String[]
+const { title, options} = defineProps<{
+  title: string
+  options: string[]
 }>()
 const emit = defineEmits<{
   change: [value: string]
