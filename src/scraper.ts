@@ -48,11 +48,11 @@ async function retrieveTargets() {
                 query: { match: { category: target } },
             });
 
-            fs.mkdirSync("../public/data", {
+            fs.mkdirSync("assets/data", {
                 recursive: true,
             });
             fs.writeFileSync(
-                path.join("../public/data", `${target}.json`),
+                path.join("assets/data", `${target}.json`),
                 JSON.stringify(search?.hits?.hits)
             );
         } catch (err) {
