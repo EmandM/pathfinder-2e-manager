@@ -4,7 +4,7 @@ export type AppliedFilter = {
   filterType: string;
   filterValue: string;
 };
-type AppliedFilterCollection = AppliedFilter[];
+export type AppliedFilterCollection = AppliedFilter[];
 
 // Global state
 const selectedByPage = ref<Map<string, Ref<AppliedFilterCollection>>>(new Map());

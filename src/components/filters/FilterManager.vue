@@ -23,10 +23,14 @@
 import Select from './Select.vue';
 import { ref, type Ref } from 'vue'
 import { allFilters, type Filter } from './filter-descriptions';
-import { usePersistentAppliedFilters, type AppliedFilter } from '~/composables/selected-tags';
+import { type AppliedFilterCollection, usePersistentAppliedFilters, type AppliedFilter } from '~/composables/selected-tags';
 
-const { pageName } = defineProps<{
-  pageName: string
+const { pageName, appliedFilters } = defineProps<{
+  pageName: string;
+  appliedFilters: AppliedFilterCollection;
+}>()
+const emit = defineEmits<{
+  change: [value: AppliedFilterCollection]
 }>()
 
 type SelectedFilter = {
@@ -41,21 +45,16 @@ const shownFilters: Ref<Map<string, Filter>> = ref(new Map());
 const options = ref(allFilters.map((filter) => filter.name).sort());
 const inUse: Ref<SelectedFilter[]> = ref([]);
 
-const appliedFilters = usePersistentAppliedFilters(pageName);
-console.log(appliedFilters.value, appliedFilters.value.length);
-for (var i=0; i<appliedFilters.value.length; i++) {
-  console.log("filter-loop");
-  let filter = appliedFilters.value[i];
-  console.log("initializing filter", filter);
+for (var i=0; i<appliedFilters.length; i++) {
+  let filter = appliedFilters[i];
   if (!shownFilters.value.has(filter.filterType)) {
-    console.log("filter not shown");
     showFilterSelect(filter.filterType, true);
   }
   addFilter(filter.filterType, filter.filterValue, true);
 }
 
 function updateAppliedFilters() {
-  appliedFilters.value = inUse.value
+  const updatedFilters = inUse.value
     .filter((fil) => fil.active)
     .map<AppliedFilter>((fil) => {
       return {
@@ -63,6 +62,7 @@ function updateAppliedFilters() {
         filterValue: fil.value,
       } as AppliedFilter;
     });
+  emit('change', updatedFilters)
 }
 
 function showFilterSelect(name: string, init: boolean = false) {
@@ -79,11 +79,9 @@ function showFilterSelect(name: string, init: boolean = false) {
 };
 
 function addFilter(type: string, name: string, init: boolean = false) {
-  console.log("adding filter");
   const tag = type + " - " + name;
   let baseFilter = shownFilters.value.get(type);
   if (!baseFilter) {
-    console.log("stopping add");
     return;
   }
   const filter = Object.assign({}, baseFilter);

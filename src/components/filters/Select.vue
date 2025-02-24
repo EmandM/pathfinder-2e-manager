@@ -34,7 +34,6 @@ const emit = defineEmits<{
 
 const value = ref('');
 const handleChange = () => {
-  console.log('selected:', value.value);
   emit('change', value.value);
   value.value = '';
 }
