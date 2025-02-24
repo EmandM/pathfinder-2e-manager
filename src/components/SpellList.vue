@@ -32,5 +32,10 @@ function filterSpells(filters: AppliedFilterCollection) {
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 245px);
+  justify-content: start;
+}
 </style>

@@ -28,6 +28,11 @@ code {
   pointer-events: none;
 }
 
+// markdown paragraphs from Item.vue
+.item-desc p {
+  margin: 0;
+}
+
 #nprogress .bar {
   background: rgb(13, 148, 136);
   opacity: 0.75;
