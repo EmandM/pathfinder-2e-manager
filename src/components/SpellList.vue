@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-import spellImport from '~/assets/data/spell.json';
-import { AppliedFilterCollection, usePersistentAppliedFilters } from '~/composables/selected-tags';
+import { ref, type Ref } from 'vue';
+import { dataImporter } from '~/composables/data-importer';
+import { type AppliedFilterCollection, usePersistentAppliedFilters } from '~/composables/selected-tags';
 
 export type Item = {
   _source: {
@@ -9,15 +10,19 @@ export type Item = {
   }
 }
 
-const spells = [...spellImport as Item[]]
-let displayedSpells = [] as Item[];
-filterSpells([]);
-
 const appliedFilters = usePersistentAppliedFilters('spells');
+const spells: Item[] = [];
+let displayedSpells: Ref<Item[]> = ref([]);
 
-function filterSpells(filters: AppliedFilterCollection) {
-  console.log('calling filter')
-  displayedSpells = spells.filter(s => s._source.primary_source == "Player Core");
+const data = dataImporter('spells', (data) => {
+  spells.push(...data as Item[]);
+  filterSpells();
+});
+
+function filterSpells() {
+  console.log("filtering count before", displayedSpells.value.length);
+  displayedSpells.value = spells.filter((item) => appliedFilters.doFilter(item));
+  console.log("filtering count after", displayedSpells.value.length);
 }
 
 </script>
@@ -27,8 +32,11 @@ function filterSpells(filters: AppliedFilterCollection) {
   <el-divider>
     <el-icon><star-filled /></el-icon>
   </el-divider>
-  <div class="cards">
-      <Item v-for="spell in displayedSpells" :source="spell._source" />
+  <div class="cards" v-if="data.isLoaded">
+    <Item v-for="spell in displayedSpells" :source="spell._source" />
+  </div>
+  <div class="cards" v-else>
+    Loading!
   </div>
 </template>
 

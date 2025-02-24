@@ -30,7 +30,7 @@ const { pageName, appliedFilters } = defineProps<{
   appliedFilters: AppliedFilterCollection;
 }>()
 const emit = defineEmits<{
-  change: [value: AppliedFilterCollection]
+  change: []
 }>()
 
 type SelectedFilter = {
@@ -45,24 +45,15 @@ const shownFilters: Ref<Map<string, Filter>> = ref(new Map());
 const options = ref(allFilters.map((filter) => filter.name).sort());
 const inUse: Ref<SelectedFilter[]> = ref([]);
 
-for (var i=0; i<appliedFilters.length; i++) {
-  let filter = appliedFilters[i];
-  if (!shownFilters.value.has(filter.filterType)) {
-    showFilterSelect(filter.filterType, true);
-  }
-  addFilter(filter.filterType, filter.filterValue, true);
-}
+appliedFilters.filters.forEach((values, type) => {
+  showFilterSelect(type, true);
+  values.forEach((filter) => {
+    addFilter(type, filter.filterValue, true);
+  })
+});
 
 function updateAppliedFilters() {
-  const updatedFilters = inUse.value
-    .filter((fil) => fil.active)
-    .map<AppliedFilter>((fil) => {
-      return {
-        filterType: fil.type,
-        filterValue: fil.value,
-      } as AppliedFilter;
-    });
-  emit('change', updatedFilters)
+  emit('change');
 }
 
 function showFilterSelect(name: string, init: boolean = false) {
@@ -95,25 +86,25 @@ function addFilter(type: string, name: string, init: boolean = false) {
     active: true,
     color: filter?.color,
   });
-
-  if (!init) {
-    updateAppliedFilters();
-  }
+  appliedFilters.addFilter(type, name);
+  emit('change');
 }
 
 const removeFilter = (removeTag: SelectedFilter) => {
-  console.log(removeTag);
   let filter = shownFilters.value.get(removeTag.type);
   if (filter) {
     filter.options.push(removeTag.value);
     filter.options.sort()
   }
   remove(inUse.value, (tag) => tag.displayName == removeTag.displayName);
+  appliedFilters.removeFilter(removeTag.type, removeTag.value);
+  emit('change');
 };
 
 function handleActiveChange(tag: SelectedFilter) {
   tag.active = !tag.active;
-  updateAppliedFilters();
+  appliedFilters.toggleFilter(tag.type, tag.value);
+  emit('change');
 }
 
 function remove<T>(list: T[], predicate: (item: T) => boolean): void {

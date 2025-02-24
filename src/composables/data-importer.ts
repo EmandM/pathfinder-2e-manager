@@ -1,45 +1,48 @@
-import spells from '~/assets/data/spell.json';
+import { ref, type Ref } from "vue";
 
 const paths = {
-  'spells': '~/assets/data/spell.json',
+  'spells': '/data/spell.json',
 };
 
+type ItemSource = {
+  primary_source: string;
+  [key: string]: string | string[];
+}
 
 export type Item = {
-  _source: {
-    primary_source: string;
-    [key: string]: string;
-  }
+  _source: ItemSource;
 }
 
-type ImportResult = {
+const importCache: Map<string, Ref<ImportResult>> = new Map();
+
+export type ImportResult = {
   isLoaded: boolean;
-  data?: Item[];
+  data: Item[];
 }
 
-export function dataImporter(type: keyof typeof paths): ImportResult {
-  // let isLoaded = false;
-
-  // let data;
-  // import(paths[type], {
-  //   assert: { type: 'json' }
-  // }).then((res) => {
-  //   data = res.default as Item[]
-  // }).catch((err) => {
-  //   console.log("error loading data:", err);
-  // }).finally(() => {
-  //   isLoaded = true;
-  // });
-
-  // console.log(data);
-
-  // return {
-  //   isLoaded,
-  //   data
-  // }
-
-  return {
-    isLoaded: true,
-    data: spells as Item[]
+export function dataImporter(type: keyof typeof paths, onImport: (data: Item[]) => void): Ref<ImportResult> {
+  const cached = importCache.get(type)
+  if (cached) {
+    console.log(cached.value);
+    onImport(cached.value.data);
+    return cached;
   }
+
+  let importResult: Ref<ImportResult> = ref({
+    isLoaded: false,
+    data: []
+  })
+  importCache.set(type, importResult);
+
+  fetch(paths[type])
+    .then((res) => res.json())
+    .then((jsonData) => {
+      importResult.value.isLoaded = true;
+      importResult.value.data = jsonData as Item[];
+      onImport(jsonData as Item[]);
+    })
+    .catch((err) => console.log("error loading data:", err))
+    .finally(() => importResult.value.isLoaded = true);
+
+  return importResult;
 }
