@@ -6,7 +6,6 @@
       :color="color"
       size="large"
       class="tag"
-      type="info"
       :class="{ active: props.active }"
       closable
       @click="handleChange"
@@ -46,7 +45,7 @@ const handleChange = () => {
 .tag.active {
   color: black;
 }
-.tag.ep-tag.active >>> .ep-tag__close {
+.tag.ep-tag.active:deep() .ep-tag__close {
   color: black;
   border-color: black;
 }

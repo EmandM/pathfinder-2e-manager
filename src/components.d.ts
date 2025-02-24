@@ -18,6 +18,7 @@ declare module 'vue' {
     ElTag: typeof import('element-plus/es')['ElTag']
     FilterManager: typeof import('./components/filters/FilterManager.vue')['default']
     FilterTag: typeof import('./components/filters/FilterTag.vue')['default']
+    Item: typeof import('./components/Item.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

@@ -1,21 +1,22 @@
 <script lang="ts" setup>
-import { repository } from '~/../package.json'
+import { dataImporter } from '~/composables/data-importer';
 
-import markdownit from 'markdown-it'
-const md = markdownit({html: true, breaks: true})
+let data = dataImporter('spells');
 
-import spells from '~/assets/data/spell.json'
 
 function GetSpells() {
-  return spells.filter(s => s._source.primary_source == "Player Core");
+  if (!data.data) {
+    return;
+  }
+  return data.data.filter(s => s._source.primary_source == "Player Core");
 }
 
 </script>
 
 <template>
   <div class="spells">
-    <div v-for="spell in GetSpells()">
-      <span v-html="md.render(spell._source.markdown)" />
+    <div v-if="data.data" v-for="spell in GetSpells()">
+      <Item :markdown="spell._source.markdown" />
     </div>
   </div>
 </template>
