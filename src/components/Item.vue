@@ -1,19 +1,22 @@
 <script lang="ts" setup>
-import markdownit from 'markdown-it';
+type ItemSource = {
+  primary_source: string;
+
+  [key: string]: any;
+}
 
 
-const { markdown } = defineProps<{
-  markdown: string
+const { source } = defineProps<{
+  source: ItemSource
 }>();
 
-const md = markdownit({html: true, breaks: true});
-
-const text = md.render(markdown);
 
 </script>
 
 <template>
-  <span v-html="text" />
+  <div>
+    {{source}}
+  </div>
 </template>
 
 <style lang="scss">

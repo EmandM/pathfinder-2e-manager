@@ -27,10 +27,8 @@ function filterSpells(filters: AppliedFilterCollection) {
   <el-divider>
     <el-icon><star-filled /></el-icon>
   </el-divider>
-  <div class="spells">
-    <div v-for="spell in displayedSpells">
-      <Item :markdown="spell._source.markdown" />
-    </div>
+  <div class="cards">
+      <Item v-for="spell in displayedSpells" :source="spell._source" />
   </div>
 </template>
 
