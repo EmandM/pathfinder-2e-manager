@@ -33,7 +33,7 @@ import markdownit from 'markdown-it';
 let md = markdownit({html: true});
 function GetDescription(markdown: string) {
   let split = markdown.indexOf("---");
-  return md.render(markdown.substring(split + 3).replaceAll("---", ""));
+  return md.render(markdown.substring(split + 3));
 }
 
 </script>
@@ -51,7 +51,7 @@ function GetDescription(markdown: string) {
       <div class="trait trait-common" v-for="trait in source.trait">{{ trait }}</div>
       <div class="item-desc">
         <hr>
-        <span v-html=GetDescription(source.markdown)></span>
+        <span class="item-markdown" v-html=GetDescription(source.markdown)></span>
       </div>
       <div class="copyright">{{ source.primary_source }}</div>
     </div>

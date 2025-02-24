@@ -29,8 +29,11 @@ code {
 }
 
 // markdown paragraphs from Item.vue
-.item-desc p {
+.item-markdown p {
   margin: 0;
+}
+.item-markdown hr {
+  display: none;
 }
 
 #nprogress .bar {
