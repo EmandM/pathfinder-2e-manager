@@ -1,35 +1,11 @@
 <script lang="ts" setup>
-type ItemSource = {
-  primary_source: string;
-  name: string;
-  actions_number: number;
-  actions: keyof typeof actionToImage;
-  target: string;
-  markdown: string;
-  source: string;
-  trait: string[];
-  rarity: string;
-  range: number;
-  spell_type: string;
-  level: number;
-  
-  [key: string]: any;
-}
+import markdownit from 'markdown-it';
+import { ItemSource, actionToImage } from '~/composables/item-types';
 
 const { source } = defineProps<{
   source: ItemSource
 }>();
 
-const actionToImage = {
-  "Reaction": "img/action_reaction_black.png",
-  "Single Action": "img/action_single_black.png",
-  "Two Actions": "img/action_double_black.png",
-  "Three Actions": "img/action_triple_black.png",
-  "Single Action to Three Actions": "img/action_range_black.png",
-  "Free Action": "img/action_free_black.png",
-}
-
-import markdownit from 'markdown-it';
 let md = markdownit({html: true});
 function GetDescription(markdown: string) {
   let split = markdown.indexOf("---");

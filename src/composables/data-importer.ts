@@ -1,17 +1,10 @@
 import { ref, type Ref } from "vue";
+import { Item } from "./item-types";
 
 const paths = {
-  'spells': '/data/spell.json',
+  spells: '/data/spell.json',
+  items: '/data/equipment.json',
 };
-
-type ItemSource = {
-  primary_source: string;
-  [key: string]: string | string[];
-}
-
-export type Item = {
-  _source: ItemSource;
-}
 
 const importCache: Map<string, Ref<ImportResult>> = new Map();
 
@@ -20,7 +13,8 @@ export type ImportResult = {
   data: Item[];
 }
 
-export function dataImporter(type: keyof typeof paths, onImport: (data: Item[]) => void): Ref<ImportResult> {
+export type DataType = keyof typeof paths;
+export function dataImporter(type: DataType, onImport: (data: Item[]) => void): Ref<ImportResult> {
   const cached = importCache.get(type)
   if (cached) {
     console.log(cached.value);
@@ -33,7 +27,7 @@ export function dataImporter(type: keyof typeof paths, onImport: (data: Item[]) 
     data: []
   })
   importCache.set(type, importResult);
-
+  
   fetch(paths[type])
     .then((res) => res.json())
     .then((jsonData) => {

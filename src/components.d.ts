@@ -19,11 +19,16 @@ declare module 'vue' {
     FilterManager: typeof import('./components/filters/FilterManager.vue')['default']
     FilterTag: typeof import('./components/filters/FilterTag.vue')['default']
     Item: typeof import('./components/Item.vue')['default']
+    ItemList: typeof import('./components/ItemList.vue')['default']
+    ListPage: typeof import('./components/ListPage.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/filters/Select.vue')['default']
     SpellList: typeof import('./components/SpellList.vue')['default']
     Spells: typeof import('./components/Spells.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }

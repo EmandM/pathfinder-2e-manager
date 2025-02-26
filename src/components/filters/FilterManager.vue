@@ -13,7 +13,7 @@
     <FilterTag v-for="tag in inUse"
       :title="tag.displayName"
       :active="tag.active"
-      :color="tag.color"
+      :color="tag.filter.color"
       @change="() => handleActiveChange(tag)"
       @close="() => removeFilter(tag)" />
   </div>
@@ -23,7 +23,8 @@
 import Select from './Select.vue';
 import { ref, type Ref } from 'vue'
 import { allFilters, type Filter } from './filter-descriptions';
-import { type AppliedFilterCollection, usePersistentAppliedFilters, type AppliedFilter } from '~/composables/selected-tags';
+import { type AppliedFilterCollection } from '~/composables/applied-filters';
+import { type ItemSource } from '~/composables/item-types';
 
 const { pageName, appliedFilters } = defineProps<{
   pageName: string;
@@ -34,27 +35,23 @@ const emit = defineEmits<{
 }>()
 
 type SelectedFilter = {
-  type: string;
-  value: string;
   displayName: string;
+  filter: Filter<keyof ItemSource>;
+  selectedValue: string;
   active: boolean;
-  color: string
 }
 
-const shownFilters: Ref<Map<string, Filter>> = ref(new Map());
+const shownFilters: Ref<Map<string, Filter<keyof ItemSource>>> = ref(new Map());
 const options = ref(allFilters.map((filter) => filter.name).sort());
 const inUse: Ref<SelectedFilter[]> = ref([]);
 
-appliedFilters.filters.forEach((values, type) => {
-  showFilterSelect(type, true);
-  values.forEach((filter) => {
-    addFilter(type, filter.filterValue, true);
+appliedFilters.filters.forEach((applied, _) => {
+  showFilterSelect(applied.filter.name, true);
+  applied.appliedValues.forEach((value) => {
+    addFilter(applied.filter.name, value, true);
   })
-});
-
-function updateAppliedFilters() {
   emit('change');
-}
+});
 
 function showFilterSelect(name: string, init: boolean = false) {
   let newFilter = allFilters.find((filter) => filter.name == name);
@@ -62,56 +59,58 @@ function showFilterSelect(name: string, init: boolean = false) {
     console.error("selected filter doesn't exist", name)
     return;
   }
-  shownFilters.value.set(name, newFilter);
-  remove(options.value, (opt) => opt == name);
-  if (!init) {
-    updateAppliedFilters();
-  }
+  const filter = Object.assign({}, newFilter);
+  filter.options = [...newFilter.options].sort();
+
+  shownFilters.value.set(name, filter);
+  options.value = remove(options.value, name);
 };
 
 function addFilter(type: string, name: string, init: boolean = false) {
   const tag = type + " - " + name;
-  let baseFilter = shownFilters.value.get(type);
-  if (!baseFilter) {
+  let filter = shownFilters.value.get(type);
+  if (!filter) {
     return;
   }
-  const filter = Object.assign({}, baseFilter);
-  filter.options = [...baseFilter.options];
+  filter.options = [...remove(filter.options, name)];
 
-  remove(filter.options, (obj) => obj == name);
   inUse.value.push({
-    type,
-    value: name,
+    filter: filter,
+    selectedValue: name,
     displayName: tag,
     active: true,
-    color: filter?.color,
   });
-  appliedFilters.addFilter(type, name);
-  emit('change');
+  if (!init) {
+    appliedFilters.addFilter(filter, name);
+    emit('change');
+  }
 }
 
-const removeFilter = (removeTag: SelectedFilter) => {
-  let filter = shownFilters.value.get(removeTag.type);
+function removeFilter(removeTag: SelectedFilter) {
+  let filter = shownFilters.value.get(removeTag.filter.name);
   if (filter) {
-    filter.options.push(removeTag.value);
+    filter.options.push(removeTag.selectedValue);
     filter.options.sort()
   }
-  remove(inUse.value, (tag) => tag.displayName == removeTag.displayName);
-  appliedFilters.removeFilter(removeTag.type, removeTag.value);
+  inUse.value = remove(inUse.value, removeTag.displayName, 'displayName');
+  appliedFilters.removeFilter(removeTag.filter.key, removeTag.selectedValue);
   emit('change');
 };
 
 function handleActiveChange(tag: SelectedFilter) {
   tag.active = !tag.active;
-  appliedFilters.toggleFilter(tag.type, tag.value);
+  appliedFilters.toggleFilter(tag.filter.key, tag.selectedValue);
   emit('change');
 }
 
-function remove<T>(list: T[], predicate: (item: T) => boolean): void {
-  const index = list.findIndex(predicate);
+function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
+  const index = list.findIndex((val) => toRemove == (itemKey ? val[itemKey] : val));
   if (index > -1) {
     list.splice(index, 1);
+  } else {
+    console.error("error removing item", toRemove, "from list", list, "item not found");
   }
+  return list;
 }
 
 </script>

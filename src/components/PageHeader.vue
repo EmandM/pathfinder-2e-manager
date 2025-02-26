@@ -8,8 +8,8 @@ import { toggleDark } from '~/composables'
   <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" router>
     <el-menu-item index="/">Pathfinder 2e manager</el-menu-item>
     <el-menu-item index="/spells">Spells</el-menu-item>
-    <el-menu-item index="2">Items</el-menu-item>
-    <el-menu-item index="3">Bookmark manager</el-menu-item>
+    <el-menu-item index="/items">Items</el-menu-item>
+    <el-menu-item index="/bookmarks">Bookmark manager</el-menu-item>
 
     <el-menu-item h="full" @click="toggleDark()">
       <button

@@ -1,50 +1,68 @@
 import * as color from './filter-colors';
+import { ItemSource, KeyOfType } from '~/composables/item-types';
 
-export type Filter = {
+export type FilterFunction<T> = (itemValue: T, options: Set<string>) => boolean;
+
+export type Filter<T extends keyof ItemSource> = {
   name: string;
-  key: string;
-  options: string[]
-  color: string
+  key: T;
+  options: string[];
+  color: string;
+  matches: FilterFunction<ItemSource[T]>;
 };
 
-const traits: Filter = {
+
+const traits = {
   name: "Traits",
   key: 'trait',
   options: [
-    "It's",
-    "a",
-    "femininominon",
+    "Chaotic",
+    "Acid",
+    "Trip",
+    "Focus",
   ],
   color: color.red,
+  matches: andStringArrayMatch,
 };
 
-const levels: Filter = {
-  name: "Levels",
-  key: 'level',
+const tradition = {
+  name: "Tradition",
+  key: 'tradition',
   options: [
-    "now",
-    "I'm",
-    "in",
-    "a",
-    "holy",
-    "revival",
+    "Primal",
+    "Divine",
+    "Arcane",
+    "Occult",
   ],
   color: color.orange,
+  matches: andStringArrayMatch,
 };
 
-const book: Filter = {
-  name: "Primary Source",
-  key: 'primary_source',
+const book = {
+  name: "Source",
+  key: 'source',
   options: [
     "Player Core",
+    "Core Rulebook",
   ],
   color: color.yellow,
+  matches: andStringArrayMatch
 };
 
-export const allFilters: Filter[] = [
+function andStringArrayMatch<T extends Array<String>>(item: T, options: Set<string>): boolean {
+  for (const opt of options) {
+    if (!item.includes(opt)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+export const allFilters: Filter<any>[] = [
   traits,
-  levels,
+  // levels,
   book,
+  tradition,
 ];
 
 
