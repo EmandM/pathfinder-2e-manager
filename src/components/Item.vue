@@ -1,17 +1,17 @@
 <script lang="ts" setup>
-import markdownit from 'markdown-it';
-import { ItemSource, actionToImage } from '~/composables/item-types';
+import type { ItemSource } from '~/composables/item-types'
+import markdownit from 'markdown-it'
+import { actionToImage } from '~/composables/item-types'
 
 const { source } = defineProps<{
   source: ItemSource
-}>();
+}>()
 
-let md = markdownit({html: true});
+const md = markdownit({ html: true })
 function GetDescription(markdown: string) {
-  let split = markdown.indexOf("---");
-  return md.render(markdown.substring(split + 3));
+  const split = markdown.indexOf('---')
+  return md.render(markdown.substring(split + 3))
 }
-
 </script>
 
 <template>
@@ -19,17 +19,27 @@ function GetDescription(markdown: string) {
     <div class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
-          <div class="listview-title">{{source.name}} <div class="action-holder" v-if="source.actions_number < 7"><img :src="actionToImage[source.actions]" class="action-icon" :alt="source.actions"></div></div>
+          <div class="listview-title">
+            {{ source.name }} <div v-if="source.actions_number < 7" class="action-holder">
+              <img :src="actionToImage[source.actions]" class="action-icon" :alt="source.actions">
+            </div>
+          </div>
         </div>
-        <div class="listview-item-level">{{source.spell_type}} {{source.level}}</div>
+        <div class="listview-item-level">
+          {{ source.spell_type }} {{ source.level }}
+        </div>
       </div>
       <hr>
-      <div class="trait trait-common" v-for="trait in source.trait">{{ trait }}</div>
+      <div v-for="trait in source.trait" :key="trait" class="trait trait-common">
+        {{ trait }}
+      </div>
       <div class="item-desc">
         <hr>
-        <span class="item-markdown" v-html=GetDescription(source.markdown)></span>
+        <span class="item-markdown" v-html="GetDescription(source.markdown)" />
       </div>
-      <div class="copyright">{{ source.primary_source }}</div>
+      <div class="copyright">
+        {{ source.primary_source }}
+      </div>
     </div>
   </div>
 </template>
@@ -68,7 +78,7 @@ hr {
   text-transform: uppercase;
   font-weight: 700;
   margin: 2px 2px 1px 2px;
-  
+
   background-color: #500000;
   font-size: 0.9em;
   color: white;
@@ -104,14 +114,14 @@ hr {
   flex: none;
   display: block;
   background:
-      linear-gradient(to right, black 0.5px, transparent 0.5px) 0 0,
-      linear-gradient(to right, black 0.5px, transparent 0.5px) 0 100%,
-      linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
-      linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
-      linear-gradient(to bottom, black 0.5px, transparent 0.5px) 0 0,
-      linear-gradient(to bottom, black 0.5px, transparent 0.5px) 100% 0,
-      linear-gradient(to top, black 0.5px, transparent 0.5px) 0 100%,
-      linear-gradient(to top, black 0.5px, transparent 0.5px) 100% 100%;
+    linear-gradient(to right, black 0.5px, transparent 0.5px) 0 0,
+    linear-gradient(to right, black 0.5px, transparent 0.5px) 0 100%,
+    linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
+    linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
+    linear-gradient(to bottom, black 0.5px, transparent 0.5px) 0 0,
+    linear-gradient(to bottom, black 0.5px, transparent 0.5px) 100% 0,
+    linear-gradient(to top, black 0.5px, transparent 0.5px) 0 100%,
+    linear-gradient(to top, black 0.5px, transparent 0.5px) 100% 100%;
   background-repeat: no-repeat;
   background-size: 20px 20px;
 
@@ -128,11 +138,9 @@ hr {
   font-size: 0.9em;
   text-align: end;
 }
-
 </style>
 
-
-<!-- 
+<!--
 <div class="cardSize">
   <div class="item">
     <div class="stretcher-bearer">

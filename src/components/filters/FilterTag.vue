@@ -1,41 +1,40 @@
 <!-- Uses Element tag component https://element-plus.org/en-US/component/tag.html -->
 
-<template>
-    <el-tag
-      :hit="props.active"
-      :color="color"
-      size="large"
-      class="tag"
-      :class="{ active: props.active }"
-      closable
-      @click="handleChange"
-      @close="emit('close')"
-      round>
-      {{ props.title }}
-    </el-tag>
-</template>
-
 <script setup lang="ts">
 import { ref } from 'vue'
-import { disabled } from './filter-colors';
+import { disabled } from './filter-colors'
 
-const props = defineProps<{title: string, active: boolean, color: string}>();
-
-const color = ref(props.color);
+const props = defineProps<{ title: string, active: boolean, color: string }>()
 
 const emit = defineEmits<{
   change: []
   close: []
-}>();
+}>()
 
-const handleChange = () => {
-  const isActive = !props.active;
-  color.value = isActive ? props.color : disabled;
-  emit('change');
+const color = ref(props.color)
+
+function handleChange() {
+  const isActive = !props.active
+  color.value = isActive ? props.color : disabled
+  emit('change')
 }
-
-
 </script>
+
+<template>
+  <el-tag
+    :hit="props.active"
+    :color="color"
+    size="large"
+    class="tag"
+    :class="{ active: props.active }"
+    closable
+    round
+    @click="handleChange"
+    @close="emit('close')"
+  >
+    {{ props.title }}
+  </el-tag>
+</template>
 
 <style scoped>
 .tag.ep-tag {

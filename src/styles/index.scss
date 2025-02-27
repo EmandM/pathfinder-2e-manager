@@ -6,8 +6,9 @@
 // }
 
 body {
-  font-family: Inter, system-ui, Avenir, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
-    'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+  font-family:
+    Inter, system-ui, Avenir, 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei',
+    '微软雅黑', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -48,22 +49,32 @@ code {
 }
 
 @media (min-width: 576px) {
-  .container, .container-sm {
-      max-width: 540px;
+  .container,
+  .container-sm {
+    max-width: 540px;
   }
 }
 @media (min-width: 768px) {
-  .container, .container-md, .container-sm {
-      max-width: 720px;
+  .container,
+  .container-md,
+  .container-sm {
+    max-width: 720px;
   }
 }
 @media (min-width: 992px) {
-  .container, .container-lg, .container-md, .container-sm {
-      max-width: 960px;
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm {
+    max-width: 960px;
   }
 }
 @media (min-width: 1200px) {
-  .container, .container-lg, .container-md, .container-sm, .container-xl {
-      max-width: 1140px;
+  .container,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container-xl {
+    max-width: 1140px;
   }
 }

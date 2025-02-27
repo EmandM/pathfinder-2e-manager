@@ -1,3 +1,3 @@
 <template>
-  <ListPage pageName="spells" />
+  <ListPage page-name="spells" />
 </template>
