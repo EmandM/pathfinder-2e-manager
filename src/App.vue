@@ -2,7 +2,7 @@
   <el-config-provider namespace="ep">
     <PageHeader />
     <div class="main-container container">
-        <RouterView />
+        <RouterView :key="$route.fullPath"/>
     </div>
   </el-config-provider>
 </template>

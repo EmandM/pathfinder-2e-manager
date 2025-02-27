@@ -3,7 +3,10 @@ import { Item } from "./item-types";
 
 const paths = {
   spells: '/data/spell.json',
-  items: '/data/equipment.json',
+  equipment: '/data/equipment.json',
+  weapons: '/data/weapon.json',
+  armor: '/data/armor.json',
+  shields: '/data/shield.json',
 };
 
 const importCache: Map<string, Ref<ImportResult>> = new Map();
@@ -14,7 +17,12 @@ export type ImportResult = {
 }
 
 export type DataType = keyof typeof paths;
-export function dataImporter(type: DataType, onImport: (data: Item[]) => void): Ref<ImportResult> {
+export function dataImporter(type: string, onImport: (data: Item[]) => void): Ref<ImportResult> {
+  if (!isDataType(type)) {
+    console.error("invalid page name", type);
+    throw("invalid page trying to be imported");
+  }
+
   const cached = importCache.get(type)
   if (cached) {
     console.log(cached.value);
@@ -39,4 +47,8 @@ export function dataImporter(type: DataType, onImport: (data: Item[]) => void): 
     .finally(() => importResult.value.isLoaded = true);
 
   return importResult;
+}
+
+function isDataType(type: string): type is DataType {
+  return paths[type as DataType] !== undefined;
 }

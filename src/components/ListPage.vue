@@ -3,11 +3,15 @@ import { ref, type Ref } from 'vue';
 import { usePersistentAppliedFilters, useFilteredList } from '~/composables/applied-filters';
 import { dataImporter, DataType } from '~/composables/data-importer';
 import { type Item } from '~/composables/item-types';
+import { allFilters, useFiltersForPage, type Filter } from './filters/filter-descriptions';
+import { hydrateFilterOptions } from '~/composables/hydrate-filters';
 
 const { pageName } = defineProps<{
-  pageName: DataType;
+  pageName: string;
 }>()
 
+let filters: Filter[] = useFiltersForPage(pageName);
+let filterList: Ref<Filter[]> = ref([]);
 const appliedFilters = usePersistentAppliedFilters(pageName);
 const spells: Item[] = [];
 let displayedItems: Ref<Item[]> = ref([]);
@@ -16,6 +20,7 @@ const numItemsToLoad = 20;
 
 // Import the data
 const data = dataImporter(pageName, (data) => {
+  filterList.value = hydrateFilterOptions(data as Item[], filters)
   spells.push(...data as Item[]);
   setupFilter();
 });
@@ -41,7 +46,7 @@ function loadItems() {
 </script>
 
 <template>
-  <FilterManager :pageName="pageName" :appliedFilters="appliedFilters" @change="setupFilter"/>
+  <FilterManager :filterList="filterList" :appliedFilters="appliedFilters" @change="setupFilter"/>
   <el-divider>
     <el-icon><star-filled /></el-icon>
   </el-divider>

@@ -6,6 +6,13 @@ $--colors: (
   ),
 );
 
+$--bg-color: (
+  'page': grey,
+  '': #141414,
+  'overlay': #1d1e1f,
+);
+
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
-  $colors: $--colors
+  $colors: $--colors,
+  $bg-color: $--bg-color
 );

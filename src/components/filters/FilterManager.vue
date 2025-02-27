@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-wrap gap-4">
+    <LevelFilter />
     <Select title="Choose a filter" :options=options @change="showFilterSelect" />
 
     <Select
@@ -7,6 +8,8 @@
         :title="item.name"
         :options="item.options"
         @change="(value: string) => addFilter(item.name, value)"
+        @close="() => hideFilterSelect(item.name)"
+        is-closable
       />
   </div>
   <div class="selected filters">
@@ -21,13 +24,12 @@
 
 <script setup lang="ts">
 import Select from './Select.vue';
-import { ref, type Ref } from 'vue'
-import { allFilters, type Filter } from './filter-descriptions';
+import { ref, watchEffect, type Ref } from 'vue'
+import { type Filter } from './filter-descriptions';
 import { type AppliedFilterCollection } from '~/composables/applied-filters';
-import { type ItemSource } from '~/composables/item-types';
 
-const { pageName, appliedFilters } = defineProps<{
-  pageName: string;
+const { filterList, appliedFilters } = defineProps<{
+  filterList: Filter[]
   appliedFilters: AppliedFilterCollection;
 }>()
 const emit = defineEmits<{
@@ -36,34 +38,50 @@ const emit = defineEmits<{
 
 type SelectedFilter = {
   displayName: string;
-  filter: Filter<keyof ItemSource>;
+  filter: Filter;
   selectedValue: string;
   active: boolean;
 }
+console.log("managing on filter list", filterList);
 
-const shownFilters: Ref<Map<string, Filter<keyof ItemSource>>> = ref(new Map());
-const options = ref(allFilters.map((filter) => filter.name).sort());
+const shownFilters: Ref<Map<string, Filter>> = ref(new Map());
+const options = ref(filterList.map((filter) => filter.name).sort());
+watchEffect(() => options.value = filterList.map((filter) => filter.name).sort());
 const inUse: Ref<SelectedFilter[]> = ref([]);
 
 appliedFilters.filters.forEach((applied, _) => {
-  showFilterSelect(applied.filter.name, true);
+  showFilterSelect(applied.filter.name);
   applied.appliedValues.forEach((value) => {
     addFilter(applied.filter.name, value, true);
   })
   emit('change');
 });
 
-function showFilterSelect(name: string, init: boolean = false) {
-  let newFilter = allFilters.find((filter) => filter.name == name);
+function showFilterSelect(name: string) {
+  let newFilter = filterList.find((filter) => filter.name == name);
   if (newFilter == undefined) {
     console.error("selected filter doesn't exist", name)
     return;
   }
+
+  // Do a deep object copy of the filter so we don't intefer with underlying state
   const filter = Object.assign({}, newFilter);
-  filter.options = [...newFilter.options].sort();
+  const existing = appliedFilters.filters.get(newFilter.key);
+  if (!existing) {
+    filter.options = [...newFilter.options].sort();
+  } else {
+    // if filters are already applied from this select, remove their values from the filter
+    filter.options = [...newFilter.options.filter((val) => !existing.appliedValues.has(val))].sort()
+  }
 
   shownFilters.value.set(name, filter);
   options.value = remove(options.value, name);
+};
+
+function hideFilterSelect(name: string) {
+  options.value.push(name);
+  options.value.sort()
+  shownFilters.value.delete(name);
 };
 
 function addFilter(type: string, name: string, init: boolean = false) {

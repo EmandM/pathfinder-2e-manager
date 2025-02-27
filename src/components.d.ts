@@ -8,6 +8,10 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ElButton: typeof import('element-plus/es')['ElButton']
+    ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
+    ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
+    ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
     ElDivider: typeof import('element-plus/es')['ElDivider']
     ElIcon: typeof import('element-plus/es')['ElIcon']
@@ -15,16 +19,20 @@ declare module 'vue' {
     ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
     ElOption: typeof import('element-plus/es')['ElOption']
     ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTag: typeof import('element-plus/es')['ElTag']
+    ElText: typeof import('element-plus/es')['ElText']
     FilterManager: typeof import('./components/filters/FilterManager.vue')['default']
     FilterTag: typeof import('./components/filters/FilterTag.vue')['default']
     Item: typeof import('./components/Item.vue')['default']
     ItemList: typeof import('./components/ItemList.vue')['default']
+    LevelFilter: typeof import('./components/filters/LevelFilter.vue')['default']
     ListPage: typeof import('./components/ListPage.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/filters/Select.vue')['default']
+    SelectableButton: typeof import('./components/filters/SelectableButton.vue')['default']
     SpellList: typeof import('./components/SpellList.vue')['default']
     Spells: typeof import('./components/Spells.vue')['default']
   }

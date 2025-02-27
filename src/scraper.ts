@@ -1,5 +1,5 @@
 import { Client } from "@elastic/elasticsearch";
-import fs from "fs";
+import {mkdirSync, writeFileSync} from "fs";
 import path from "path";
 
 const config = {
@@ -23,7 +23,8 @@ const config = {
         "equipment",
         "feat",
         "hazard",
-        "rules",
+        // "rules",
+        "runes",
         "skill",
         "shield",
         "spell",
@@ -41,26 +42,41 @@ const client = new Client({
 async function retrieveTargets() {
     for (const target of config.targets.sort()) {
         try {
+            let query: any = advancedQueries[target as keyof typeof advancedQueries];
+            if (!query) {
+                query = { match: { category: target } };
+            }
+
             const search = await client.search({
                 index: config.index,
                 from: 0,
                 size: 10000,
-                query: { match: { category: target } },
+                query,
+                sort: [{ "level" :{ "order": "asc" }},{"price":{"order":"asc"}},{"name.keyword":{"order":"asc"}},"_doc"]
             });
 
             console.log(`Retrieved ${search?.hits?.hits?.length} for target ${target}`);
-            
-            fs.mkdirSync("../public/data", {
+            const destinationDir = path.join(process.cwd(), "/public/data");
+            mkdirSync(destinationDir, {
                 recursive: true,
             });
-            fs.writeFileSync(
-                path.join("../public/data", `${target}.json`),
+            console.log("writing to:", path.join(destinationDir, `${target}.json`))
+            writeFileSync(
+                path.join(destinationDir, `${target}.json`),
                 JSON.stringify(search?.hits?.hits)
             );
         } catch (err) {
-            console.error(err);
+            console.error("Error writing to file", err);
         }
     }
 }
+
+// More complicated queries copied from archive of nethys
+const advancedQueries = {
+    runes: {"bool":{"filter":[{"query_string":{"query":"category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:\"Runes\" !category:item-bonus","default_operator":"AND","fields":["name","legacy_name","remaster_name","text^0.1","trait_raw","type"],"minimum_should_match":0}},{"bool":{"must_not":{"exists":{"field":"remaster_id"}}}}],"must_not":[{"exists":{"field":"item_child_id"}},{"term":{"exclude_from_search":true}}]}},
+    spell: {"bool":{"filter":[{"query_string":{"query":"category:spell -trait:mythic !category:item-bonus","default_operator":"AND","fields":["name","legacy_name","remaster_name","text^0.1","trait_raw","type"],"minimum_should_match":0}},{"bool":{"must_not":{"exists":{"field":"remaster_id"}}}}],"must_not":[{"exists":{"field":"item_child_id"}},{"term":{"exclude_from_search":true}}]}},
+    equipment: {"bool":{"filter":[{"query_string":{"query":"category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon)  !category:item-bonus","default_operator":"AND","fields":["name","legacy_name","remaster_name","text^0.1","trait_raw","type"],"minimum_should_match":0}},{"bool":{"must_not":{"exists":{"field":"remaster_id"}}}}],"must_not":[{"exists":{"field":"item_child_id"}},{"term":{"exclude_from_search":true}}]}},
+    alchemical:{"bool":{"filter":[{"query_string":{"query":"category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:\"Alchemical Items\" !category:item-bonus","default_operator":"AND","fields":["name","legacy_name","remaster_name","text^0.1","trait_raw","type"],"minimum_should_match":0}},{"bool":{"must_not":{"exists":{"field":"remaster_id"}}}}],"must_not":[{"exists":{"field":"item_child_id"}},{"term":{"exclude_from_search":true}}]}},
+};
 
 await retrieveTargets();

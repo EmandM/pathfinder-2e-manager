@@ -21,12 +21,12 @@ export type ItemSource = {
 
 
 export const actionToImage = {
-  "Reaction": "img/action_reaction_black.png",
-  "Single Action": "img/action_single_black.png",
-  "Two Actions": "img/action_double_black.png",
-  "Three Actions": "img/action_triple_black.png",
-  "Single Action to Three Actions": "img/action_range_black.png",
-  "Free Action": "img/action_free_black.png",
+  "Reaction": "/img/action_reaction_black.png",
+  "Single Action": "/img/action_single_black.png",
+  "Two Actions": "/img/action_double_black.png",
+  "Three Actions": "/img/action_triple_black.png",
+  "Single Action to Three Actions": "/img/action_range_black.png",
+  "Free Action": "/img/action_free_black.png",
 }
 
 

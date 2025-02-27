@@ -3,14 +3,14 @@ import { type Filter } from "~/components/filters/filter-descriptions";
 import { ItemSource, Item } from "./item-types";
 
 type AppliedFilter = {
-  filter: Filter<keyof ItemSource>
+  filter: Filter
   appliedValues: Set<string>;
 }
 
 export class AppliedFilterCollection {
   filters: Map<keyof ItemSource, AppliedFilter> = new Map();
 
-  addFilter(filter: Filter<keyof ItemSource>, selectedValue: string) {
+  addFilter(filter: Filter, selectedValue: string) {
     let set = this.filters.get(filter.key);
     if (!set) {
       set = {
@@ -81,7 +81,6 @@ function doFilter(item: Item, collection: AppliedFilterCollection): boolean {
   for (let [type, applied] of collection.filters) {
     let itemKey = source[type];
     if (!itemKey) {
-      console.warn("no value found at key", type, "with item", source, "found:", itemKey)
       return false;
     }
 

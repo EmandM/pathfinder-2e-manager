@@ -1,14 +1,35 @@
 <script lang="ts" setup>
 import { repository } from '~/../package.json'
-
 import { toggleDark } from '~/composables'
+import { ref, watchEffect } from 'vue'
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const activeIndex = ref("");
+watchEffect(() => activeIndex.value = route.path);
+const handleSelect = (key: string, keyPath: string[]) => {
+  console.log(key, keyPath)
+}
+
 </script>
 
 <template>
-  <el-menu class="el-menu-demo" mode="horizontal" :ellipsis="false" router>
+  <el-menu 
+    class="page-header"
+    mode="horizontal"
+    :ellipsis="false"
+    :default-active="activeIndex"
+    @select="handleSelect"
+    router>
     <el-menu-item index="/">Pathfinder 2e manager</el-menu-item>
-    <el-menu-item index="/spells">Spells</el-menu-item>
-    <el-menu-item index="/items">Items</el-menu-item>
+    <el-menu-item index="/search/spells">Spells</el-menu-item>
+    <el-sub-menu index="2">
+      <template #title>Items</template>
+      <el-menu-item index="/search/weapons">Weapons</el-menu-item>
+      <el-menu-item index="/search/armor">Armor</el-menu-item>
+      <el-menu-item index="/search/shields">Shields</el-menu-item>
+      <el-menu-item index="/search/equipment">Equipment</el-menu-item>
+    </el-sub-menu>
     <el-menu-item index="/bookmarks">Bookmark manager</el-menu-item>
 
     <el-menu-item h="full" @click="toggleDark()">
@@ -29,7 +50,7 @@ import { toggleDark } from '~/composables'
 </template>
 
 <style lang="scss">
-.el-menu-demo {
+.page-header {
   &.ep-menu--horizontal > .ep-menu-item:nth-child(4) {
     margin-right: auto;
   }
