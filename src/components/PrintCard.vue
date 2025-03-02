@@ -12,6 +12,8 @@ function GetDescription(markdown: string) {
   const split = markdown.indexOf('---')
   return md.render(markdown.substring(split + 3))
 }
+
+const card_type = source.spell_type || source.type;
 </script>
 
 <template>
@@ -26,7 +28,7 @@ function GetDescription(markdown: string) {
           </div>
         </div>
         <div class="listview-item-level">
-          {{ source.spell_type }} {{ source.level }}
+          {{ card_type }} {{ source.level }}
         </div>
       </div>
       <hr>

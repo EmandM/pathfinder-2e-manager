@@ -2,17 +2,17 @@
 import type { ItemSource } from '~/composables/item-types'
 import markdownit from 'markdown-it'
 import { actionToImage } from '~/composables/item-types'
-import { CollectionTag } from '@element-plus/icons-vue'
 import { ref } from 'vue';
+import { Opportunity } from '@element-plus/icons-vue';
 
-const { source } = defineProps<{
+const { source, isBookmarked } = defineProps<{
   source: ItemSource
+  isBookmarked?: boolean
 }>()
 const emit = defineEmits<{
   bookmarkClick: []
 }>()
 
-const isBookmarked = ref(false);
 const md = markdownit({ html: true })
 function GetDescription(markdown: string) {
   const split = markdown.indexOf('---')
@@ -20,6 +20,13 @@ function GetDescription(markdown: string) {
 }
 
 const traits = source.trait ? source.trait.filter((trait) => trait.toLowerCase() !== source.rarity): []
+const card_type = source.spell_type || source.type;
+
+const bookmarkColor = ref(isBookmarked ? '#409efc' : 'black' )
+function handleBookmark() {
+  bookmarkColor.value = isBookmarked ? '#409efc' : 'black' 
+  emit('bookmarkClick')
+}
 </script>
 
 <template>
@@ -33,13 +40,15 @@ const traits = source.trait ? source.trait.filter((trait) => trait.toLowerCase()
             </div>
           </div>
         </div>
-        <el-icon @click="() => isBookmarked = !isBookmarked">
+        <div class="listview-item-level">
+          {{ card_type }} {{ source.level }}
+        </div>
+
+        <el-icon :size="24" class="bookmark-icon" :color="bookmarkColor" @click="handleBookmark">
           <Opportunity v-if="isBookmarked" />
           <CollectionTag v-else />
         </el-icon>
-        <div class="listview-item-level">
-          {{ source.spell_type }} {{ source.level }}
-        </div>
+
       </div>
       <hr class="divider">
       <div class="trait" :class="{uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare'}">{{ source.rarity }}</div>
@@ -71,6 +80,10 @@ hr.divider {
 
 .item-desc {
   padding: 4px;
+}
+
+.bookmark-icon {
+  padding-left: 8px;
 }
 
 .stretcher {

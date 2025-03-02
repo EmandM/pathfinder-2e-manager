@@ -24,6 +24,7 @@ export interface ItemSource {
   weapon_group: string[]
   weapon_type: string[]
   item_category: string
+  type: string
 }
 
 export const actionToImage = {
