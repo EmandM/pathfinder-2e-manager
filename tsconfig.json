@@ -2,7 +2,7 @@
   "compilerOptions": {
     "target": "esnext",
     "jsx": "preserve",
-    "lib": ["esnext", "dom"],
+    "lib": ["esnext", "dom", "es2015", "es2016"],
     "useDefineForClassFields": true,
     "baseUrl": ".",
     "module": "esnext",
@@ -15,7 +15,6 @@
       "vite/client",
       "unplugin-vue-router/client"
     ],
-    "strict": true,
     "sourceMap": true,
     "esModuleInterop": true,
     "skipLibCheck": true
@@ -23,5 +22,5 @@
   "vueCompilerOptions": {
     "target": 3
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "uno.config.ts"]
 }

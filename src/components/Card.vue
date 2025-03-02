@@ -1,0 +1,137 @@
+<script lang="ts" setup>
+import type { ItemSource } from '~/composables/item-types'
+import markdownit from 'markdown-it'
+import { actionToImage } from '~/composables/item-types'
+import { CollectionTag } from '@element-plus/icons-vue'
+import { ref } from 'vue';
+
+const { source } = defineProps<{
+  source: ItemSource
+}>()
+const emit = defineEmits<{
+  bookmarkClick: []
+}>()
+
+const isBookmarked = ref(false);
+const md = markdownit({ html: true })
+function GetDescription(markdown: string) {
+  const split = markdown.indexOf('---')
+  return md.render(markdown.substring(split + 3))
+}
+
+const traits = source.trait ? source.trait.filter((trait) => trait.toLowerCase() !== source.rarity): []
+</script>
+
+<template>
+  <div class="cardSize">
+    <div class="item">
+      <div class="stretcher-bearer">
+        <div class="stretcher">
+          <div class="listview-title">
+            {{ source.name }} <div v-if="source.actions_number < 7" class="action-holder">
+              <img :src="actionToImage[source.actions]" class="action-icon" :alt="source.actions">
+            </div>
+          </div>
+        </div>
+        <el-icon @click="() => isBookmarked = !isBookmarked">
+          <Opportunity v-if="isBookmarked" />
+          <CollectionTag v-else />
+        </el-icon>
+        <div class="listview-item-level">
+          {{ source.spell_type }} {{ source.level }}
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="trait" :class="{uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare'}">{{ source.rarity }}</div>
+      <div v-for="trait in traits" :key="trait" class="trait">
+        {{ trait }}
+      </div>
+      <!-- <hr class="divider"> -->
+      <div class="item-desc">
+        <span class="item-markdown" v-html="GetDescription(source.markdown)" />
+      </div>
+      <div class="copyright">
+        {{ source.primary_source }}
+      </div>
+    </div>
+  </div>
+</template>
+
+<style lang="scss" scoped>
+.cardSize {
+  width: 100%;
+  padding: 12px;
+}
+
+hr.divider {
+  margin: 2px 0;
+  border: 0.5px solid;
+  padding: 0;
+}
+
+.item-desc {
+  padding: 4px;
+}
+
+.stretcher {
+  flex: 1;
+}
+
+.stretcher-bearer {
+  display: flex;
+}
+
+.listview-title {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  vertical-align: middle;
+  margin: 0;
+  display: inline-block;
+}
+
+.listview-item-level {
+  float: right;
+}
+
+.trait {
+  padding: 4px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin: 2px;
+
+  background-color: #500000;
+  font-size: 0.7em;
+  color: white;
+  display: inline-block;
+  border: 1px solid black;
+}
+.trait.uncommon {
+  background-color: #c45500;
+}
+.trait.rare {
+  background-color: #0c1466;
+}
+
+.action-holder {
+  width: auto;
+  display: inline-block;
+  margin-right: 0.3em;
+  padding-bottom: 0.1em;
+}
+
+.action-icon {
+  display: inline;
+  margin-right: 0.3em;
+  padding-bottom: 0.1em;
+  vertical-align: middle;
+  height: 1em;
+}
+
+.copyright {
+  font-style: italic;
+  color: grey;
+  font-size: 0.9em;
+  padding-top: 4px;
+}
+</style>

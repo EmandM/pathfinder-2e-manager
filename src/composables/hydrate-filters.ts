@@ -1,12 +1,11 @@
-import type { Item } from './item-types'
-import type { Filter } from '~/components/filters/filter-descriptions'
+import { cantripFilter, focusFilter, type Filter, type Item, type ItemSource } from './item-types'
 
 export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
   const toHydrate = new Map(filters.map(filter => [filter.key, new Set<string>()]))
 
   for (const item of items) {
     for (const filter of filters) {
-      const values = item._source[filter.key]
+      const values: ItemSource[keyof ItemSource] = item._source[filter.key]
       const set = toHydrate.get(filter.key)
       if (!values || !set) {
         continue
@@ -20,7 +19,7 @@ export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
         console.warn('Unimplemented - object fields')
       }
       else {
-        set.add(values)
+        set.add(`${values}`)
       }
     }
   }
@@ -34,4 +33,13 @@ export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
   }
 
   return filters
+}
+
+const defaultLevel = ['1', '2', '3', '4', '5', '6']
+export function hydrateLevelFilter(page: string): string[] {
+  if (page === 'spell') {
+    // return [cantripFilter, focusFilter, ...defaultLevel]
+    return [...defaultLevel]
+  }
+  return ['0', ...defaultLevel, `${defaultLevel.length + 1}`]
 }

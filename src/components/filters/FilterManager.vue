@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import type { Filter } from './filter-descriptions'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
+import type { Filter, FilterState } from '~/composables/item-types'
 import { ref, watchEffect } from 'vue'
 import Select from './Select.vue'
+import { capitalizeFirstLetter } from '~/composables/capitalize'
 
 const { filterList, appliedFilters } = defineProps<{
   filterList: Filter[]
+  levelOptions: string[]
   appliedFilters: AppliedFilterCollection
 }>()
 const emit = defineEmits<{
@@ -17,7 +19,7 @@ interface SelectedFilter {
   displayName: string
   filter: Filter
   selectedValue: string
-  active: boolean
+  initialState?: FilterState
 }
 
 const shownFilters: Ref<Map<string, Filter>> = ref(new Map())
@@ -27,8 +29,8 @@ const inUse: Ref<SelectedFilter[]> = ref([])
 
 appliedFilters.filters.forEach((applied, _) => {
   showFilterSelect(applied.filter.name, true)
-  applied.appliedValues.forEach((value) => {
-    addFilter(applied.filter.name, value, true)
+  applied.appliedValues.forEach((state, value) => {
+    addFilter(applied.filter.name, value, state)
   })
   emit('change')
 })
@@ -41,7 +43,7 @@ function showFilterSelect(name: string, init: boolean = false) {
   }
 
   // Do a deep object copy of the filter so we don't intefer with underlying state
-  const filter = Object.assign({}, newFilter)
+  const filter: Filter = Object.assign({}, newFilter)
   const existing = appliedFilters.filters.get(newFilter.key)
   if (!existing || init) {
     filter.options = [...newFilter.options].sort()
@@ -61,8 +63,8 @@ function hideFilterSelect(name: string) {
   shownFilters.value.delete(name)
 };
 
-function addFilter(type: string, name: string, init: boolean = false) {
-  const tag = `${type} - ${name}`
+function addFilter(type: string, name: string, initialState?: FilterState) {
+  const tag = `${type} - ${capitalizeFirstLetter(name)}`
   const filter = shownFilters.value.get(type)
   if (!filter) {
     return
@@ -73,9 +75,11 @@ function addFilter(type: string, name: string, init: boolean = false) {
     filter,
     selectedValue: name,
     displayName: tag,
-    active: true,
+    initialState,
   })
-  if (!init) {
+
+  // initialState is only passed on page load. We don't want to edit the filter list on page load.
+  if (!initialState) {
     appliedFilters.addFilter(filter, name)
     emit('change')
   }
@@ -92,9 +96,13 @@ function removeFilter(removeTag: SelectedFilter) {
   emit('change')
 };
 
-function handleActiveChange(tag: SelectedFilter) {
-  tag.active = !tag.active
-  appliedFilters.toggleFilter(tag.filter.key, tag.selectedValue)
+function handleTagState(tag: SelectedFilter, state: FilterState) {
+  appliedFilters.updateState(tag.filter.key, tag.selectedValue, state)
+  emit('change')
+}
+
+function handleLevelFilter(selected: string[]) {
+  appliedFilters.setLevelFilter(selected);
   emit('change')
 }
 
@@ -112,7 +120,11 @@ function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
 
 <template>
   <div class="flex flex-wrap gap-4">
-    <LevelFilter />
+    <ButtonFilter 
+      :options="levelOptions" 
+      :initialSelected="[...appliedFilters.levelFilter]"
+      @change="handleLevelFilter"/>
+
     <Select title="Choose a filter" :options="options" @change="showFilterSelect" />
 
     <Select
@@ -130,9 +142,9 @@ function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
       v-for="tag in inUse"
       :key="tag.displayName"
       :title="tag.displayName"
-      :active="tag.active"
+      :initial-state="tag.initialState"
       :color="tag.filter.color"
-      @change="() => handleActiveChange(tag)"
+      @change="(newState) => handleTagState(tag, newState)"
       @close="() => removeFilter(tag)"
     />
   </div>

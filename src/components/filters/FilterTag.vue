@@ -2,37 +2,61 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { FilterState } from '~/composables/item-types'
 import { disabled } from './filter-colors'
 
-const props = defineProps<{ title: string, active: boolean, color: string }>()
-
-const emit = defineEmits<{
-  change: []
-  close: []
+const props = defineProps<{
+  title: string
+  initialState?: FilterState
+  color: string
 }>()
 
-const color = ref(props.color)
+const emit = defineEmits<{
+  change: [newState: FilterState]
+  close: []
+}>()
+const state = ref(props.initialState || FilterState.includes)
+const color = ref(props.initialState !== FilterState.inactive ? props.color : disabled)
 
-function handleChange() {
-  const isActive = !props.active
-  color.value = isActive ? props.color : disabled
-  emit('change')
+function changeState() {
+  switch (state.value) {
+    case FilterState.includes:
+      state.value = FilterState.excludes
+      break
+    case FilterState.excludes:
+      state.value = FilterState.inactive
+      color.value = disabled
+      break
+    case FilterState.inactive:
+      state.value = FilterState.includes
+      color.value = props.color
+  }
+  emit('change', state.value)
+}
+
+function hasState(want: FilterState) {
+  return state.value === want
 }
 </script>
 
 <template>
   <el-tag
-    :hit="props.active"
+    :hit="hasState(FilterState.includes)"
     :color="color"
     size="large"
     class="tag"
-    :class="{ active: props.active }"
+    :class="{ active: hasState(FilterState.includes) }"
     closable
     round
-    @click="handleChange"
+    @click="changeState"
     @close="emit('close')"
   >
-    {{ props.title }}
+    <el-icon>
+      <plus v-if="hasState(FilterState.includes)" />
+      <minus v-else-if="hasState(FilterState.excludes)" />
+      <hide v-else />
+    </el-icon>
+    <span class="tag-text">{{ props.title }}</span>
   </el-tag>
 </template>
 
@@ -47,5 +71,14 @@ function handleChange() {
 .tag.ep-tag.active:deep() .ep-tag__close {
   color: black;
   border-color: black;
+}
+.tag.ep-tag:deep() .ep-tag__content {
+  display: flex;
+}
+.tag-text {
+  margin: auto;
+}
+.ep-icon {
+  padding-right: 2px;
 }
 </style>

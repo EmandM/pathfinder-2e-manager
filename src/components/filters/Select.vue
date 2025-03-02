@@ -3,6 +3,7 @@
 <script setup lang="ts">
 import { Close } from '@element-plus/icons-vue'
 import { ref } from 'vue'
+import { capitalizeFirstLetter } from '~/composables/capitalize'
 
 const { title, options } = defineProps<{
   title: string
@@ -38,14 +39,15 @@ function handleChange() {
           v-for="item in options"
           :key="item"
           :label="item"
-          :value="item"
+          :value="capitalizeFirstLetter(item)"
         />
       </el-select>
-      <el-button
+      <el-button plain
         v-if="isClosable"
         class="closebutton"
         :icon="Close"
-        circle
+        type="primary"
+        
         @click="emit('close')"
       />
     </div>

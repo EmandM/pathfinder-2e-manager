@@ -1,29 +1,25 @@
-import type { ItemSource } from '~/composables/item-types'
+import type { Filter, FilterValues, ItemSource } from '~/composables/item-types'
+import { FilterState } from '~/composables/item-types'
 import * as color from './filter-colors'
 
-export type FilterFunction<T> = (itemValue: T, options: Set<string>) => boolean
-
-export type Filter = FilterDescription<keyof ItemSource>
-interface FilterDescription<T extends keyof ItemSource> {
-  name: string
-  key: T
-  options: string[]
-  color: string
-  matches: FilterFunction<ItemSource[T]>
-}
-
-function andStringArrayMatch<T extends Array<string>>(item: T, options: Set<string>): boolean {
-  for (const opt of options) {
-    if (!item.includes(opt)) {
+function andStringArrayMatch<T extends Array<string>>(item: T, options: FilterValues): boolean {
+  for (const [value, state] of options) {
+    if (state === FilterState.includes && !item.includes(value)) {
+      return false
+    }
+    else if (state === FilterState.excludes && item.includes(value)) {
       return false
     }
   }
   return true
 }
 
-function fieldMatch<T extends string>(item: T, options: Set<string>): boolean {
-  for (const opt of options) {
-    if (item !== opt) {
+function fieldMatch<T extends string | number>(item: T, options: FilterValues): boolean {
+  for (const [value, state] of options) {
+    if (state === FilterState.includes && item !== value) {
+      return false
+    }
+    else if (state === FilterState.excludes && item === value) {
       return false
     }
   }
@@ -57,7 +53,7 @@ const baseFilters: Filter[] = [{
 }]
 
 export const allFilters: { [key: string]: Filter[] } = {
-  spells: [
+  spell: [
     {
       name: 'Tradition',
       key: 'tradition',
@@ -80,13 +76,6 @@ export const allFilters: { [key: string]: Filter[] } = {
       matches: fieldMatch,
     },
     {
-      name: 'Level',
-      key: 'level',
-      options: [],
-      color: color.blue,
-      matches: fieldMatch,
-    },
-    {
       name: 'Spell Type',
       key: 'spell_type',
       options: [],
@@ -94,7 +83,7 @@ export const allFilters: { [key: string]: Filter[] } = {
       matches: fieldMatch,
     },
   ],
-  weapons: [
+  weapon: [
     {
       name: 'Damage Type',
       key: 'damage_type',
@@ -137,7 +126,7 @@ export const allFilters: { [key: string]: Filter[] } = {
 
 type PageFilterList = keyof typeof allFilters & string
 function pageHasFilters(page: string): page is PageFilterList {
-  return allFilters[page as PageFilterList] !== undefined
+  return allFilters[page] !== undefined
 }
 
 export function useFiltersForPage(pageName: string): Filter[] {

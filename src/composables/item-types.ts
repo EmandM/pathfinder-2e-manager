@@ -11,13 +11,19 @@ export interface ItemSource {
   target: string
   markdown: string
   source: string[]
+  source_category: string[]
   trait: string[]
   rarity: string
   range: number
-  spell_type: string
   level: number
-
-  [key: string]: any
+  spell_type: string
+  tradition: string[]
+  saving_throw: string[]
+  damage_type: string[]
+  weapon_category: string[]
+  weapon_group: string[]
+  weapon_type: string[]
+  item_category: string
 }
 
 export const actionToImage = {
@@ -28,3 +34,31 @@ export const actionToImage = {
   'Single Action to Three Actions': '/img/action_range_black.png',
   'Free Action': '/img/action_free_black.png',
 }
+
+export const cantripFilter = 'C'
+export const focusFilter = 'F'
+
+export enum FilterState {
+  includes = 'include',
+  excludes = 'exclude',
+  inactive = 'inactive',
+}
+
+export type FilterValues = Map<string, FilterState>
+
+export interface AppliedFilter {
+  filter: Filter
+  appliedValues: FilterValues
+}
+
+export type FilterFunction<T> = (itemValue: T, options: FilterValues) => boolean
+
+export type Filter = {
+  [K in keyof ItemSource]: {
+    name: string
+    key: K
+    options: string[]
+    color: string
+    matches: FilterFunction<ItemSource[K]>
+  }
+}[keyof ItemSource]

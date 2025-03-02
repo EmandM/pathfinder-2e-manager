@@ -8,6 +8,9 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ButtonFilter: typeof import('./components/filters/ButtonFilter.vue')['default']
+    Card: typeof import('./components/Card.vue')['default']
+    copy: typeof import('./components/PrintCard copy.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
     ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
@@ -29,6 +32,7 @@ declare module 'vue' {
     LevelFilter: typeof import('./components/filters/LevelFilter.vue')['default']
     ListPage: typeof import('./components/ListPage.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
+    PrintCard: typeof import('./components/PrintCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Select: typeof import('./components/filters/Select.vue')['default']

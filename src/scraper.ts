@@ -1,3 +1,4 @@
+import type { estypes } from '@elastic/elasticsearch'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
@@ -14,7 +15,7 @@ const config = {
     'ancestry',
     'archetype',
     'armor',
-    'article',
+    // 'article',
     'background',
     'class',
     'condition',
@@ -37,7 +38,7 @@ const config = {
 }
 
 // More complicated queries copied from archive of nethys
-const advancedQueries = {
+const advancedQueries: { [key: string]: estypes.QueryDslQueryContainer } = {
   runes: { bool: { filter: [{ query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:"Runes" !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
   spell: { bool: { filter: [{ query_string: { query: 'category:spell -trait:mythic !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
   equipment: { bool: { filter: [{ query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon)  !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
@@ -51,9 +52,9 @@ const client = new Client({
 async function retrieveTargets() {
   for (const target of config.targets.sort()) {
     try {
-      let query: any = advancedQueries[target as keyof typeof advancedQueries]
+      let query: estypes.QueryDslQueryContainer = advancedQueries[target as keyof typeof advancedQueries]
       if (!query) {
-        query = { match: { category: target } }
+        query = constructQuery(target)
       }
 
       const search = await client.search({
@@ -69,7 +70,7 @@ async function retrieveTargets() {
       mkdirSync(destinationDir, {
         recursive: true,
       })
-      console.log('writing to:', path.join(destinationDir, `${target}.json`))
+      console.log('overwriting file:', path.join(destinationDir, `${target}.json`))
       writeFileSync(
         path.join(destinationDir, `${target}.json`),
         JSON.stringify(search?.hits?.hits),
@@ -83,3 +84,9 @@ async function retrieveTargets() {
 
 // eslint-disable-next-line antfu/no-top-level-await
 await retrieveTargets()
+
+function constructQuery(category: string): estypes.QueryDslQueryContainer {
+  const categorySearch = `category:${category} !category:item-bonus`
+
+  return { bool: { filter: [{ query_string: { query: categorySearch, default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } }
+}

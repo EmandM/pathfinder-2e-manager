@@ -24,24 +24,35 @@ function handleSelect(key: string, keyPath: string[]) {
     <el-menu-item index="/">
       Pathfinder 2e manager
     </el-menu-item>
-    <el-menu-item index="/search/spells">
+    <el-menu-item index="/search/spell">
       Spells
     </el-menu-item>
     <el-sub-menu index="2">
       <template #title>
         Items
       </template>
-      <el-menu-item index="/search/weapons">
+      <el-menu-item index="/search/weapon">
         Weapons
       </el-menu-item>
       <el-menu-item index="/search/armor">
         Armor
       </el-menu-item>
-      <el-menu-item index="/search/shields">
+      <el-menu-item index="/search/shield">
         Shields
       </el-menu-item>
       <el-menu-item index="/search/equipment">
         Equipment
+      </el-menu-item>
+    </el-sub-menu>
+    <el-sub-menu index="3">
+      <template #title>
+        Other
+      </template>
+      <el-menu-item index="/search/creature">
+        Creatures
+      </el-menu-item>
+      <el-menu-item index="/search/creature-family">
+        Creature Family
       </el-menu-item>
     </el-sub-menu>
     <el-menu-item index="/bookmarks">
@@ -67,7 +78,7 @@ function handleSelect(key: string, keyPath: string[]) {
 
 <style lang="scss">
 .page-header {
-  &.ep-menu--horizontal > .ep-menu-item:nth-child(4) {
+  &.ep-menu--horizontal.ep-menu--horizontal > .ep-menu-item:nth-child(5) {
     margin-right: auto;
   }
 }
