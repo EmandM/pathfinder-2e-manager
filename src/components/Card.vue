@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type { ItemSource } from '~/composables/item-types'
+import type {ItemSource} from '~/composables/item-types'
+import {actionToImage} from '~/composables/item-types'
 import markdownit from 'markdown-it'
-import { actionToImage } from '~/composables/item-types'
-import { ref } from 'vue';
-import { Opportunity } from '@element-plus/icons-vue';
+import {ref} from 'vue';
+import {Opportunity} from '@element-plus/icons-vue';
 
 const { source, isBookmarked } = defineProps<{
   source: ItemSource
@@ -17,6 +17,15 @@ const md = markdownit({ html: true })
 function GetDescription(markdown: string) {
   const split = markdown.indexOf('---')
   return md.render(markdown.substring(split + 3))
+}
+
+const features = GetFeatures(source.markdown);
+function GetFeatures(markdown: string) {
+  return markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)[1]
+      .replaceAll(/\*\* ?\r\n/gs, "** ")
+      .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
+      .toArray()
+      .map(a => [a[1], md.renderInline(a[2])]);
 }
 
 const traits = source.trait ? source.trait.filter((trait) => trait.toLowerCase() !== source.rarity): []
@@ -55,7 +64,14 @@ function handleBookmark() {
       <div v-for="trait in traits" :key="trait" class="trait">
         {{ trait }}
       </div>
-      <!-- <hr class="divider"> -->
+
+      <div class="item-desc">
+        <div v-for="[feature, value] in features" :key="feature" class="item">
+          <b>{{feature}}</b> <span v-html="value" />
+        </div>
+      </div>
+      
+      <hr class="divider" v-if="features.length > 0" /> 
       <div class="item-desc">
         <span class="item-markdown" v-html="GetDescription(source.markdown)" />
       </div>
