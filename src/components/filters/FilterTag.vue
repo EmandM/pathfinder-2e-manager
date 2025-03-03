@@ -9,6 +9,7 @@ const props = defineProps<{
   title: string
   initialState?: FilterState
   color: string
+  closable?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -17,6 +18,7 @@ const emit = defineEmits<{
 }>()
 const state = ref(props.initialState || FilterState.includes)
 const color = ref(props.initialState !== FilterState.inactive ? props.color : disabled)
+const closable = props.closable || false
 
 function changeState() {
   switch (state.value) {
@@ -46,7 +48,7 @@ function hasState(want: FilterState) {
     size="large"
     class="tag"
     :class="{ active: hasState(FilterState.includes) }"
-    closable
+    :closable="closable"
     round
     @click="changeState"
     @close="emit('close')"
@@ -63,7 +65,7 @@ function hasState(want: FilterState) {
 <style scoped>
 .tag.ep-tag {
   color: grey;
-  margin: 12px 4px;
+  margin: 4px;
 }
 .tag.active {
   color: black;

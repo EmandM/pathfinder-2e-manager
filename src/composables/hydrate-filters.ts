@@ -1,9 +1,13 @@
-import { cantripFilter, focusFilter, type Filter, type Item, type ItemSource } from './item-types'
+import type { Filter, Item, ItemSource } from './item-types'
+// import { cantripFilter, focusFilter } from './item-types'
 
 export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
   const toHydrate = new Map(filters.map(filter => [filter.key, new Set<string>()]))
 
   for (const item of items) {
+    // Add a search markdown (all lowercase)
+    item._source._searchText = item._source.text.toLowerCase()
+
     for (const filter of filters) {
       const values: ItemSource[keyof ItemSource] = item._source[filter.key]
       const set = toHydrate.get(filter.key)

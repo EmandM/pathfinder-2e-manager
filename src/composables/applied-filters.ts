@@ -1,6 +1,6 @@
 import type { AppliedFilter, Filter, FilterFunction, Item, ItemSource } from './item-types'
 import { ref } from 'vue'
-import { cantripFilter, FilterState, focusFilter } from './item-types'
+import { FilterState } from './item-types'
 
 export class AppliedFilterCollection {
   filters: Map<Filter['key'], AppliedFilter> = new Map()
@@ -8,10 +8,7 @@ export class AppliedFilterCollection {
   addFilter(filter: Filter, selectedValue: string) {
     let set = this.filters.get(filter.key)
     if (!set) {
-      set = {
-        filter,
-        appliedValues: new Map(),
-      }
+      set = { filter, appliedValues: new Map() }
       this.filters.set(filter.key, set)
     }
 
@@ -43,10 +40,29 @@ export class AppliedFilterCollection {
     }
   }
 
+  addShortcutFilter(filter: Filter) {
+    let set = this.filters.get(filter.key)
+    if (set) {
+      return
+    }
+
+    set = { filter, appliedValues: new Map() }
+    for (const value of filter.options) {
+      set.appliedValues.set(value, FilterState.inactive)
+    }
+    this.filters.set(filter.key, set)
+  }
+
   // Levels are weird. It's the only thing with an OR match and no exclude. Do them special
-  levelFilter: Set<string> = new Set();
+  levelFilter: Set<string> = new Set()
   setLevelFilter(levels: string[]) {
-    this.levelFilter = new Set(levels);
+    this.levelFilter = new Set(levels)
+  }
+
+  // Ensure the search string is lowercase so we can do case-insensive searching
+  searchString = ''
+  setSearchString(search: string) {
+    this.searchString = search.toLowerCase()
   }
 }
 
@@ -80,7 +96,11 @@ function doFilter(item: Item, collection: AppliedFilterCollection): boolean {
   const source = item._source
 
   if (!levelMatch(source, collection.levelFilter)) {
-    return false;
+    return false
+  }
+
+  if (collection.searchString && !search(source._searchText, collection.searchString)) {
+    return false
   }
 
   for (const [type, applied] of collection.filters) {
@@ -108,17 +128,14 @@ function levelMatch(source: ItemSource, levels: Set<string>): boolean {
     return true
   }
 
-  if (levels.has(`${source.level}`)){
+  if (levels.has(`${source.level}`)) {
     return true
   }
-  // Check for cantrip
-  if (source?.spell_type === 'Cantrip' && levels.has(cantripFilter)){
-    return true
-  }
-  // Check for focus
-  if (source?.spell_type === 'Focus' && levels.has(focusFilter)){
-    return true
-  }
-  console.log(source?.spell_type)
+
   return false
+}
+
+// To keep life easy, search using the markdown field
+function search(markdown: string, searchString: string) {
+  return markdown.includes(searchString)
 }

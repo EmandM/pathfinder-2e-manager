@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import type { Filter, FilterState } from '~/composables/item-types'
+import type { Filter } from '~/composables/item-types'
 import { ref, watchEffect } from 'vue'
-import Select from './Select.vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
+import { FilterState } from '~/composables/item-types'
+import Select from './Select.vue'
 
-const { filterList, appliedFilters } = defineProps<{
+const { filterList, appliedFilters, shortcut } = defineProps<{
   filterList: Filter[]
   levelOptions: string[]
   appliedFilters: AppliedFilterCollection
+  shortcut?: Filter
 }>()
 const emit = defineEmits<{
   change: []
+  print: []
 }>()
 
 interface SelectedFilter {
@@ -25,15 +28,30 @@ interface SelectedFilter {
 const shownFilters: Ref<Map<string, Filter>> = ref(new Map())
 const options = ref(filterList.map(filter => filter.name).sort())
 watchEffect(() => options.value = filterList.map(filter => filter.name).sort())
-const inUse: Ref<SelectedFilter[]> = ref([])
 
+const inUse: Ref<SelectedFilter[]> = ref([])
 appliedFilters.filters.forEach((applied, _) => {
+  // Don't hydrate the shortcut filter
+  if (applied.filter.key === shortcut.key) {
+    return
+  }
+
   showFilterSelect(applied.filter.name, true)
   applied.appliedValues.forEach((state, value) => {
     addFilter(applied.filter.name, value, state)
   })
   emit('change')
 })
+
+let shortcutTags: SelectedFilter[] = []
+watchEffect(() => shortcutTags = shortcut.options.map((opt) => {
+  return {
+    filter: shortcut,
+    selectedValue: opt,
+    displayName: capitalizeFirstLetter(opt),
+    initialState: FilterState.inactive,
+  }
+}))
 
 function showFilterSelect(name: string, init: boolean = false) {
   const newFilter = filterList.find(filter => filter.name === name)
@@ -102,7 +120,12 @@ function handleTagState(tag: SelectedFilter, state: FilterState) {
 }
 
 function handleLevelFilter(selected: string[]) {
-  appliedFilters.setLevelFilter(selected);
+  appliedFilters.setLevelFilter(selected)
+  emit('change')
+}
+
+function handleSearch(search: string) {
+  appliedFilters.setSearchString(search)
   emit('change')
 }
 
@@ -119,11 +142,31 @@ function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
 </script>
 
 <template>
-  <div class="flex flex-wrap gap-4">
-    <ButtonFilter 
-      :options="levelOptions" 
-      :initialSelected="[...appliedFilters.levelFilter]"
-      @change="handleLevelFilter"/>
+  <div class="shortcutAndPrint manager-row flex">
+    <FilterTag
+      v-for="tag in shortcutTags"
+      :key="tag.displayName"
+      :title="tag.displayName"
+      :initial-state="tag.initialState"
+      :color="tag.filter.color"
+      @change="(newState: FilterState) => handleTagState(tag, newState)"
+    />
+
+    <el-button type="primary" class="print-button" @click="emit('print')">
+      Print
+      <el-icon class="el-icon--right">
+        <Printer />
+      </el-icon>
+    </el-button>
+  </div>
+  <div class="manager-row flex flex-wrap gap-4">
+    <Search :initial-value="appliedFilters.searchString" @change="handleSearch" />
+
+    <ButtonFilter
+      :options="levelOptions"
+      :initial-selected="[...appliedFilters.levelFilter]"
+      @change="handleLevelFilter"
+    />
 
     <Select title="Choose a filter" :options="options" @change="showFilterSelect" />
 
@@ -137,19 +180,26 @@ function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
       @close="() => hideFilterSelect(item.name)"
     />
   </div>
-  <div class="selected filters">
+  <div class="selected-filters manager-row">
     <FilterTag
       v-for="tag in inUse"
       :key="tag.displayName"
       :title="tag.displayName"
       :initial-state="tag.initialState"
       :color="tag.filter.color"
-      @change="(newState) => handleTagState(tag, newState)"
+      closable
+      @change="(newState: FilterState) => handleTagState(tag, newState)"
       @close="() => removeFilter(tag)"
     />
   </div>
 </template>
 
 <style scoped>
-
+.print-button {
+  padding: 8px;
+  margin-left: auto;
+}
+.manager-row {
+  margin: 8px;
+}
 </style>

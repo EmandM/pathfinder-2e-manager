@@ -11,21 +11,26 @@ const { pageName } = defineProps<{
   pageName: string
 }>()
 
-const filters: Filter[] = useFiltersForPage(pageName)
 const filterList: Ref<Filter[]> = ref([])
 const appliedFilters = usePersistentAppliedFilters(pageName)
 const spells: Item[] = []
 const displayedItems: Ref<Item[]> = ref([])
 let filter: Iterator<Item>
 const numItemsToLoad = 20
-const levelFilter = hydrateLevelFilter(pageName)
+const filters = useFiltersForPage(pageName)
 
 // Import the data
 const data = dataImporter(pageName, (data) => {
-  filterList.value = hydrateFilterOptions(data as Item[], filters)
+  filterList.value = hydrateFilterOptions(data as Item[], [...filters.selectable, filters.shortcut])
   spells.push(...data as Item[])
+
+  // Pre-add the shortcut filters
+  if (filters.shortcut) {
+    appliedFilters.addShortcutFilter(filters.shortcut)
+  }
   setupFilter()
 })
+const levelFilter = hydrateLevelFilter(pageName)
 
 // Empty the displayed list and create the iterator
 // setupFilter is called each time the filters change
@@ -48,11 +53,13 @@ function loadItems() {
 </script>
 
 <template>
-  <FilterManager 
-    :filter-list="filterList" 
+  <FilterManager
+    :shortcut="filters.shortcut"
+    :filter-list="filterList"
     :level-options="levelFilter"
-    :applied-filters="appliedFilters" 
-    @change="setupFilter" />
+    :applied-filters="appliedFilters"
+    @change="setupFilter"
+  />
   <el-divider>
     <el-icon><star-filled /></el-icon>
   </el-divider>
@@ -65,33 +72,27 @@ function loadItems() {
 </template>
 
 <style lang="scss" scoped>
-.cards.print {
-  display: grid;
-  grid-template-columns: repeat(3, 245px);
-  justify-content: start;
-}
-
 .cards {
   margin: auto;
 }
 @media (min-width: 576px) {
-    .cards {
-        max-width: 540px;
-    }
+  .cards {
+    max-width: 540px;
+  }
 }
 @media (min-width: 768px) {
-    .cards {
-        max-width: 720px;
-    }
+  .cards {
+    max-width: 720px;
+  }
 }
 @media (min-width: 992px) {
-    .cards {
-        max-width: 960px;
-    }
+  .cards {
+    max-width: 960px;
+  }
 }
 @media (min-width: 1200px) {
-    .cards {
-        max-width: 1140px;
-    }
+  .cards {
+    max-width: 1140px;
+  }
 }
 </style>

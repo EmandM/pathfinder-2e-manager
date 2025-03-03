@@ -42,12 +42,12 @@ function handleChange() {
           :value="capitalizeFirstLetter(item)"
         />
       </el-select>
-      <el-button plain
+      <el-button
         v-if="isClosable"
         class="closebutton"
         :icon="Close"
         type="primary"
-        
+        plain
         @click="emit('close')"
       />
     </div>

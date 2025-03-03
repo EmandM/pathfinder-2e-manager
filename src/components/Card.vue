@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type {ItemSource} from '~/composables/item-types'
-import {actionToImage} from '~/composables/item-types'
+import type { ItemSource } from '~/composables/item-types'
+import { Opportunity } from '@element-plus/icons-vue'
 import markdownit from 'markdown-it'
-import {ref} from 'vue';
-import {Opportunity} from '@element-plus/icons-vue';
+import { ref } from 'vue'
+import { actionToImage } from '~/composables/item-types'
 
 const { source, isBookmarked } = defineProps<{
   source: ItemSource
@@ -19,21 +19,21 @@ function GetDescription(markdown: string) {
   return md.render(markdown.substring(split + 3))
 }
 
-const features = GetFeatures(source.markdown);
+const features = GetFeatures(source.markdown)
 function GetFeatures(markdown: string) {
   return markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)[1]
-      .replaceAll(/\*\* ?\r\n/gs, "** ")
-      .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
-      .toArray()
-      .map(a => [a[1], md.renderInline(a[2])]);
+    .replaceAll(/\*\* ?\r\n/g, '** ')
+    .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
+    .toArray()
+    .map(a => [a[1], md.renderInline(a[2])])
 }
 
-const traits = source.trait ? source.trait.filter((trait) => trait.toLowerCase() !== source.rarity): []
-const card_type = source.spell_type || source.type;
+const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
+const card_type = source.spell_type || source.type
 
-const bookmarkColor = ref(isBookmarked ? '#409efc' : 'black' )
+const bookmarkColor = ref(isBookmarked ? '#409efc' : 'black')
 function handleBookmark() {
-  bookmarkColor.value = isBookmarked ? '#409efc' : 'black' 
+  bookmarkColor.value = isBookmarked ? '#409efc' : 'black'
   emit('bookmarkClick')
 }
 </script>
@@ -57,21 +57,22 @@ function handleBookmark() {
           <Opportunity v-if="isBookmarked" />
           <CollectionTag v-else />
         </el-icon>
-
       </div>
       <hr class="divider">
-      <div class="trait" :class="{uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare'}">{{ source.rarity }}</div>
+      <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">
+        {{ source.rarity }}
+      </div>
       <div v-for="trait in traits" :key="trait" class="trait">
         {{ trait }}
       </div>
 
       <div class="item-desc">
         <div v-for="[feature, value] in features" :key="feature" class="item">
-          <b>{{feature}}</b> <span v-html="value" />
+          <b>{{ feature }}</b> <span v-html="value" />
         </div>
       </div>
-      
-      <hr class="divider" v-if="features.length > 0" /> 
+
+      <hr v-if="features.length > 0" class="divider">
       <div class="item-desc">
         <span class="item-markdown" v-html="GetDescription(source.markdown)" />
       </div>

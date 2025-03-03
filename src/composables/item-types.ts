@@ -25,6 +25,10 @@ export interface ItemSource {
   weapon_type: string[]
   item_category: string
   type: string
+  text: string
+
+  // Created on hydrate filters to avoid having to .toLowerCase() every time we search
+  _searchText: string
 }
 
 export const actionToImage = {

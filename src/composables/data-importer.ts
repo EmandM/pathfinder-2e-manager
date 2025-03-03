@@ -1,6 +1,6 @@
 import type { Ref } from 'vue'
 import type { Item } from './item-types'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const importCache: Map<string, Ref<ImportResult>> = new Map()
 
@@ -12,8 +12,21 @@ export interface ImportResult {
 export function dataImporter(type: string, onImport: (data: Item[]) => void): Ref<ImportResult> {
   const cached = importCache.get(type)
   if (cached) {
-    console.log(cached.value)
-    onImport(cached.value.data)
+    if (cached.value.isLoaded) {
+      onImport(cached.value.data)
+    }
+    else {
+      watch(
+        cached,
+        (cached) => {
+          if (!cached.isLoaded) {
+            console.error('error in data-import cache: watch should only trigger on isLoaded')
+          }
+          onImport(cached.data)
+        },
+        { once: true },
+      )
+    }
     return cached
   }
 

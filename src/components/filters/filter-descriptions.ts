@@ -1,4 +1,4 @@
-import type { Filter, FilterValues, ItemSource } from '~/composables/item-types'
+import type { Filter, FilterValues } from '~/composables/item-types'
 import { FilterState } from '~/composables/item-types'
 import * as color from './filter-colors'
 
@@ -52,38 +52,45 @@ const baseFilters: Filter[] = [{
   matches: andStringArrayMatch,
 }]
 
-export const allFilters: { [key: string]: Filter[] } = {
-  spell: [
-    {
-      name: 'Tradition',
-      key: 'tradition',
-      options: [],
-      color: color.orange,
-      matches: andStringArrayMatch,
-    },
-    {
-      name: 'Saving Throw',
-      key: 'saving_throw',
-      options: [],
-      color: color.pink,
-      matches: andStringArrayMatch,
-    },
-    {
-      name: 'Actions',
-      key: 'actions',
-      options: [],
-      color: color.bluegreen,
-      matches: fieldMatch,
-    },
-    {
+interface FiltersForPage {
+  shortcut?: Filter
+  selectable: Filter[]
+}
+const filterByPage: { [key: string]: FiltersForPage } = {
+  spell: {
+    shortcut: {
       name: 'Spell Type',
       key: 'spell_type',
       options: [],
       color: color.darkblue,
       matches: fieldMatch,
     },
-  ],
-  weapon: [
+    selectable: [
+      {
+        name: 'Tradition',
+        key: 'tradition',
+        options: [],
+        color: color.orange,
+        matches: andStringArrayMatch,
+      },
+      {
+        name: 'Saving Throw',
+        key: 'saving_throw',
+        options: [],
+        color: color.pink,
+        matches: andStringArrayMatch,
+      },
+      {
+        name: 'Actions',
+        key: 'actions',
+        options: [],
+        color: color.bluegreen,
+        matches: fieldMatch,
+      },
+
+    ],
+  },
+  weapon: { selectable: [
     {
       name: 'Damage Type',
       key: 'damage_type',
@@ -112,8 +119,8 @@ export const allFilters: { [key: string]: Filter[] } = {
       color: color.softRed,
       matches: andStringArrayMatch,
     },
-  ],
-  equipment: [
+  ] },
+  equipment: { selectable: [
     {
       name: 'Category',
       key: 'item_category',
@@ -121,18 +128,21 @@ export const allFilters: { [key: string]: Filter[] } = {
       color: color.purple,
       matches: fieldMatch,
     },
-  ],
+  ] },
 }
 
-type PageFilterList = keyof typeof allFilters & string
+type PageFilterList = keyof typeof filterByPage & string
 function pageHasFilters(page: string): page is PageFilterList {
-  return allFilters[page] !== undefined
+  return filterByPage[page] !== undefined
 }
 
-export function useFiltersForPage(pageName: string): Filter[] {
+export function useFiltersForPage(pageName: string): FiltersForPage {
   if (!pageHasFilters(pageName)) {
-    return [...baseFilters]
+    return { selectable: [...baseFilters] }
   }
-
-  return [...baseFilters, ...allFilters[pageName]]
+  const forPage = filterByPage[pageName]
+  return {
+    shortcut: forPage.shortcut,
+    selectable: [...baseFilters, ...forPage.selectable],
+  }
 }

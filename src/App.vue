@@ -2,7 +2,7 @@
   <el-config-provider namespace="ep">
     <PageHeader />
     <div class="main-container container">
-        <RouterView :key="$route.fullPath"/>
+      <RouterView :key="$route.fullPath" />
     </div>
   </el-config-provider>
 </template>
@@ -16,6 +16,6 @@
 .main-container {
   height: calc(100vh - var(--ep-menu-item-height) - 4px);
   margin: 0 auto;
-  padding: 2rem;
+  padding: 0 2rem;
 }
 </style>

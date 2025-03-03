@@ -11,5 +11,8 @@ export default antfu({
   rules: {
     'no-console': [0],
     'ts/strict-boolean-expressions': [0],
+    'vue/no-mutating-props': ['error', {
+      shallowOnly: true,
+    }],
   },
 })
