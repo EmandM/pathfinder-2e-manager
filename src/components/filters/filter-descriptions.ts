@@ -52,7 +52,7 @@ const baseFilters: Filter[] = [{
   matches: andStringArrayMatch,
 }]
 
-interface FiltersForPage {
+export interface FiltersForPage {
   shortcut?: Filter
   selectable: Filter[]
 }

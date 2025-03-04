@@ -42,7 +42,8 @@ const bookmarker = useBookmarks()
 const data = dataImporter(pageName, (data) => {
   // Once the data is imported
   // use the imported data to hydrate the options for the filters
-  filterList.value = hydrateFilterOptions(data as Card[], [...filters.selectable, filters.shortcut])
+  hydrateFilterOptions(data as Card[], filters)
+  filterList.value = filters.selectable
   // push all the data into the card list
   cards.push(...data as Card[])
 

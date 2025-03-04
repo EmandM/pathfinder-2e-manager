@@ -56,7 +56,6 @@ function handlePrint() {
           Active
         </el-radio>
       </el-radio-group>
-      <!-- <el-checkbox :checked="isActive" label="Active" size="large" @change="emit('setActive')" /> -->
     </div>
 
     <el-button type="primary" class="print-button" @click="handlePrint">
