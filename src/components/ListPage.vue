@@ -1,41 +1,62 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import type { Filter, Item } from '~/composables/item-types'
+import type { Card, Filter } from '~/composables/types'
 import { ref } from 'vue'
 import { useFilteredList, usePersistentAppliedFilters } from '~/composables/applied-filters'
 import { dataImporter } from '~/composables/data-importer'
-import { hydrateFilterOptions, hydrateLevelFilter } from '~/composables/hydrate-filters'
+import { hydrateFilterOptions, useLevelFilter } from '~/composables/hydrate-filters'
+import { usePrinter } from '~/composables/print'
 import { useFiltersForPage } from './filters/filter-descriptions'
 
 const { pageName } = defineProps<{
   pageName: string
 }>()
 
-const filterList: Ref<Filter[]> = ref([])
-const appliedFilters = usePersistentAppliedFilters(pageName)
-const spells: Item[] = []
-const displayedItems: Ref<Item[]> = ref([])
-let filter: Iterator<Item>
+/*
+ * Page behaviour configuration
+ */
+// Number of cards to load at one time
 const numItemsToLoad = 20
-const filters = useFiltersForPage(pageName)
+
+/*
+ * Empty page state
+ * Will be hydrated when the data is loaded
+ */
+const filterList: Ref<Filter[]> = ref([]) // List of filters for the filter manager
+const shortcut: Ref<Filter | undefined> = ref() // Shortcut filter for the filter manager
+const cards: Card[] = [] // all cards for the current page
+let filter: Iterator<Card> // iterator that has the current filters applied
+const displayedItems: Ref<Card[]> = ref([]) // cards to display (generated from filter)
+
+/*
+ * Set up composables
+ */
+const filters = useFiltersForPage(pageName) // Gets filters that are valid for the current page
+const appliedFilters = usePersistentAppliedFilters(pageName) // Gets existing AppliedFilterCollection or creates a new one
+const levelFilter = useLevelFilter(pageName)
+const goToPrint = usePrinter()
 
 // Import the data
 const data = dataImporter(pageName, (data) => {
-  filterList.value = hydrateFilterOptions(data as Item[], [...filters.selectable, filters.shortcut])
-  spells.push(...data as Item[])
+  // Once the data is imported
+  // use the imported data to hydrate the options for the filters
+  filterList.value = hydrateFilterOptions(data as Card[], [...filters.selectable, filters.shortcut])
+  // push all the data into the card list
+  cards.push(...data as Card[])
 
   // Pre-add the shortcut filters
   if (filters.shortcut) {
     appliedFilters.addShortcutFilter(filters.shortcut)
+    shortcut.value = filters.shortcut
   }
+
   setupFilter()
 })
-const levelFilter = hydrateLevelFilter(pageName)
 
 // Empty the displayed list and create the iterator
 // setupFilter is called each time the filters change
 function setupFilter() {
-  filter = useFilteredList(spells, appliedFilters)
+  filter = useFilteredList(cards, appliedFilters)
   displayedItems.value = []
   loadItems()
 }
@@ -50,15 +71,29 @@ function loadItems() {
     }
   }
 }
+
+// Gather all the items that are valid for the current filters
+// Pass those items to the usePrint composable to load the print page
+function doPrint() {
+  const printFilter = useFilteredList(cards, appliedFilters)
+  const items = []
+  let item = printFilter.next()
+  while (!item.done) {
+    items.push(item.value)
+    item = printFilter.next()
+  }
+  goToPrint(items)
+}
 </script>
 
 <template>
   <FilterManager
-    :shortcut="filters.shortcut"
+    :shortcut="shortcut"
     :filter-list="filterList"
     :level-options="levelFilter"
     :applied-filters="appliedFilters"
     @change="setupFilter"
+    @print="doPrint"
   />
   <el-divider>
     <el-icon><star-filled /></el-icon>

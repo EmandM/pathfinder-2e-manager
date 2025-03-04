@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import type { ItemSource } from '~/composables/item-types'
+import type { CardSource } from '~/composables/types'
 import markdownit from 'markdown-it'
-import { actionToImage } from '~/composables/item-types'
+import { actionToImage } from '~/composables/types'
 
 const { source } = defineProps<{
-  source: ItemSource
+  source: CardSource
 }>()
 
 const md = markdownit({ html: true })

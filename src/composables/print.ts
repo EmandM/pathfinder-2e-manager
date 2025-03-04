@@ -1,14 +1,19 @@
-import type { Item } from './item-types'
+import type { Card } from './types'
 import { useRouter } from 'vue-router'
 
-const router = useRouter()
-let printList: Item[] = []
+let printList: Card[] = []
 
-export function doPrint(items: Item[]) {
-  printList = items
-  void router.push('/print')
+export function usePrinter() {
+  const router = useRouter()
+
+  return function goToPrint(items: Card[]): void {
+    printList = items
+    void router.push('/print')
+  }
 }
 
-export function loadItemsToPrint(): Item[] {
+// export
+
+export function loadItemsToPrint(): Card[] {
   return printList
 }

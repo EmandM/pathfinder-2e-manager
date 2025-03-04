@@ -1,7 +1,7 @@
-import type { Filter, Item, ItemSource } from './item-types'
+import type { Filter, Card, CardSource } from './types'
 // import { cantripFilter, focusFilter } from './item-types'
 
-export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
+export function hydrateFilterOptions(items: Card[], filters: Filter[]) {
   const toHydrate = new Map(filters.map(filter => [filter.key, new Set<string>()]))
 
   for (const item of items) {
@@ -9,7 +9,7 @@ export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
     item._source._searchText = item._source.text.toLowerCase()
 
     for (const filter of filters) {
-      const values: ItemSource[keyof ItemSource] = item._source[filter.key]
+      const values: CardSource[keyof CardSource] = item._source[filter.key]
       const set = toHydrate.get(filter.key)
       if (!values || !set) {
         continue
@@ -40,7 +40,7 @@ export function hydrateFilterOptions(items: Item[], filters: Filter[]) {
 }
 
 const defaultLevel = ['1', '2', '3', '4', '5', '6']
-export function hydrateLevelFilter(page: string): string[] {
+export function useLevelFilter(page: string): string[] {
   if (page === 'spell') {
     // return [cantripFilter, focusFilter, ...defaultLevel]
     return [...defaultLevel]

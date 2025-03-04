@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import type { Filter } from '~/composables/item-types'
+import type { Filter } from '~/composables/types'
 import { ref, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
-import { FilterState } from '~/composables/item-types'
+import { FilterState } from '~/composables/types'
 import Select from './Select.vue'
 
 const { filterList, appliedFilters, shortcut } = defineProps<{
@@ -44,14 +44,16 @@ appliedFilters.filters.forEach((applied, _) => {
 })
 
 let shortcutTags: SelectedFilter[] = []
-watchEffect(() => shortcutTags = shortcut.options.map((opt) => {
-  return {
-    filter: shortcut,
-    selectedValue: opt,
-    displayName: capitalizeFirstLetter(opt),
-    initialState: FilterState.inactive,
-  }
-}))
+watchEffect(() => {
+  shortcutTags = shortcut?.options?.map((opt) => {
+    return {
+      filter: shortcut,
+      selectedValue: opt,
+      displayName: capitalizeFirstLetter(opt),
+      initialState: FilterState.inactive,
+    }
+  }) || []
+})
 
 function showFilterSelect(name: string, init: boolean = false) {
   const newFilter = filterList.find(filter => filter.name === name)

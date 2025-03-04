@@ -1,6 +1,6 @@
-import type { AppliedFilter, Filter, FilterFunction, Item, ItemSource } from './item-types'
+import type { AppliedFilter, Card, CardSource, Filter, FilterFunction } from './types'
 import { ref } from 'vue'
-import { FilterState } from './item-types'
+import { FilterState } from './types'
 
 export class AppliedFilterCollection {
   filters: Map<Filter['key'], AppliedFilter> = new Map()
@@ -82,7 +82,7 @@ export function usePersistentAppliedFilters(pageName: string): AppliedFilterColl
 
 // Creates an iterator that iterates over all the valid items of the list.
 // Valid items are items that match all of the passed in filters.
-export function* useFilteredList(list: Item[], filters: AppliedFilterCollection): Iterator<Item> {
+export function* useFilteredList(list: Card[], filters: AppliedFilterCollection): Iterator<Card> {
   let i = 0
   while (i < list.length) {
     if (doFilter(list[i], filters)) {
@@ -92,7 +92,8 @@ export function* useFilteredList(list: Item[], filters: AppliedFilterCollection)
   }
 }
 
-function doFilter(item: Item, collection: AppliedFilterCollection): boolean {
+// Decides whether the current card is is valid based on the given filter
+function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
   const source = item._source
 
   if (!levelMatch(source, collection.levelFilter)) {
@@ -117,12 +118,8 @@ function doFilter(item: Item, collection: AppliedFilterCollection): boolean {
   return true
 }
 
-function transformer<K extends keyof ItemSource>(matchFunc: FilterFunction<ItemSource[K]>): FilterFunction<ItemSource[keyof ItemSource]> {
-  return matchFunc
-}
-
 // When filtering on levels, use an OR match instead of an AND
-function levelMatch(source: ItemSource, levels: Set<string>): boolean {
+function levelMatch(source: CardSource, levels: Set<string>): boolean {
   // Every level is valid if no levels are selected for the filter
   if (levels.size <= 0) {
     return true
@@ -135,7 +132,12 @@ function levelMatch(source: ItemSource, levels: Set<string>): boolean {
   return false
 }
 
-// To keep life easy, search using the markdown field
-function search(markdown: string, searchString: string) {
-  return markdown.includes(searchString)
+// _searchText and searchString are both lowercase to allow case-insensitive matching
+function search(text: CardSource["_searchText"], searchString: string) {
+  return text.includes(searchString)
+}
+
+// make typescript happy
+function transformer<K extends keyof CardSource>(matchFunc: FilterFunction<CardSource[K]>): FilterFunction<CardSource[keyof CardSource]> {
+  return matchFunc
 }

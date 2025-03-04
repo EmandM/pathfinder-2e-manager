@@ -1,9 +1,9 @@
-export interface Item {
+export interface Card {
   _id: string
-  _source: ItemSource
+  _source: CardSource
 }
 
-export interface ItemSource {
+export interface CardSource {
   primary_source: string
   name: string
   actions_number: number
@@ -59,11 +59,11 @@ export interface AppliedFilter {
 export type FilterFunction<T> = (itemValue: T, options: FilterValues) => boolean
 
 export type Filter = {
-  [K in keyof ItemSource]: {
+  [K in keyof CardSource]: {
     name: string
     key: K
     options: string[]
     color: string
-    matches: FilterFunction<ItemSource[K]>
+    matches: FilterFunction<CardSource[K]>
   }
-}[keyof ItemSource]
+}[keyof CardSource]

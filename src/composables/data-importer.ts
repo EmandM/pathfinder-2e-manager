@@ -1,15 +1,15 @@
 import type { Ref } from 'vue'
-import type { Item } from './item-types'
+import type { Card } from './types'
 import { ref, watch } from 'vue'
 
 const importCache: Map<string, Ref<ImportResult>> = new Map()
 
 export interface ImportResult {
   isLoaded: boolean
-  data: Item[]
+  data: Card[]
 }
 
-export function dataImporter(type: string, onImport: (data: Item[]) => void): Ref<ImportResult> {
+export function dataImporter(type: string, onImport: (data: Card[]) => void): Ref<ImportResult> {
   const cached = importCache.get(type)
   if (cached) {
     if (cached.value.isLoaded) {
@@ -38,7 +38,7 @@ export function dataImporter(type: string, onImport: (data: Item[]) => void): Re
 
   const path = `/data/${type}.json`
   fetch(path)
-    .then(async res => res.json() as Promise<Item[]>)
+    .then(async res => res.json() as Promise<Card[]>)
     .then((jsonData) => {
       importResult.value.isLoaded = true
       importResult.value.data = jsonData

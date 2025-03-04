@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import type { ItemSource } from '~/composables/item-types'
+import type { CardSource } from '~/composables/types'
 import { Opportunity } from '@element-plus/icons-vue'
 import markdownit from 'markdown-it'
 import { ref } from 'vue'
-import { actionToImage } from '~/composables/item-types'
+import { actionToImage } from '~/composables/types'
 
 const { source, isBookmarked } = defineProps<{
-  source: ItemSource
+  source: CardSource
   isBookmarked?: boolean
 }>()
 const emit = defineEmits<{
