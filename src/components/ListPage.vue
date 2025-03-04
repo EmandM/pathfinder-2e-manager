@@ -3,6 +3,7 @@ import type { Ref } from 'vue'
 import type { Card, Filter } from '~/composables/types'
 import { ref } from 'vue'
 import { useFilteredList, usePersistentAppliedFilters } from '~/composables/applied-filters'
+import { useBookmarks } from '~/composables/bookmark-storage'
 import { dataImporter } from '~/composables/data-importer'
 import { hydrateFilterOptions, useLevelFilter } from '~/composables/hydrate-filters'
 import { usePrinter } from '~/composables/print'
@@ -26,7 +27,7 @@ const filterList: Ref<Filter[]> = ref([]) // List of filters for the filter mana
 const shortcut: Ref<Filter | undefined> = ref() // Shortcut filter for the filter manager
 const cards: Card[] = [] // all cards for the current page
 let filter: Iterator<Card> // iterator that has the current filters applied
-const displayedItems: Ref<Card[]> = ref([]) // cards to display (generated from filter)
+const displayed: Ref<Card[]> = ref([]) // cards to display (generated from filter)
 
 /*
  * Set up composables
@@ -35,6 +36,7 @@ const filters = useFiltersForPage(pageName) // Gets filters that are valid for t
 const appliedFilters = usePersistentAppliedFilters(pageName) // Gets existing AppliedFilterCollection or creates a new one
 const levelFilter = useLevelFilter(pageName)
 const goToPrint = usePrinter()
+const bookmarker = useBookmarks()
 
 // Import the data
 const data = dataImporter(pageName, (data) => {
@@ -57,7 +59,7 @@ const data = dataImporter(pageName, (data) => {
 // setupFilter is called each time the filters change
 function setupFilter() {
   filter = useFilteredList(cards, appliedFilters)
-  displayedItems.value = []
+  displayed.value = []
   loadItems()
 }
 
@@ -67,7 +69,7 @@ function loadItems() {
   for (let i = 0; i < numItemsToLoad; i++) {
     const item = filter.next()
     if (!item.done) {
-      displayedItems.value.push(item.value)
+      displayed.value.push(item.value)
     }
   }
 }
@@ -99,7 +101,13 @@ function doPrint() {
     <el-icon><star-filled /></el-icon>
   </el-divider>
   <div v-if="data.isLoaded" v-infinite-scroll="loadItems" class="cards">
-    <Card v-for="item in displayedItems" :key="item._id" :source="item._source" />
+    <Card
+      v-for="card in displayed"
+      :key="card._id"
+      :source="card._source"
+      :is-bookmarked="bookmarker.isBookmarked(card)"
+      @bookmark-click="bookmarker.toggleBookmark(card)"
+    />
   </div>
   <div v-else class="cards">
     Loading!

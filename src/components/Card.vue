@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import type { CardSource } from '~/composables/types'
-import { Opportunity } from '@element-plus/icons-vue'
 import markdownit from 'markdown-it'
-import { ref } from 'vue'
 import { actionToImage } from '~/composables/types'
 
 const { source, isBookmarked } = defineProps<{
@@ -30,12 +28,6 @@ function GetFeatures(markdown: string) {
 
 const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
-
-const bookmarkColor = ref(isBookmarked ? '#409efc' : 'black')
-function handleBookmark() {
-  bookmarkColor.value = isBookmarked ? '#409efc' : 'black'
-  emit('bookmarkClick')
-}
 </script>
 
 <template>
@@ -53,10 +45,7 @@ function handleBookmark() {
           {{ card_type }} {{ source.level }}
         </div>
 
-        <el-icon :size="24" class="bookmark-icon" :color="bookmarkColor" @click="handleBookmark">
-          <Opportunity v-if="isBookmarked" />
-          <CollectionTag v-else />
-        </el-icon>
+        <BookmarkButton :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
       </div>
       <hr class="divider">
       <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">

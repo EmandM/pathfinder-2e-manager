@@ -4,6 +4,7 @@ import type { AppliedFilterCollection } from '~/composables/applied-filters'
 import type { Filter } from '~/composables/types'
 import { ref, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
+import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
 import Select from './Select.vue'
 
@@ -129,17 +130,6 @@ function handleLevelFilter(selected: string[]) {
 function handleSearch(search: string) {
   appliedFilters.setSearchString(search)
   emit('change')
-}
-
-function remove<T>(list: T[], toRemove: T[keyof T], itemKey?: keyof T): T[] {
-  const index = list.findIndex(val => toRemove === (itemKey ? val[itemKey] : val))
-  if (index > -1) {
-    list.splice(index, 1)
-  }
-  else {
-    console.error('error removing item', toRemove, 'from list', list, 'item not found')
-  }
-  return list
 }
 </script>
 
