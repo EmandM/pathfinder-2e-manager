@@ -1,15 +1,11 @@
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { repository } from '~/../package.json'
 import { toggleDark } from '~/composables'
 
 const route = useRoute()
-const activeIndex = ref('')
-watchEffect(() => activeIndex.value = route.path)
-function handleSelect(key: string, keyPath: string[]) {
-  console.log(key, keyPath)
-}
+const activeIndex = computed(() => route.path)
 </script>
 
 <template>
@@ -19,7 +15,6 @@ function handleSelect(key: string, keyPath: string[]) {
     :ellipsis="false"
     :default-active="activeIndex"
     router
-    @select="handleSelect"
   >
     <el-menu-item index="/">
       Pathfinder 2e manager
@@ -62,7 +57,7 @@ function handleSelect(key: string, keyPath: string[]) {
     <el-menu-item h="full" @click="toggleDark()">
       <button
         class="w-full cursor-pointer border-none bg-transparent"
-        style="height: var(--ep-menu-item-height)"
+        style="height: var(--el-menu-item-height)"
       >
         <i inline-flex i="dark:ep-moon ep-sunny" />
       </button>
@@ -78,7 +73,7 @@ function handleSelect(key: string, keyPath: string[]) {
 
 <style lang="scss">
 .page-header {
-  &.ep-menu--horizontal.ep-menu--horizontal > .ep-menu-item:nth-child(5) {
+  &.el-menu--horizontal.el-menu--horizontal > .el-menu-item:nth-child(5) {
     margin-right: auto;
   }
 }

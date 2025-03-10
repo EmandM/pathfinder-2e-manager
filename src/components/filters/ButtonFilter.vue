@@ -27,55 +27,55 @@ const isEven = options ? !(options.length % 2) : false;
 </template>
 
 <style scoped>
-.ep-checkbox-group {
+.el-checkbox-group {
   display: grid;
   grid-template-rows: repeat(2, 31px);
   grid-auto-flow: column;
 }
-.ep-checkbox-button:deep() .ep-checkbox-button__inner {
+.el-checkbox-button:deep() .el-checkbox-button__inner {
   padding: 8px;
   height: 31px;
   width: 32px;
 }
 
-.ep-checkbox-button.is-checked:deep() .ep-checkbox-button__inner {
-  background-color: var(--ep-color-primary-light-9);
+.el-checkbox-button.is-checked:deep() .el-checkbox-button__inner {
+  background-color: var(--el-color-primary-light-9);
   color: black;
 }
 
-.ep-checkbox-button.is-checked:deep() .ep-checkbox-button__inner {
-  background-color: var(--ep-color-primary-light-9);
+.el-checkbox-button.is-checked:deep() .el-checkbox-button__inner {
+  background-color: var(--el-color-primary-light-9);
   color: black;
 }
 
 /* Round the corner of the border */
-.ep-checkbox-button:first-child:deep() .ep-checkbox-button__inner {
+.el-checkbox-button:first-child:deep() .el-checkbox-button__inner {
   border-bottom-left-radius: 0;
 }
-.ep-checkbox-button:nth-child(2):deep() .ep-checkbox-button__inner {
-  border-bottom-left-radius: var(--ep-border-radius-base);
-  border: var(--ep-border);
+.el-checkbox-button:nth-child(2):deep() .el-checkbox-button__inner {
+  border-bottom-left-radius: var(--el-border-radius-base);
+  border: var(--el-border);
 }
-.ep-checkbox-button:last-child.evenCount:deep() .ep-checkbox-button__inner {
+.el-checkbox-button:last-child.evenCount:deep() .el-checkbox-button__inner {
   border-top-right-radius: 0;
 }
-.ep-checkbox-button.penultimate:not(.evenCount):deep() .ep-checkbox-button__inner {
-  border-bottom-right-radius: var(--ep-border-radius-base);
+.el-checkbox-button.penultimate:not(.evenCount):deep() .el-checkbox-button__inner {
+  border-bottom-right-radius: var(--el-border-radius-base);
 }
-.ep-checkbox-button.penultimate.evenCount:deep() .ep-checkbox-button__inner {
-  border-top-right-radius: var(--ep-border-radius-base);
+.el-checkbox-button.penultimate.evenCount:deep() .el-checkbox-button__inner {
+  border-top-right-radius: var(--el-border-radius-base);
 }
 
-.ep-checkbox-button.isEven:deep() .ep-checkbox-button__inner {
+.el-checkbox-button.isEven:deep() .el-checkbox-button__inner {
   border-top-color: transparent;
 }
-.ep-checkbox-button:nth-child(n+3):deep() .ep-checkbox-button__inner {
+.el-checkbox-button:nth-child(n+3):deep() .el-checkbox-button__inner {
   border-left-color: transparent;
 }
 
-.ep-checkbox-button.is-checked:deep() .ep-checkbox-button__inner {
-  background-color: var(--ep-color-primary-light-9);
-  border-color: var(--ep-checkbox-button-checked-border-color);
+.el-checkbox-button.is-checked:deep() .el-checkbox-button__inner {
+  background-color: var(--el-color-primary-light-9);
+  border-color: var(--el-checkbox-button-checked-border-color);
   color: black;
 }
 

@@ -99,7 +99,7 @@ function doPrint() {
     @print="doPrint"
   />
   <el-divider>
-    <el-icon><star-filled /></el-icon>
+    <el-icon><i-msl-star-rounded /></el-icon>
   </el-divider>
   <div v-if="data.isLoaded" v-infinite-scroll="loadItems" class="cards">
     <Card

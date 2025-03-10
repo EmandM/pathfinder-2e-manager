@@ -17,7 +17,7 @@ const emit = defineEmits<{
   close: []
 }>()
 const state = ref(props.initialState || FilterState.includes)
-const color = ref(props.initialState !== FilterState.inactive ? props.color : disabled)
+const color = ref(props.initialState !== FilterState.inactive ? props.color : undefined)
 const closable = props.closable || false
 
 function changeState() {
@@ -27,7 +27,7 @@ function changeState() {
       break
     case FilterState.excludes:
       state.value = FilterState.inactive
-      color.value = disabled
+      color.value = undefined
       break
     case FilterState.inactive:
       state.value = FilterState.includes
@@ -47,40 +47,46 @@ function hasState(want: FilterState) {
     :color="color"
     size="large"
     class="tag"
-    :class="{ active: hasState(FilterState.includes) }"
+    :class="{ active: hasState(FilterState.includes), inactive: hasState(FilterState.inactive) }"
     :closable="closable"
     round
     @click="changeState"
     @close="emit('close')"
   >
     <el-icon>
-      <plus v-if="hasState(FilterState.includes)" />
-      <minus v-else-if="hasState(FilterState.excludes)" />
-      <hide v-else />
+      <i-msl-add-2 v-if="hasState(FilterState.includes)" />
+      <i-msl-remove v-else-if="hasState(FilterState.excludes)" />
+      <i-msl-visibility-off-outline v-else />
     </el-icon>
     <span class="tag-text">{{ props.title }}</span>
   </el-tag>
 </template>
 
 <style scoped>
-.tag.ep-tag {
-  color: grey;
-  margin: 4px;
-}
-.tag.active {
-  color: black;
-}
-.tag.ep-tag.active:deep() .ep-tag__close {
-  color: black;
-  border-color: black;
-}
-.tag.ep-tag:deep() .ep-tag__content {
-  display: flex;
+.tag {
+  &.el-tag {
+    color: grey;
+    margin: 4px;
+    cursor: pointer;
+  }
+  &.active {
+    color: black;
+  }
+  &.inactive {
+    background-color: var(--el-fill-color-light);
+  }
+  &.el-tag.active:deep() .el-tag__close {
+    color: black;
+    border-color: black;
+  }
+  &.el-tag:deep() .el-tag__content {
+    display: flex;
+  }
 }
 .tag-text {
   margin: auto;
 }
-.ep-icon {
+.el-icon {
   padding-right: 2px;
 }
 </style>

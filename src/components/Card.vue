@@ -98,6 +98,7 @@ hr.divider {
 
 .stretcher-bearer {
   display: flex;
+  align-items: center;
 }
 
 .listview-title {

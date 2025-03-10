@@ -1,18 +1,30 @@
 // only scss variables
-
 $--colors: (
+  'black': #1d1e1f,
   'primary': (
     'base': #589ef8,
   ),
 );
 
 $--bg-color: (
-  'page': grey,
-  '': #141414,
+  'page': #212830,
+  '': rgba(27, 31, 35, 0.06),
   'overlay': #1d1e1f,
 );
 
+$--menu: (
+  "bg-color": #151b23
+);
+
+
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
   $colors: $--colors,
-  $bg-color: $--bg-color
+  $bg-color: $--bg-color,
 );
+  
+@use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
+
+// More specific overrides
+html.dark {
+  background-color: var(--el-bg-color-page);
+}

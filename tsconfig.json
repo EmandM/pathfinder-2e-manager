@@ -13,6 +13,7 @@
     "resolveJsonModule": true,
     "types": [
       "vite/client",
+      "unplugin-icons/types/vue",
       "unplugin-vue-router/client"
     ],
     "sourceMap": true,
@@ -22,5 +23,5 @@
   "vueCompilerOptions": {
     "target": 3
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "uno.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "*.config.ts"]
 }

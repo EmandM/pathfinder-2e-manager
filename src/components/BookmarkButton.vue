@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watchEffect } from 'vue'
+import { computed, } from 'vue'
 import { useBookmarks } from '~/composables/bookmark-storage'
 
 const { isBookmarked } = defineProps<{
@@ -10,27 +10,33 @@ const emit = defineEmits<{
 }>()
 
 const bookmarker = useBookmarks()
-const activeBookmark = ref(bookmarker.activeName())
-watchEffect(() => activeBookmark.value = bookmarker.activeName())
-
-const bookmarkColor = ref(isBookmarked ? '#409efc' : 'black')
-watchEffect(() => bookmarkColor.value = isBookmarked ? '#409efc' : 'black')
+const activeBookmark = computed(() => bookmarker.activeName())
 </script>
 
 <template>
   <el-tooltip
     class="box-item"
     effect="dark"
-    :content="`Saving to: ${activeBookmark}`"
+    :content="`${activeBookmark}`"
     placement="top"
   >
-    <el-icon :size="24" class="bookmark-icon" :color="bookmarkColor" @click="emit('click')">
-      <Opportunity v-if="isBookmarked" />
-      <CollectionTag v-else />
+    <el-icon 
+      :size="32"
+      class="bookmark-icon"
+      :class="{bookmarked: isBookmarked}"
+      @click="emit('click')">
+      <i-msl-bookmark-sharp v-if="isBookmarked" />
+      <i-msl-bookmark-outline-sharp v-else />
     </el-icon>
   </el-tooltip>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
+.bookmark-icon{
+  margin-right: -8px;
 
+  &.bookmarked {
+    color: var(--el-color-primary);
+  }
+}
 </style>

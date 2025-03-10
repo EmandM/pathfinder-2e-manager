@@ -147,7 +147,7 @@ function handleSearch(search: string) {
     <el-button type="primary" class="print-button" @click="emit('print')">
       Print
       <el-icon class="el-icon--right">
-        <Printer />
+        <i-msl-print-outline />
       </el-icon>
     </el-button>
   </div>

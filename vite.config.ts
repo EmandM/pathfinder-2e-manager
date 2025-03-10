@@ -6,6 +6,8 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
+import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 
 import { defineConfig } from 'vite'
@@ -48,6 +50,13 @@ export default defineConfig({
         ElementPlusResolver({
           importStyle: 'sass',
         }),
+        IconsResolver({
+          // enabledCollections: ['material-symbols-light'],
+          alias: {
+            msl: 'material-symbols-light',
+            // ...
+          }
+        }),
       ],
       dts: 'src/components.d.ts',
     }),
@@ -55,10 +64,11 @@ export default defineConfig({
     // https://github.com/antfu/unocss
     // see uno.config.ts for config
     Unocss(),
-  ],
 
-  ssr: {
-    // TODO: workaround until they support native ESM
-    noExternal: ['element-plus'],
-  },
+    Icons({
+      compiler: 'vue3',
+      // experimental
+      autoInstall: true,
+    }),
+  ],
 })

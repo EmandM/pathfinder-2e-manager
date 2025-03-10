@@ -55,8 +55,7 @@ function handleChange() {
 </template>
 
 <style scoped>
-.closebutton.ep-button {
+.closebutton.el-button {
   margin: auto 0;
-  padding: 8px;
 }
 </style>
