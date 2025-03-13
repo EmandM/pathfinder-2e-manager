@@ -21,7 +21,7 @@ const activeBookmark = computed(() => bookmarker.activeName())
     placement="top"
   >
     <el-icon 
-      :size="32"
+      :size="24"
       class="bookmark-icon"
       :class="{bookmarked: isBookmarked}"
       @click="emit('click')">

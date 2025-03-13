@@ -61,3 +61,18 @@ code {
     @extend %msl-icon-size;
   }
 }
+
+
+@media print {
+  /* All your print styles go here */
+  .el-menu,
+  #footer,
+  #nav {
+    display: none !important;
+  }
+
+  .main-container.container {
+    margin: 0;
+    padding: 0;
+  }
+}

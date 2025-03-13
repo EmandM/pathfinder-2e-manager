@@ -90,19 +90,21 @@ const filterByPage: { [key: string]: FiltersForPage } = {
 
     ],
   },
-  weapon: { selectable: [
-    {
-      name: 'Damage Type',
-      key: 'damage_type',
-      options: [],
-      color: color.pink,
-      matches: andStringArrayMatch,
-    },
+  weapon: {
+    shortcut: 
     {
       name: 'Weapon Category',
       key: 'weapon_category',
       options: [],
       color: color.purple,
+      matches: andStringArrayMatch,
+    },
+    selectable: [
+    {
+      name: 'Damage Type',
+      key: 'damage_type',
+      options: [],
+      color: color.pink,
       matches: andStringArrayMatch,
     },
     {

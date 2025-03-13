@@ -46,7 +46,7 @@ function handleChange() {
         v-if="isClosable"
         class="closebutton"
         :icon="Close"
-        type="primary"
+        type="warning"
         plain
         @click="emit('close')"
       />
@@ -57,5 +57,6 @@ function handleChange() {
 <style scoped>
 .closebutton.el-button {
   margin: auto 0;
+  padding: 4px;
 }
 </style>

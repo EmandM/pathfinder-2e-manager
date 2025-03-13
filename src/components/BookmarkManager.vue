@@ -43,7 +43,7 @@ function handlePrint() {
 
     <div class="b-list-item">
       <div class="label">
-        Item Count:
+        Item count:
       </div>
       <div class="text-primary">
         {{ numItems }}
@@ -75,7 +75,7 @@ function handlePrint() {
         :icon="IconExclamation"
         @confirm="emit('delete')">
         <template #reference>
-          <el-button type="warning">
+          <el-button type="warning" :disabled="isActive">
             Delete
             <el-icon class="el-icon--right">
               <i-material-symbols-light-delete-outline />

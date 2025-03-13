@@ -54,9 +54,9 @@ function hasState(want: FilterState) {
     @close="emit('close')"
   >
     <el-icon>
-      <i-msl-add-2 v-if="hasState(FilterState.includes)" />
-      <i-msl-remove v-else-if="hasState(FilterState.excludes)" />
-      <i-msl-visibility-off-outline v-else />
+      <i-material-symbols-light-visibility v-if="hasState(FilterState.includes)" />
+      <i-material-symbols-light-visibility-off v-else-if="hasState(FilterState.excludes)" />
+      <i-msl-label-off-outline v-else />
     </el-icon>
     <span class="tag-text">{{ props.title }}</span>
   </el-tag>
@@ -81,6 +81,9 @@ function hasState(want: FilterState) {
   }
   &.el-tag:deep() .el-tag__content {
     display: flex;
+  }
+  &:not(.inactive) {
+    color: black;
   }
 }
 .tag-text {
