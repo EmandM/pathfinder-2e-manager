@@ -2,13 +2,12 @@ import path from 'node:path'
 import Vue from '@vitejs/plugin-vue'
 
 import Unocss from 'unocss/vite'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
-import VueRouter from 'unplugin-vue-router/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
-import Icons from 'unplugin-icons/vite'
-import IconsResolver from 'unplugin-icons/resolver'
-
+import VueRouter from 'unplugin-vue-router/vite'
 
 import { defineConfig } from 'vite'
 
@@ -55,7 +54,7 @@ export default defineConfig({
           alias: {
             msl: 'material-symbols-light',
             // ...
-          }
+          },
         }),
       ],
       dts: 'src/components.d.ts',
