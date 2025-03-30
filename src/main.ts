@@ -12,7 +12,7 @@ import 'uno.css'
 
 const app = createApp(App)
 app.use(createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 }))
 app.use(ElementPlus)
