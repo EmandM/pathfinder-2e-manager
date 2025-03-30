@@ -37,10 +37,6 @@ jobs:
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        with:
-          base_url: https://emandm.github.io
-          origin: https://emandm.github.io
-          host: emandm.github.io
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:

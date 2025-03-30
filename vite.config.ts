@@ -13,7 +13,7 @@ import { defineConfig } from 'vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/pathfinder-2e-manager/',
+  // base: '/pathfinder-2e-manager/',
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
