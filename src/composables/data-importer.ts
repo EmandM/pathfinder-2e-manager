@@ -1,6 +1,7 @@
 import type { Ref } from 'vue'
 import type { Card } from './types'
 import { ref, watch } from 'vue'
+import { actionToImage } from './types'
 
 const importCache: Map<string, Ref<ImportResult>> = new Map()
 
@@ -36,7 +37,7 @@ export function dataImporter(type: string, onImport: (data: Card[]) => void): Re
   })
   importCache.set(type, importResult)
 
-  const path = `/data/${type}.json`
+  const path = `${import.meta.env.BASE_URL}/data/${type}.json`
   fetch(path)
     .then(async res => res.json() as Promise<Card[]>)
     .then((jsonData) => {
@@ -48,4 +49,8 @@ export function dataImporter(type: string, onImport: (data: Card[]) => void): Re
     .finally(() => importResult.value.isLoaded = true)
 
   return importResult
+}
+
+export function useActionImage(type: string): string {
+  return `${import.meta.env.BASE_URL}${actionToImage[type]}`
 }

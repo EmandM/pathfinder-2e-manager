@@ -2,7 +2,7 @@
 
 A manager for Pathfinder 2e that allows searching, saving and printing items and spells.
 
-Deployed at [https://emandm.github.io](https://emandm.github.io)
+Deployed at [https://emandm.github.io/pathfinder-2e-manager/](https://emandm.github.io/pathfinder-2e-manager/)
 
 ## Project setup
 

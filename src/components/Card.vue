@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { CardSource } from '~/composables/types'
 import markdownit from 'markdown-it'
+import { useActionImage } from '~/composables/data-importer'
 import { actionToImage } from '~/composables/types'
 
 const { source, isBookmarked } = defineProps<{
@@ -37,7 +38,7 @@ const card_type = source.spell_type || source.type
         <div class="stretcher">
           <div class="listview-title">
             {{ source.name }} <div v-if="source.actions_number < 7" class="action-holder">
-              <img :src="actionToImage[source.actions]" class="action-icon" :alt="source.actions">
+              <img :src="useActionImage(source.actions)" class="action-icon" :alt="source.actions">
             </div>
           </div>
         </div>
