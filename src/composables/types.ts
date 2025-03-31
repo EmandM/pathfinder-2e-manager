@@ -23,7 +23,7 @@ export interface Card {
   type: string
   text: string
   description: string
-  features: { feature: string; value: string }[]
+  features: { [feature: string]: string }
   
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string

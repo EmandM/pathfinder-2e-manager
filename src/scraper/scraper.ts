@@ -74,6 +74,7 @@ async function retrieveTargets() {
       })
 
       let cleanedSearch = cleanSearch(search?.hits?.hits);
+      console.log(`Cleaned down to ${cleanedSearch.length} for target ${target}`)
       let destination = path.join(destinationDir, `${target}.json`)
       console.log('overwriting file:', destination)
       writeFileSync(

@@ -3,16 +3,17 @@ function getDescription(markdown: string): string {
   return markdown.substring(split + 3).replaceAll('---', '').trim()
 }
 
-function getFeatures(markdown: string): { feature: string; value: string }[] {
+function getFeatures(markdown: string): {} {
   let match = markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s);
   if (match) {
-    return match[1]
+    let features = match[1]
       .replaceAll(/\*\* ?\r\n/g, '** ')
       .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
-      .map(a => {
-        return {feature: a[1], value: a[2]}
-      })
-      .toArray()
+    let allFeatures = {}
+    for (let feature of features) {
+      allFeatures[feature[1]] = feature[2]
+    }
+    return allFeatures;
   }
   return null;
 }
@@ -21,9 +22,22 @@ function lowerSearchText(text: string): string {
   return text.toLowerCase()
 }
 
+function isAValidEntry(item: any): boolean {
+  if (item._source.primary_source_category === 'Comics') {
+    return false;
+  }
+  if (Date.parse(item._source.release_date) < Date.parse("2023-08-02") && item._source.primary_source !== 'Treasure Vault') {
+    return false;
+  }
+  return true;
+}
+
 export function cleanSearch(search: any[]) {
   let cleanMap = [];
   search.forEach((item) => {
+    if (!isAValidEntry(item)) {
+      return;
+    }
     item._source.description = getDescription(item._source.markdown);
     item._source.search_text = lowerSearchText(item._source.text);
     item._source.features = getFeatures(item._source.markdown);

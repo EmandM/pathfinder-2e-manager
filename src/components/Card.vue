@@ -44,13 +44,13 @@ const card_type = source.spell_type || source.type
         {{ trait }}
       </div>
 
-      <div class="item-desc">
-        <div v-for="feature in source.features" :key="feature">
-          <b>{{ feature.feature }}</b> <span v-html="md.renderInline(feature.value)"/>
+      <div v-if="source.features" class="item-desc">
+        <div v-for="(value, feature) in source.features" :key="feature">
+          <b>{{ feature }}</b> <span v-html="md.renderInline(value)"/>
         </div>
       </div>
 
-      <hr v-if="source.features.length > 0" class="divider">
+      <hr v-if="source.features" class="divider">
       <div class="item-desc">
         <span class="item-markdown" v-html="md.render(source.description)"/>
       </div>
