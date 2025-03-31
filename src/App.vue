@@ -6,6 +6,8 @@ onMounted(() => {
   const router = useRouter()
   const path = localStorage.getItem('path')
   if (path) {
+    // eslint-disable-next-line no-debugger
+    debugger
     localStorage.removeItem('path')
     void router.push(path)
   }

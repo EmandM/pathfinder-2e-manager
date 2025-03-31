@@ -1,7 +1,8 @@
 <script>
-  const path = window.location.pathname.slice(1)
+  const root = '/pathfinder-2e-manager/'
+  const path = window.location.pathname.slice(root.length)
   console.log('current', path)
   debugger
   localStorage.setItem('path', path)
-  window.location.replace(`${window.location.origin}`)
+  window.location.replace(`${window.location.origin}/pathfinder-2e-manager/`)
 </script>
