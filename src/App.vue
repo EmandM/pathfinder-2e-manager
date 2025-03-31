@@ -4,11 +4,9 @@ import { useRouter } from 'vue-router'
 
 onMounted(() => {
   const router = useRouter()
-  const path = localStorage.getItem('path')
+  const path = localStorage.getItem('404redirect')
   if (path) {
-    // eslint-disable-next-line no-debugger
-    debugger
-    localStorage.removeItem('path')
+    localStorage.removeItem('404redirect')
     void router.push(path)
   }
 })
@@ -23,7 +21,6 @@ onMounted(() => {
 
 <style>
 #app {
-  /* text-align: center; */
   color: var(--el-text-color-primary);
 }
 
