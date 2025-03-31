@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { BookmarkList } from '~/composables/bookmark-storage'
-import { computed, ref, watchEffect } from 'vue'
-import { usePrinter } from '~/composables/print'
+import { computed, nextTick, ref, watchEffect } from 'vue'
 import IconExclamation from '~icons/material-symbols-light/warning'
+import { usePrinter } from '~/composables/print'
 
 const { list, isActive } = defineProps<{
   list: BookmarkList
@@ -25,8 +25,16 @@ watchEffect(() => activeChecked.value = isActive)
 function handleActiveClick() {
   emit('setActive')
 }
+
 function handlePrint() {
   goToPrint(Object.values(list.bookmarked))
+}
+
+function handleSetName() {
+  emit('setName', listName.value)
+  nextTick().then(() => {
+    listName.value = list.name
+  })
 }
 </script>
 
@@ -37,7 +45,7 @@ function handlePrint() {
         Name:
       </div>
       <div>
-        <el-input v-model="listName" style="width: 240px" @change="emit('setName', listName)" />
+        <el-input v-model="listName" style="width: 240px" @change="handleSetName" />
       </div>
     </div>
 
@@ -66,14 +74,14 @@ function handlePrint() {
         </el-icon>
       </el-button>
 
-
-      <el-popconfirm 
+      <el-popconfirm
         title="Are you sure to delete this?"
         confirm-button-type="danger"
         cancel-button-type="info"
         icon-color="#DD2C00"
         :icon="IconExclamation"
-        @confirm="emit('delete')">
+        @confirm="emit('delete')"
+      >
         <template #reference>
           <el-button type="warning" :disabled="isActive">
             Delete
@@ -83,7 +91,6 @@ function handlePrint() {
           </el-button>
         </template>
       </el-popconfirm>
-      
     </div>
   </div>
 </template>
@@ -113,6 +120,37 @@ function handlePrint() {
   .text-primary {
     font-size: var(--el-font-size-medium);
     color: var(--el-color-primary);
+  }
+}
+</style>
+
+<style scoped lang="scss">
+.print {
+  &.bookmark-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+  }
+
+  .b-list-item {
+    display: flex;
+    align-items: center;
+
+    .label {
+      color: var(--el-text-color-regular);
+      font-size: var(--el-font-size-base);
+      margin-right: 5px;
+
+      &.main-label {
+        font-size: var(--el-font-size-medium);
+      }
+    }
+
+    .text-primary {
+      font-size: var(--el-font-size-medium);
+      color: var(--el-color-primary);
+    }
   }
 }
 </style>

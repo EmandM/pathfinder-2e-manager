@@ -1,4 +1,5 @@
-import type { AppliedFilter, Card, Filter, FilterFunction } from './types'
+import type { AppliedFilter, Card } from './types'
+import type { Filter } from '~/components/filters/filter-descriptions'
 import { ref } from 'vue'
 import { FilterState } from './types'
 
@@ -11,6 +12,7 @@ export class AppliedFilterCollection {
       set = { filter, appliedValues: new Map() }
       this.filters.set(filter.key, set)
     }
+    console.log('adding filter', filter)
 
     set.appliedValues.set(selectedValue, FilterState.includes)
   }
@@ -94,7 +96,6 @@ export function* useFilteredList(list: Card[], filters: AppliedFilterCollection)
 
 // Decides whether the current card is is valid based on the given filter
 function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
-
   if (!levelMatch(item, collection.levelFilter)) {
     return false
   }
@@ -109,8 +110,14 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
       return false
     }
 
-    if (!transformer(applied.filter.matches)(itemKey, applied.appliedValues)) {
-      return false
+    for (const [value, state] of applied.appliedValues) {
+      const isMatch = applied.filter.isMatch(itemKey, value)
+      if (state === FilterState.includes && !isMatch) {
+        return false
+      }
+      else if (state === FilterState.excludes && isMatch) {
+        return false
+      }
     }
   }
 
@@ -132,11 +139,6 @@ function levelMatch(item: Card, levels: Set<string>): boolean {
 }
 
 // search_text and searchString are both lowercase to allow case-insensitive matching
-function search(text: Card["search_text"], searchString: string) {
+function search(text: Card['search_text'], searchString: string) {
   return text.includes(searchString)
-}
-
-// make typescript happy
-function transformer<K extends keyof Card>(matchFunc: FilterFunction<Card[K]>): FilterFunction<Card[keyof Card]> {
-  return matchFunc
 }

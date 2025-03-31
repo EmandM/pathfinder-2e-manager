@@ -11,7 +11,7 @@ const emit = defineEmits<{
 }>()
 
 const selected: Ref<string[]> = ref(initialSelected || [])
-const isEven = options ? !(options.length % 2) : false;
+const isEven = options ? !(options.length % 2) : false
 </script>
 
 <template>
@@ -69,7 +69,7 @@ const isEven = options ? !(options.length % 2) : false;
 .el-checkbox-button.isEven:deep() .el-checkbox-button__inner {
   border-top-color: transparent;
 }
-.el-checkbox-button:nth-child(n+3):deep() .el-checkbox-button__inner {
+.el-checkbox-button:nth-child(n + 3):deep() .el-checkbox-button__inner {
   border-left-color: transparent;
 }
 
@@ -78,6 +78,4 @@ const isEven = options ? !(options.length % 2) : false;
   border-color: var(--el-checkbox-button-checked-border-color);
   color: black;
 }
-
-
 </style>

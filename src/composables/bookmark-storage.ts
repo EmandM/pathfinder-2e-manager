@@ -2,6 +2,8 @@ import type { RemovableRef } from '@vueuse/core'
 import type { Card } from './types'
 import { useStorage } from '@vueuse/core'
 
+const defaultListName = 'bookmarks'
+
 export interface BookmarkList {
   name: string
   bookmarked: {
@@ -16,16 +18,28 @@ class Bookmarker {
   constructor(lists: RemovableRef<BookmarkList[]>, active: RemovableRef<number>) {
     this.lists = lists
     this.active = active
-
-    // this.lists.value.forEach(list => list.bookmarked = new Map<string, Card>(Object.entries(list.bookmarked)))
   }
 
   private activeList(): BookmarkList {
     return this.lists.value.at(this.active.value)
   }
 
-  createList(name: string = '') {
-    console.log('creating')
+  private getList(name: string): BookmarkList | undefined {
+    return this.lists.value.find(list => list.name === name)
+  }
+
+  private isDuplicateName(nameToCheck: string): boolean {
+    return !!this.getList(nameToCheck)
+  }
+
+  createList() {
+    let name = defaultListName
+    let i = 0
+    while (this.isDuplicateName(name)) {
+      i++
+      name = `${defaultListName}-${i}`
+    }
+
     const newList: BookmarkList = {
       name,
       bookmarked: {},
@@ -41,7 +55,7 @@ class Bookmarker {
     this.lists.value.splice(id, 1)
 
     if (this.lists.value.length <= 0) {
-      this.createList('default')
+      this.createList()
     }
   }
 
@@ -55,12 +69,15 @@ class Bookmarker {
 
   setName(id: number, name: string) {
     const item = this.lists.value.at(id)
-    if (item) {
-      item.name = name
-    }
-    else {
+    if (!item) {
       console.error(`setName was called on list ${id} which doesn't exist`)
+      return
     }
+    if (this.isDuplicateName(name)) {
+      console.error(`setName was called on list ${id} with non-unique name ${name}`)
+      return
+    }
+    item.name = name
   }
 
   toggleBookmark(card: Card) {
@@ -78,13 +95,21 @@ class Bookmarker {
     return !!this.activeList().bookmarked?.[card.id]
   }
 
+  hasBookmark(listName: string, cardId: string) {
+    return !!this.getList(listName)?.bookmarked?.[cardId]
+  }
+
   activeName(): string {
     return this.activeList().name
+  }
+
+  getListNames(): string[] {
+    return this.lists.value.map(list => list.name)
   }
 }
 
 const defaultList: BookmarkList[] = [{
-  name: 'default',
+  name: defaultListName,
   bookmarked: {},
 }]
 

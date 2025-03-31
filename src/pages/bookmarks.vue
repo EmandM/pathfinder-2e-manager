@@ -11,9 +11,11 @@ function handleListCreate() {
 
 <template>
   <div class="container bookmark-page py-4">
-    <div class="bookmark-item"
-        v-for="(list, index) in manager.lists.value"
-        :key="index">
+    <div
+      v-for="(list, index) in manager.lists.value"
+      :key="index"
+      class="bookmark-item"
+    >
       <BookmarkManager
         :list="list"
         :is-active="index === manager.active.value"
@@ -22,7 +24,7 @@ function handleListCreate() {
         @delete="manager.deleteList(index)"
       />
     </div>
-    <div class="add-list py-6 px-2">
+    <div class="add-list px-2 py-6">
       <el-button type="primary" @click="handleListCreate">
         Create new list<el-icon class="el-icon--right">
           <i-msl-add-2 />

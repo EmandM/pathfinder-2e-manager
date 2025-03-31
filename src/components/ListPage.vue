@@ -1,13 +1,14 @@
 <script lang="ts" setup>
 import type { Ref } from 'vue'
-import type { Card, Filter } from '~/composables/types'
+import type { Filter } from './filters/filter-descriptions'
+import type { Card } from '~/composables/types'
 import { ref } from 'vue'
 import { useFilteredList, usePersistentAppliedFilters } from '~/composables/applied-filters'
 import { useBookmarks } from '~/composables/bookmark-storage'
 import { dataImporter } from '~/composables/data-importer'
-import { hydrateFilterOptions, useLevelFilter } from '~/composables/hydrate-filters'
+import { hydrateFilterOptions } from '~/composables/hydrate-filters'
 import { usePrinter } from '~/composables/print'
-import { useFiltersForPage } from './filters/filter-descriptions'
+import { useFiltersForPage, useLevelFilter } from './filters/filter-descriptions'
 
 const { pageName } = defineProps<{
   pageName: string

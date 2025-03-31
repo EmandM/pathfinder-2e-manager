@@ -4,18 +4,18 @@ function getDescription(markdown: string): string {
 }
 
 function getFeatures(markdown: string): {} {
-  let match = markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s);
+  const match = markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)
   if (match) {
-    let features = match[1]
+    const features = match[1]
       .replaceAll(/\*\* ?\r\n/g, '** ')
       .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
-    let allFeatures = {}
-    for (let feature of features) {
+    const allFeatures = {}
+    for (const feature of features) {
       allFeatures[feature[1]] = feature[2]
     }
-    return allFeatures;
+    return allFeatures
   }
-  return null;
+  return null
 }
 
 function lowerSearchText(text: string): string {
@@ -24,24 +24,24 @@ function lowerSearchText(text: string): string {
 
 function isAValidEntry(item: any): boolean {
   if (item._source.primary_source_category === 'Comics') {
-    return false;
+    return false
   }
-  if (Date.parse(item._source.release_date) < Date.parse("2023-08-02") && item._source.primary_source !== 'Treasure Vault') {
-    return false;
+  if (Date.parse(item._source.release_date) < Date.parse('2023-08-02') && item._source.primary_source !== 'Treasure Vault') {
+    return false
   }
-  return true;
+  return true
 }
 
 export function cleanSearch(search: any[]) {
-  let cleanMap = [];
+  const cleanMap = []
   search.forEach((item) => {
     if (!isAValidEntry(item)) {
-      return;
+      return
     }
-    item._source.description = getDescription(item._source.markdown);
-    item._source.search_text = lowerSearchText(item._source.text);
-    item._source.features = getFeatures(item._source.markdown);
-    cleanMap.push(item._source);
+    item._source.description = getDescription(item._source.markdown)
+    item._source.search_text = lowerSearchText(item._source.text)
+    item._source.features = getFeatures(item._source.markdown)
+    cleanMap.push(item._source)
   })
-  return cleanMap;
+  return cleanMap
 }

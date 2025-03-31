@@ -1,56 +1,91 @@
-import type { Filter, FilterValues } from '~/composables/types'
-import { FilterState } from '~/composables/types'
+import type { Card } from '~/composables/types'
+import { useBookmarks } from '~/composables/bookmark-storage'
 import * as color from './filter-colors'
 
-function andStringArrayMatch<T extends Array<string>>(item: T, options: FilterValues): boolean {
-  for (const [value, state] of options) {
-    if (state === FilterState.includes && !item.includes(value)) {
-      return false
-    }
-    else if (state === FilterState.excludes && item.includes(value)) {
-      return false
-    }
+export type Filter = FilterClass<keyof Card>
+abstract class FilterClass<K extends keyof Card> {
+  name: string
+  key: K
+  color: string
+  options: string[]
+
+  constructor(name: string, key: K, color: string) {
+    this.name = name
+    this.key = key
+    this.color = color
   }
-  return true
+
+  abstract isMatch(cardValue: Card[K], filterOption: string): boolean
+
+  hydrate(cards: Card[]) {
+    const set = new Set<string>()
+
+    for (const card of cards) {
+      const values: Card[keyof Card] = card[this.key]
+
+      if (Array.isArray(values)) {
+        for (const value of values) {
+          set.add(`${value}`)
+        }
+      }
+      else if (typeof values === 'object') {
+        console.warn('Unimplemented - object fields')
+      }
+      else {
+        set.add(`${values}`)
+      }
+    }
+
+    this.options = [...set]
+  }
 }
 
-function fieldMatch<T extends string | number>(item: T, options: FilterValues): boolean {
-  for (const [value, state] of options) {
-    if (state === FilterState.includes && item !== value) {
-      return false
-    }
-    else if (state === FilterState.excludes && item === value) {
-      return false
-    }
+type KeysMatching<T> = { [K in keyof Card]-?: Card[K] extends T ? K : never }[keyof Card]
+
+class StringArrayFilter<K extends KeysMatching<Array<string>>> extends FilterClass<K> {
+  constructor(name: string, key: K, color: string) {
+    super(name, key, color)
   }
-  return true
+
+  isMatch(value: Array<string>, filterOption: string): boolean {
+    return value.includes(filterOption)
+  }
 }
 
-const baseFilters: Filter[] = [{
-  name: 'Traits',
-  key: 'trait',
-  options: [],
-  color: color.red,
-  matches: andStringArrayMatch,
-}, {
-  name: 'Source',
-  key: 'source',
-  options: [],
-  color: color.yellow,
-  matches: andStringArrayMatch,
-}, {
-  name: 'Rarity',
-  key: 'rarity',
-  options: [],
-  color: color.limegreen,
-  matches: fieldMatch,
-}, {
-  name: 'Source Category',
-  key: 'source_category',
-  options: [],
-  color: color.green,
-  matches: andStringArrayMatch,
-}]
+class ValueFilter<K extends KeysMatching<string | number>> extends FilterClass<K> {
+  constructor(name: string, key: K, color: string) {
+    super(name, key, color)
+  }
+
+  isMatch(value: string | number, filterOption: string): boolean {
+    return value === filterOption
+  }
+}
+
+// bookmarkManager is reactive, it will be kept up-to-date under the hood by Vue
+const bookmarkManager = useBookmarks()
+
+class BookmarkFilter extends FilterClass<'id'> {
+  constructor(color: string) {
+    super('Bookmarks', 'id', color)
+  }
+
+  isMatch(cardId: string, filterOption: string): boolean {
+    return bookmarkManager.hasBookmark(filterOption, cardId)
+  }
+
+  hydrate(_cards: Card[]): void {
+    this.options = bookmarkManager.getListNames()
+  }
+}
+
+const baseFilters: Filter[] = [
+  new StringArrayFilter('Traits', 'trait', color.red),
+  new StringArrayFilter('Source', 'source', color.yellow),
+  new ValueFilter('Rarity', 'rarity', color.limegreen),
+  new StringArrayFilter('Source Category', 'source_category', color.green),
+  new BookmarkFilter(color.purple),
+]
 
 export interface FiltersForPage {
   shortcut?: Filter
@@ -58,79 +93,26 @@ export interface FiltersForPage {
 }
 const filterByPage: { [key: string]: FiltersForPage } = {
   spell: {
-    shortcut: {
-      name: 'Spell Type',
-      key: 'spell_type',
-      options: [],
-      color: color.darkblue,
-      matches: fieldMatch,
-    },
+    shortcut: new ValueFilter('Spell Type', 'spell_type', color.darkblue),
     selectable: [
-      {
-        name: 'Tradition',
-        key: 'tradition',
-        options: [],
-        color: color.orange,
-        matches: andStringArrayMatch,
-      },
-      {
-        name: 'Saving Throw',
-        key: 'saving_throw',
-        options: [],
-        color: color.pink,
-        matches: andStringArrayMatch,
-      },
-      {
-        name: 'Actions',
-        key: 'actions',
-        options: [],
-        color: color.bluegreen,
-        matches: fieldMatch,
-      },
-
+      new StringArrayFilter('Tradition', 'tradition', color.orange),
+      new StringArrayFilter('Saving Throw', 'saving_throw', color.pink),
+      new ValueFilter('Actions', 'actions', color.bluegreen),
     ],
   },
   weapon: {
-    shortcut: 
-    {
-      name: 'Weapon Category',
-      key: 'weapon_category',
-      options: [],
-      color: color.purple,
-      matches: andStringArrayMatch,
-    },
+    shortcut: new StringArrayFilter('Weapon Category', 'weapon_category', color.darkblue),
     selectable: [
-    {
-      name: 'Damage Type',
-      key: 'damage_type',
-      options: [],
-      color: color.pink,
-      matches: andStringArrayMatch,
-    },
-    {
-      name: 'Weapon Group',
-      key: 'weapon_group',
-      options: [],
-      color: color.darkorage,
-      matches: andStringArrayMatch,
-    },
-    {
-      name: 'Weapon Type',
-      key: 'weapon_type',
-      options: [],
-      color: color.softRed,
-      matches: andStringArrayMatch,
-    },
-  ] },
-  equipment: { selectable: [
-    {
-      name: 'Category',
-      key: 'item_category',
-      options: [],
-      color: color.purple,
-      matches: fieldMatch,
-    },
-  ] },
+      new StringArrayFilter('Damage Type', 'damage_type', color.pink),
+      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorage),
+      new StringArrayFilter('Weapon Type', 'weapon_type', color.softRed),
+    ],
+  },
+  equipment: {
+    selectable: [
+      new ValueFilter('Category', 'item_category', color.bluegreen),
+    ],
+  },
 }
 
 type PageFilterList = keyof typeof filterByPage & string
@@ -147,4 +129,13 @@ export function useFiltersForPage(pageName: string): FiltersForPage {
     shortcut: forPage.shortcut,
     selectable: [...baseFilters, ...forPage.selectable],
   }
+}
+
+// Level filter is handled separately as it is displayed separately
+const defaultLevel = ['1', '2', '3', '4', '5', '6']
+export function useLevelFilter(page: string): string[] {
+  if (page === 'spell') {
+    return [...defaultLevel]
+  }
+  return ['0', ...defaultLevel, `${defaultLevel.length + 1}`]
 }

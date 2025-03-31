@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, } from 'vue'
+import { computed } from 'vue'
 import { useBookmarks } from '~/composables/bookmark-storage'
 
 const { isBookmarked } = defineProps<{
@@ -20,11 +20,12 @@ const activeBookmark = computed(() => bookmarker.activeName())
     :content="`${activeBookmark}`"
     placement="top"
   >
-    <el-icon 
+    <el-icon
       :size="24"
       class="bookmark-icon"
-      :class="{bookmarked: isBookmarked}"
-      @click="emit('click')">
+      :class="{ bookmarked: isBookmarked }"
+      @click="emit('click')"
+    >
       <i-msl-bookmark-sharp v-if="isBookmarked" />
       <i-msl-bookmark-outline-sharp v-else />
     </el-icon>
@@ -32,7 +33,7 @@ const activeBookmark = computed(() => bookmarker.activeName())
 </template>
 
 <style scoped lang="scss">
-.bookmark-icon{
+.bookmark-icon {
   margin-right: -8px;
 
   &.bookmarked {

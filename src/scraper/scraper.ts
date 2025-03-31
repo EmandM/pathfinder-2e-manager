@@ -3,7 +3,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
 import { Client } from '@elastic/elasticsearch'
-import {cleanSearch} from './cleaner.ts';
+import { cleanSearch } from './cleaner.ts'
 
 const config = {
   // These values should be static, and tell the scraper how to access the AON elastic instance.
@@ -73,9 +73,9 @@ async function retrieveTargets() {
         recursive: true,
       })
 
-      let cleanedSearch = cleanSearch(search?.hits?.hits);
+      const cleanedSearch = cleanSearch(search?.hits?.hits)
       console.log(`Cleaned down to ${cleanedSearch.length} for target ${target}`)
-      let destination = path.join(destinationDir, `${target}.json`)
+      const destination = path.join(destinationDir, `${target}.json`)
       console.log('overwriting file:', destination)
       writeFileSync(
         destination,

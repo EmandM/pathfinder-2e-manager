@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import type {Card} from '~/composables/types'
+import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
-import {useActionImage} from '~/composables/data-importer'
+import { useActionImage } from '~/composables/data-importer'
 
-const {source, isBookmarked} = defineProps<{
+const { source, isBookmarked } = defineProps<{
   source: Card
   isBookmarked?: boolean
   isPrint?: boolean
@@ -12,14 +12,14 @@ const emit = defineEmits<{
   bookmarkClick: []
 }>()
 
-const md = markdownit({html: true})
+const md = markdownit({ html: true })
 
 const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 </script>
 
 <template>
-  <div class="cardSize" :class="{print: isPrint, notPrint: !isPrint}">
+  <div class="cardSize" :class="{ print: isPrint, notPrint: !isPrint }">
     <div class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -34,7 +34,7 @@ const card_type = source.spell_type || source.type
           {{ card_type }} {{ source.level }}
         </div>
 
-        <BookmarkButton v-if="!isPrint" :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')"/>
+        <BookmarkButton v-if="!isPrint" :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
       </div>
       <hr class="divider">
       <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">
@@ -46,13 +46,13 @@ const card_type = source.spell_type || source.type
 
       <div v-if="source.features" class="item-desc">
         <div v-for="(value, feature) in source.features" :key="feature">
-          <b>{{ feature }}</b> <span v-html="md.renderInline(value)"/>
+          <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
         </div>
       </div>
 
       <hr v-if="source.features" class="divider">
       <div class="item-desc">
-        <span class="item-markdown" v-html="md.render(source.description)"/>
+        <span class="item-markdown" v-html="md.render(source.description)" />
       </div>
       <div v-if="!isPrint" class="copyright">
         {{ source.primary_source }}
@@ -62,7 +62,6 @@ const card_type = source.spell_type || source.type
 </template>
 
 <style lang="scss" scoped>
-
 hr.divider {
   margin: 2px 0;
   border: 0.5px solid;
@@ -175,14 +174,15 @@ hr.divider {
 .cardSize.print {
   flex: none;
   display: block;
-  background: linear-gradient(to right, black 0.5px, transparent 0.5px) 0 0,
-  linear-gradient(to right, black 0.5px, transparent 0.5px) 0 100%,
-  linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
-  linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
-  linear-gradient(to bottom, black 0.5px, transparent 0.5px) 0 0,
-  linear-gradient(to bottom, black 0.5px, transparent 0.5px) 100% 0,
-  linear-gradient(to top, black 0.5px, transparent 0.5px) 0 100%,
-  linear-gradient(to top, black 0.5px, transparent 0.5px) 100% 100%;
+  background:
+    linear-gradient(to right, black 0.5px, transparent 0.5px) 0 0,
+    linear-gradient(to right, black 0.5px, transparent 0.5px) 0 100%,
+    linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
+    linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
+    linear-gradient(to bottom, black 0.5px, transparent 0.5px) 0 0,
+    linear-gradient(to bottom, black 0.5px, transparent 0.5px) 100% 0,
+    linear-gradient(to top, black 0.5px, transparent 0.5px) 0 100%,
+    linear-gradient(to top, black 0.5px, transparent 0.5px) 100% 100%;
   background-repeat: no-repeat;
   background-size: 20px 20px;
 
@@ -191,5 +191,4 @@ hr.divider {
   height: 325px;
   overflow: hidden;
 }
-
 </style>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import type { Filter } from './filter-descriptions'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import type { Filter } from '~/composables/types'
 import { ref, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
 import { remove } from '~/composables/remove'
@@ -64,7 +64,7 @@ function showFilterSelect(name: string, init: boolean = false) {
   }
 
   // Do a deep object copy of the filter so we don't intefer with underlying state
-  const filter: Filter = Object.assign({}, newFilter)
+  const filter: Filter = newFilter
   const existing = appliedFilters.filters.get(newFilter.key)
   if (!existing || init) {
     filter.options = [...newFilter.options].sort()

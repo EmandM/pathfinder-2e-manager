@@ -1,3 +1,5 @@
+import type { Filter } from '~/components/filters/filter-descriptions'
+
 export interface Card {
   id: string
   primary_source: string
@@ -24,7 +26,7 @@ export interface Card {
   text: string
   description: string
   features: { [feature: string]: string }
-  
+
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
 }
@@ -53,15 +55,3 @@ export interface AppliedFilter {
   filter: Filter
   appliedValues: FilterValues
 }
-
-export type FilterFunction<T> = (itemValue: T, options: FilterValues) => boolean
-
-export type Filter = {
-  [K in keyof Card]: {
-    name: string
-    key: K
-    options: string[]
-    color: string
-    matches: FilterFunction<Card[K]>
-  }
-}[keyof Card]
