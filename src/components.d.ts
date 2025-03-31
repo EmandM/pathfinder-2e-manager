@@ -42,7 +42,6 @@ declare module 'vue' {
     IMslStarRounded: typeof import('~icons/material-symbols-light/star-rounded')['default']
     ListPage: typeof import('./components/ListPage.vue')['default']
     PageHeader: typeof import('./components/PageHeader.vue')['default']
-    PrintCard: typeof import('./components/PrintCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./components/filters/Search.vue')['default']

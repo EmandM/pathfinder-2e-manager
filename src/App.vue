@@ -1,3 +1,17 @@
+<script lang="ts" setup>
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+onMounted(() => {
+  const router = useRouter()
+  const path = localStorage.getItem('path')
+  if (path) {
+    localStorage.removeItem('path')
+    void router.push(path)
+  }
+})
+</script>
+
 <template>
   <PageHeader />
   <div class="main-container container">
