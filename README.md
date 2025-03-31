@@ -22,6 +22,12 @@ npm run dev
 npm run build
 ```
 
+### Updates the database
+
+```bash
+npm run scraper
+```
+
 ### Custom theme
 
 See `src/styles/element/index.scss`.

@@ -1,4 +1,4 @@
-import type { Card, CardSource } from './types'
+import type { Card } from './types'
 import type { FiltersForPage } from '~/components/filters/filter-descriptions'
 // import { cantripFilter, focusFilter } from './item-types'
 
@@ -10,16 +10,13 @@ export function hydrateFilterOptions(items: Card[], filters: FiltersForPage) {
   const toHydrate = new Map(toFilter.map(filter => [filter?.key, new Set<string>()]))
 
   for (const item of items) {
-    // Add a search markdown (all lowercase)
-    item._source._searchText = item._source.text.toLowerCase()
-
     for (const filter of toFilter) {
       if (!filter) {
         console.warn('error with filter descriptions, filter is undefined')
         continue
       }
 
-      const values: CardSource[keyof CardSource] = item._source[filter.key]
+      const values: Card[keyof Card] = item[filter.key]
       const set = toHydrate.get(filter.key)
       if (!values || !set) {
         continue

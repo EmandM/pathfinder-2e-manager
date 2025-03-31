@@ -1,4 +1,4 @@
-import type { AppliedFilter, Card, CardSource, Filter, FilterFunction } from './types'
+import type { AppliedFilter, Card, Filter, FilterFunction } from './types'
 import { ref } from 'vue'
 import { FilterState } from './types'
 
@@ -94,18 +94,17 @@ export function* useFilteredList(list: Card[], filters: AppliedFilterCollection)
 
 // Decides whether the current card is is valid based on the given filter
 function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
-  const source = item._source
 
-  if (!levelMatch(source, collection.levelFilter)) {
+  if (!levelMatch(item, collection.levelFilter)) {
     return false
   }
 
-  if (collection.searchString && !search(source._searchText, collection.searchString)) {
+  if (collection.searchString && !search(item.search_text, collection.searchString)) {
     return false
   }
 
   for (const [type, applied] of collection.filters) {
-    const itemKey = source[type]
+    const itemKey = item[type]
     if (!itemKey) {
       return false
     }
@@ -119,25 +118,25 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
 }
 
 // When filtering on levels, use an OR match instead of an AND
-function levelMatch(source: CardSource, levels: Set<string>): boolean {
+function levelMatch(item: Card, levels: Set<string>): boolean {
   // Every level is valid if no levels are selected for the filter
   if (levels.size <= 0) {
     return true
   }
 
-  if (levels.has(`${source.level}`)) {
+  if (levels.has(`${item.level}`)) {
     return true
   }
 
   return false
 }
 
-// _searchText and searchString are both lowercase to allow case-insensitive matching
-function search(text: CardSource["_searchText"], searchString: string) {
+// search_text and searchString are both lowercase to allow case-insensitive matching
+function search(text: Card["search_text"], searchString: string) {
   return text.includes(searchString)
 }
 
 // make typescript happy
-function transformer<K extends keyof CardSource>(matchFunc: FilterFunction<CardSource[K]>): FilterFunction<CardSource[keyof CardSource]> {
+function transformer<K extends keyof Card>(matchFunc: FilterFunction<Card[K]>): FilterFunction<Card[keyof Card]> {
   return matchFunc
 }

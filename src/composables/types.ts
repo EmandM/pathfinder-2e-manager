@@ -1,9 +1,5 @@
 export interface Card {
-  _id: string
-  _source: CardSource
-}
-
-export interface CardSource {
+  id: string
   primary_source: string
   name: string
   actions_number: number
@@ -26,9 +22,11 @@ export interface CardSource {
   item_category: string
   type: string
   text: string
-
+  description: string
+  features: { feature: string; value: string }[]
+  
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
-  _searchText: string
+  search_text: string
 }
 
 export const actionToImage = {
@@ -59,11 +57,11 @@ export interface AppliedFilter {
 export type FilterFunction<T> = (itemValue: T, options: FilterValues) => boolean
 
 export type Filter = {
-  [K in keyof CardSource]: {
+  [K in keyof Card]: {
     name: string
     key: K
     options: string[]
     color: string
-    matches: FilterFunction<CardSource[K]>
+    matches: FilterFunction<Card[K]>
   }
-}[keyof CardSource]
+}[keyof Card]

@@ -5,7 +5,7 @@ import { useStorage } from '@vueuse/core'
 export interface BookmarkList {
   name: string
   bookmarked: {
-    [key: Card['_id']]: Card
+    [key: Card['id']]: Card
   }
 }
 
@@ -65,17 +65,17 @@ class Bookmarker {
 
   toggleBookmark(card: Card) {
     const active = this.activeList()
-    const bookmark = active.bookmarked[card._id]
+    const bookmark = active.bookmarked[card.id]
     if (bookmark) {
-      active.bookmarked[card._id] = undefined
+      active.bookmarked[card.id] = undefined
     }
     else {
-      active.bookmarked[card._id] = card
+      active.bookmarked[card.id] = card
     }
   }
 
   isBookmarked(card: Card) {
-    return !!this.activeList().bookmarked?.[card._id]
+    return !!this.activeList().bookmarked?.[card.id]
   }
 
   activeName(): string {

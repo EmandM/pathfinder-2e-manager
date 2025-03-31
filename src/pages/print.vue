@@ -6,7 +6,7 @@ const items = loadItemsToPrint()
 
 <template>
   <div class="cards">
-    <PrintCard v-for="item in items" :key="item._id" :source="item._source" />
+    <Card v-for="item in items" :key="item.id" :source="item" is-print />
   </div>
 </template>
 

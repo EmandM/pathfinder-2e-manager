@@ -104,8 +104,8 @@ function doPrint() {
   <div v-if="data.isLoaded" v-infinite-scroll="loadItems" class="cards">
     <Card
       v-for="card in displayed"
-      :key="card._id"
-      :source="card._source"
+      :key="card.id"
+      :source="card"
       :is-bookmarked="bookmarker.isBookmarked(card)"
       @bookmark-click="bookmarker.toggleBookmark(card)"
     />

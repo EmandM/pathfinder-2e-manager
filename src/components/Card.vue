@@ -1,43 +1,31 @@
 <script lang="ts" setup>
-import type { CardSource } from '~/composables/types'
+import type {Card} from '~/composables/types'
 import markdownit from 'markdown-it'
-import { useActionImage } from '~/composables/data-importer'
-import { actionToImage } from '~/composables/types'
+import {useActionImage} from '~/composables/data-importer'
 
-const { source, isBookmarked } = defineProps<{
-  source: CardSource
+const {source, isBookmarked} = defineProps<{
+  source: Card
   isBookmarked?: boolean
+  isPrint?: boolean
 }>()
 const emit = defineEmits<{
   bookmarkClick: []
 }>()
 
-const md = markdownit({ html: true })
-function GetDescription(markdown: string) {
-  const split = markdown.indexOf('---')
-  return md.render(markdown.substring(split + 3))
-}
-
-const features = GetFeatures(source.markdown)
-function GetFeatures(markdown: string) {
-  return markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)[1]
-    .replaceAll(/\*\* ?\r\n/g, '** ')
-    .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
-    .toArray()
-    .map(a => [a[1], md.renderInline(a[2])])
-}
+const md = markdownit({html: true})
 
 const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 </script>
 
 <template>
-  <div class="cardSize">
+  <div class="cardSize" :class="{print: isPrint, notPrint: !isPrint}">
     <div class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
           <div class="listview-title">
-            {{ source.name }} <div v-if="source.actions_number < 7" class="action-holder">
+            {{ source.name }}
+            <div v-if="source.actions_number < 7" class="action-holder">
               <img :src="useActionImage(source.actions)" class="action-icon" :alt="source.actions">
             </div>
           </div>
@@ -46,7 +34,7 @@ const card_type = source.spell_type || source.type
           {{ card_type }} {{ source.level }}
         </div>
 
-        <BookmarkButton :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
+        <BookmarkButton v-if="!isPrint" :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')"/>
       </div>
       <hr class="divider">
       <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">
@@ -57,16 +45,16 @@ const card_type = source.spell_type || source.type
       </div>
 
       <div class="item-desc">
-        <div v-for="[feature, value] in features" :key="feature" class="item">
-          <b>{{ feature }}</b> <span v-html="value" />
+        <div v-for="feature in source.features" :key="feature">
+          <b>{{ feature.feature }}</b> <span v-html="md.renderInline(feature.value)"/>
         </div>
       </div>
 
-      <hr v-if="features.length > 0" class="divider">
+      <hr v-if="source.features.length > 0" class="divider">
       <div class="item-desc">
-        <span class="item-markdown" v-html="GetDescription(source.markdown)" />
+        <span class="item-markdown" v-html="md.render(source.description)"/>
       </div>
-      <div class="copyright">
+      <div v-if="!isPrint" class="copyright">
         {{ source.primary_source }}
       </div>
     </div>
@@ -74,10 +62,6 @@ const card_type = source.spell_type || source.type
 </template>
 
 <style lang="scss" scoped>
-.cardSize {
-  width: 100%;
-  padding: 12px;
-}
 
 hr.divider {
   margin: 2px 0;
@@ -85,7 +69,11 @@ hr.divider {
   padding: 0;
 }
 
-.item-desc {
+.print hr.divider {
+  margin: 0 0 2px 0;
+}
+
+.notPrint .item-desc {
   padding: 4px;
 }
 
@@ -99,11 +87,14 @@ hr.divider {
 
 .stretcher-bearer {
   display: flex;
+}
+
+.notPrint .stretcher-bearer {
   align-items: center;
 }
 
 .listview-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
   text-transform: uppercase;
   vertical-align: middle;
@@ -112,14 +103,14 @@ hr.divider {
 }
 
 .listview-item-level {
+  font-size: 0.8rem;
   float: right;
 }
 
 .trait {
-  padding: 4px;
   text-transform: uppercase;
   font-weight: 700;
-  margin: 2px;
+  margin: 2px 2px 1px 2px;
 
   background-color: #500000;
   font-size: 0.7em;
@@ -127,9 +118,17 @@ hr.divider {
   display: inline-block;
   border: 1px solid black;
 }
+.notPrint .trait {
+  padding: 4px;
+}
+.print .trait {
+  padding: 1px 2.5px 1px 2.5px;
+}
+
 .trait.uncommon {
   background-color: #c45500;
 }
+
 .trait.rare {
   background-color: #0c1466;
 }
@@ -155,4 +154,42 @@ hr.divider {
   font-size: 0.9em;
   padding-top: 4px;
 }
+
+.item-markdown:deep() p {
+  margin: 0;
+}
+
+.print .item {
+  break-inside: avoid;
+  line-height: 13px;
+  overflow: hidden;
+  height: 100%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+.cardSize.notPrint {
+  width: 100%;
+  padding: 12px;
+}
+.cardSize.print {
+  flex: none;
+  display: block;
+  background: linear-gradient(to right, black 0.5px, transparent 0.5px) 0 0,
+  linear-gradient(to right, black 0.5px, transparent 0.5px) 0 100%,
+  linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
+  linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
+  linear-gradient(to bottom, black 0.5px, transparent 0.5px) 0 0,
+  linear-gradient(to bottom, black 0.5px, transparent 0.5px) 100% 0,
+  linear-gradient(to top, black 0.5px, transparent 0.5px) 0 100%,
+  linear-gradient(to top, black 0.5px, transparent 0.5px) 100% 100%;
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+
+  padding: 7px;
+
+  height: 325px;
+  overflow: hidden;
+}
+
 </style>
