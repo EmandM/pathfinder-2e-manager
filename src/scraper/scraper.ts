@@ -1,4 +1,5 @@
 import type { estypes } from '@elastic/elasticsearch'
+import type { SearchEntry } from './cleaner.ts'
 import { mkdirSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import process from 'node:process'
@@ -73,7 +74,7 @@ async function retrieveTargets() {
         recursive: true,
       })
 
-      const cleanedSearch = cleanSearch(search?.hits?.hits)
+      const cleanedSearch = cleanSearch(search?.hits?.hits as SearchEntry[])
       console.log(`Cleaned down to ${cleanedSearch.length} for target ${target}`)
       const destination = path.join(destinationDir, `${target}.json`)
       console.log('overwriting file:', destination)

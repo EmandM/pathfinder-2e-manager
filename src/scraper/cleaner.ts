@@ -1,6 +1,15 @@
+import type { Card } from "../composables/types.ts";
+
+function removeExtraFromDescription(description: string): string {
+  return description.replace(/<title.*/gs, '')
+}
+
 function getDescription(markdown: string): string {
   const split = markdown.indexOf('---')
-  return markdown.substring(split + 3).replaceAll('---', '').trim()
+  let description = markdown.substring(split + 3)
+    .replaceAll('---', '')
+  description = removeExtraFromDescription(description)
+  return description.trim()
 }
 
 function getFeatures(markdown: string): {} {
@@ -22,22 +31,27 @@ function lowerSearchText(text: string): string {
   return text.toLowerCase()
 }
 
-function isAValidEntry(item: any): boolean {
-  if (item._source.primary_source_category === 'Comics') {
+function isAValidEntry(item: Card): boolean {
+  if (item.primary_source_category === 'Comics') {
     return false
   }
-  if (Date.parse(item._source.release_date) < Date.parse('2023-08-02') && item._source.primary_source !== 'Treasure Vault') {
+  if (Date.parse(item.release_date) < Date.parse('2023-08-02') && item.primary_source !== 'Treasure Vault') {
     return false
   }
   return true
 }
 
-export function cleanSearch(search: any[]) {
-  const cleanMap = []
+export interface SearchEntry {
+  _source: Card
+}
+
+export function cleanSearch(search: SearchEntry[]): Card[] {
+  const cleanMap: Card[] = []
   search.forEach((item) => {
-    if (!isAValidEntry(item)) {
+    if (!isAValidEntry(item._source)) {
       return
     }
+
     item._source.description = getDescription(item._source.markdown)
     item._source.search_text = lowerSearchText(item._source.text)
     item._source.features = getFeatures(item._source.markdown)

@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
+import mila from 'markdown-it-link-attributes'
 import { useActionImage } from '~/composables/data-importer'
 
 const { source, isBookmarked } = defineProps<{
@@ -13,6 +14,17 @@ const emit = defineEmits<{
 }>()
 
 const md = markdownit({ html: true })
+md.normalizeLink = function (link: string) {
+  if (link.startsWith('http')) {
+    return link
+  }
+  return `https://2e.aonprd.com${link}`
+}
+md.use(mila, {
+  attrs: {
+    target: '_blank',
+  },
+})
 
 const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
