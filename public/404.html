@@ -2,5 +2,5 @@
   const path = window.location.pathname.slice(1)
   console.log('current', path)
   localStorage.setItem('path', path)
-  window.location.href = '../pathfinder-2e-manager/'
+  window.location.replace(`${window.location.origin}/pathfinder-2e-manager/`)
 </script>
