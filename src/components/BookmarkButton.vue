@@ -34,8 +34,6 @@ const activeBookmark = computed(() => bookmarker.activeName())
 
 <style scoped lang="scss">
 .bookmark-icon {
-  margin-right: -8px;
-
   &.bookmarked {
     color: var(--el-color-primary);
   }

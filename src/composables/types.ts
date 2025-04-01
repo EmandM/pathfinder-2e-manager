@@ -29,13 +29,11 @@ export interface Card {
   features: { [feature: string]: string }
   primary_source_category: string
   release_date: string
+  url: string
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
 }
-
-export const cantripFilter = 'C'
-export const focusFilter = 'F'
 
 export enum FilterState {
   includes = 'include',

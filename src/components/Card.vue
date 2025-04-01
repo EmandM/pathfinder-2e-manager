@@ -3,6 +3,7 @@ import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
 import mila from 'markdown-it-link-attributes'
 import { useActionImage } from '~/composables/action-to-image'
+import { useAonLink } from '~/composables/aon-link'
 
 const { source, isBookmarked } = defineProps<{
   source: Card
@@ -18,7 +19,7 @@ md.normalizeLink = function (link: string) {
   if (link.startsWith('http')) {
     return link
   }
-  return `https://2e.aonprd.com${link}`
+  return useAonLink(link)
 }
 md.use(mila, {
   attrs: {
@@ -46,7 +47,10 @@ const card_type = source.spell_type || source.type
           {{ card_type }} {{ source.level }}
         </div>
 
-        <BookmarkButton v-if="!isPrint" :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
+        <div v-if="!isPrint" class="buttons">
+          <BookmarkButton :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
+          <LinkButton :link="source.url" />
+        </div>
       </div>
       <hr class="divider">
       <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">
@@ -213,5 +217,10 @@ hr.divider {
 
   height: 325px;
   overflow: hidden;
+}
+
+.buttons {
+  display: flex;
+  margin-right: -8px;
 }
 </style>
