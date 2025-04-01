@@ -56,8 +56,8 @@ const card_type = source.spell_type || source.type
         {{ trait }}
       </div>
 
-      <div v-if="source.features" class="item-desc">
-        <div v-for="(value, feature) in source.features" :key="feature">
+      <div v-if="source.features" class="item-desc item-features">
+        <div v-for="(value, feature) in source.features" :key="feature" class="feature">
           <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
         </div>
       </div>
@@ -86,6 +86,17 @@ hr.divider {
 
 .notPrint .item-desc {
   padding: 4px;
+}
+
+.item-features {
+  display: flex;
+  flex-wrap: wrap;
+}
+.print .feature {
+  padding-right: 0.25rem;
+}
+.notPrint .feature {
+  padding-right: 0.4rem;
 }
 
 .bookmark-icon {
