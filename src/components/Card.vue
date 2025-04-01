@@ -2,7 +2,7 @@
 import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
 import mila from 'markdown-it-link-attributes'
-import { useActionImage } from '~/composables/data-importer'
+import { useActionImage } from '~/composables/action-to-image'
 
 const { source, isBookmarked } = defineProps<{
   source: Card

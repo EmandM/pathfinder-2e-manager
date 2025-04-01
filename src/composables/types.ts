@@ -1,4 +1,5 @@
 import type { Filter } from '~/components/filters/filter-descriptions'
+import type { actionToImage } from '~/composables/action-to-image'
 
 export interface Card {
   id: string
@@ -31,15 +32,6 @@ export interface Card {
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
-}
-
-export const actionToImage = {
-  'Reaction': '/img/action_reaction_black.png',
-  'Single Action': '/img/action_single_black.png',
-  'Two Actions': '/img/action_double_black.png',
-  'Three Actions': '/img/action_triple_black.png',
-  'Single Action to Three Actions': '/img/action_range_black.png',
-  'Free Action': '/img/action_free_black.png',
 }
 
 export const cantripFilter = 'C'
