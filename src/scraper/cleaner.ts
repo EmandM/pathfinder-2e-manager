@@ -1,4 +1,4 @@
-import type { Card } from "../composables/types.ts";
+import type { Card } from '../composables/types.ts'
 
 function removeExtraFromDescription(description: string): string {
   return description.replace(/<title.*/gs, '')
@@ -12,7 +12,7 @@ function getDescription(markdown: string): string {
   return description.trim()
 }
 
-function getFeatures(markdown: string): {} {
+function getFeatures(markdown: string): Card['features'] | undefined {
   const match = markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)
   if (match) {
     const features = match[1]
@@ -24,7 +24,6 @@ function getFeatures(markdown: string): {} {
     }
     return allFeatures
   }
-  return null
 }
 
 function lowerSearchText(text: string): string {
@@ -54,7 +53,12 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
 
     item._source.description = getDescription(item._source.markdown)
     item._source.search_text = lowerSearchText(item._source.text)
-    item._source.features = getFeatures(item._source.markdown)
+
+    const features = getFeatures(item._source.markdown)
+    if (features) {
+      item._source.features = features
+    }
+
     cleanMap.push(item._source)
   })
   return cleanMap

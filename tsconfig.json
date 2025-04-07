@@ -1,27 +1,18 @@
 {
+  "extends": ["./tsconfig.settings.json"],
   "compilerOptions": {
-    "target": "esnext",
-    "jsx": "preserve",
-    "lib": ["esnext", "dom", "es2015", "es2016"],
-    "useDefineForClassFields": true,
-    "baseUrl": ".",
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "paths": {
       "~/*": ["src/*"]
     },
-    "resolveJsonModule": true,
     "types": [
       "vite/client",
       "unplugin-icons/types/vue",
       "unplugin-vue-router/client"
-    ],
-    "sourceMap": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true
+    ]
   },
   "vueCompilerOptions": {
     "target": 3
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "*.config.ts"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "*.config.ts"],
+  "exclude": ["src/scraper/*.ts"]
 }
