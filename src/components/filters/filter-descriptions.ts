@@ -113,6 +113,11 @@ const filterByPage: { [key: string]: FiltersForPage } = {
       new ValueFilter('Category', 'item_category', color.bluegreen),
     ],
   },
+  skill: {
+    selectable: [
+      new StringArrayFilter('Attribute', 'attribute', color.blue),
+    ],
+  },
 }
 
 type PageFilterList = keyof typeof filterByPage & string

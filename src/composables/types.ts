@@ -4,6 +4,7 @@ import type { actionToImage } from '~/composables/action-to-image'
 export interface Card {
   id: string
   primary_source: string
+  category: string
   name: string
   actions_number: number
   actions: keyof typeof actionToImage
@@ -12,6 +13,7 @@ export interface Card {
   source: string[]
   source_category: string[]
   trait: string[]
+  trait_raw: string[]
   rarity: string
   range: number
   level: number
@@ -30,6 +32,8 @@ export interface Card {
   primary_source_category: string
   release_date: string
   url: string
+  attribute: string[]
+  size: string[1]
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string

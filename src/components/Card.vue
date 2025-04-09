@@ -27,8 +27,10 @@ md.use(mila, {
   },
 })
 
-const traits = source.trait ? source.trait.filter(trait => trait.toLowerCase() !== source.rarity) : []
+const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
+const show_rarity = !['creature', 'deity'].includes(source.category)
+const show_size = !!source.size
 </script>
 
 <template>
@@ -53,8 +55,11 @@ const card_type = source.spell_type || source.type
         </div>
       </div>
       <hr class="divider">
-      <div class="trait" :class="{ uncommon: source.rarity === 'uncommon', rare: source.rarity === 'rare' }">
+      <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">
         {{ source.rarity }}
+      </div>
+      <div v-if="show_size" class="trait size">
+        {{ source.size[0] }}
       </div>
       <div v-for="trait in traits" :key="trait" class="trait">
         {{ trait }}
@@ -151,12 +156,19 @@ hr.divider {
   padding: 1px 2.5px 1px 2.5px;
 }
 
-.trait.uncommon {
-  background-color: #c45500;
-}
+// Special trait background colors
+.trait {
+  &.uncommon {
+    background-color: #c45500;
+  }
 
-.trait.rare {
-  background-color: #0c1466;
+  &.rare {
+    background-color: #0c1466;
+  }
+
+  &.size {
+    background-color: #478c42;
+  }
 }
 
 .action-holder {
@@ -181,8 +193,30 @@ hr.divider {
   padding-top: 4px;
 }
 
-.item-markdown:deep() p {
+.item-markdown:deep() {
+  p {
   margin: 0;
+  }
+
+  row {
+    display: flex;
+  }
+
+  @media screen and (max-width: 40em) {
+  row {
+    flex-wrap: wrap;
+  }
+  }
+
+  img {
+    height: 15rem;
+  }
+}
+
+.print .item-markdown:deep() {
+  img {
+    display: none;
+  }
 }
 
 .print .item {
@@ -223,4 +257,5 @@ hr.divider {
   display: flex;
   margin-right: -8px;
 }
+
 </style>

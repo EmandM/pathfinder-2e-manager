@@ -35,19 +35,42 @@ const activeIndex = computed(() => route.path)
       <el-menu-item index="/search/shield">
         Shields
       </el-menu-item>
+      <el-menu-item index="/search/alchemical">
+        Alchemical
+      </el-menu-item>
+      <el-menu-item index="/search/runes">
+        Runes
+      </el-menu-item>
       <el-menu-item index="/search/equipment">
         Equipment
       </el-menu-item>
     </el-sub-menu>
     <el-sub-menu index="3">
       <template #title>
-        Other
+        World
       </template>
       <el-menu-item index="/search/creature">
         Creatures
       </el-menu-item>
       <el-menu-item index="/search/creature-family">
         Creature Family
+      </el-menu-item>
+      <el-menu-item index="/search/deity">
+        Deities
+      </el-menu-item>
+    </el-sub-menu>
+    <el-sub-menu index="4">
+      <template #title>
+        Rules
+      </template>
+      <el-menu-item index="/search/action">
+        Actions
+      </el-menu-item>
+      <el-menu-item index="/search/feat">
+        Feats
+      </el-menu-item>
+      <el-menu-item index="/search/trait">
+        Traits
       </el-menu-item>
     </el-sub-menu>
     <el-menu-item index="/bookmarks">

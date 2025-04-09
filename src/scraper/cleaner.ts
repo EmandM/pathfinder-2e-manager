@@ -1,7 +1,12 @@
 import type { Card } from '../composables/types.ts'
+import { useAonLink } from '../composables/aon-link.ts'
 
 function removeExtraFromDescription(description: string): string {
   return description.replace(/<title.*/gs, '')
+}
+
+function prefixImageLinks(description: string): string {
+  return description.replace(/src="\/images\//gs, `src="${useAonLink('/images/')}`)
 }
 
 function getDescription(markdown: string): string {
@@ -9,6 +14,7 @@ function getDescription(markdown: string): string {
   let description = markdown.substring(split + 3)
     .replaceAll('---', '')
   description = removeExtraFromDescription(description)
+  description = prefixImageLinks(description)
   return description.trim()
 }
 

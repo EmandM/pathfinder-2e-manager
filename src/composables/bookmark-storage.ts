@@ -91,12 +91,12 @@ class Bookmarker {
     }
   }
 
-  isBookmarked(card: Card) {
-    return !!this.activeList().bookmarked?.[card.id]
+  isBookmarked(card: Card): boolean {
+    return !!this.activeList().bookmarked[card.id]
   }
 
-  hasBookmark(listName: string, cardId: string) {
-    return !!this.getList(listName)?.bookmarked?.[cardId]
+  hasBookmark(listName: string, cardId: string): boolean {
+    return !!this.getList(listName)?.bookmarked[cardId]
   }
 
   activeName(): string {
