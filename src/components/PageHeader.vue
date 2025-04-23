@@ -77,7 +77,7 @@ const activeIndex = computed(() => route.path)
       Bookmark manager
     </el-menu-item>
 
-    <el-menu-item h="full" @click="toggleDark()">
+    <el-menu-item class="toggle" h="full" @click="toggleDark()">
       <button
         class="w-full cursor-pointer border-none bg-transparent"
         style="height: var(--el-menu-item-height)"
@@ -96,8 +96,8 @@ const activeIndex = computed(() => route.path)
 
 <style lang="scss">
 .page-header {
-  &.el-menu--horizontal.el-menu--horizontal > .el-menu-item:nth-child(5) {
-    margin-right: auto;
+  .toggle {
+    margin-left: auto;
   }
 }
 </style>
