@@ -195,7 +195,7 @@ hr.divider {
 
 .item-markdown:deep() {
   p {
-  margin: 0;
+    margin: 0;
   }
 
   row {
@@ -203,9 +203,9 @@ hr.divider {
   }
 
   @media screen and (max-width: 40em) {
-  row {
-    flex-wrap: wrap;
-  }
+    row {
+      flex-wrap: wrap;
+    }
   }
 
   img {
@@ -257,5 +257,4 @@ hr.divider {
   display: flex;
   margin-right: -8px;
 }
-
 </style>

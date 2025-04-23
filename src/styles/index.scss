@@ -1,6 +1,5 @@
 body {
-  font-family:
-    Inter, system-ui, Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   margin: 0;
@@ -20,7 +19,6 @@ code {
   background-color: var(--el-color-primary-light-9);
   color: var(--el-color-primary);
 }
-
 
 @media (min-width: 576px) {
   .container {
@@ -62,12 +60,12 @@ code {
   }
 }
 
-
 @media print {
   /* All your print styles go here */
   .el-menu,
   #footer,
-  #nav {
+  #nav,
+  .print-header {
     display: none !important;
   }
 
