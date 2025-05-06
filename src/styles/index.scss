@@ -46,6 +46,11 @@ code {
   height: 1.5em;
   width: 1.5em;
 }
+%msl-menu-icon-size {
+  height: 1em;
+  width: 1em;
+}
+
 .el-icon.el-icon.el-icon {
   @extend %msl-icon-size;
 
@@ -72,5 +77,18 @@ code {
   .main-container.container {
     margin: 0;
     padding: 0;
+  }
+}
+
+/* Menu bar icons */
+.el-sub-menu {
+  .el-icon {
+    &.el-sub-menu__icon-arrow {
+      @extend %msl-menu-icon-size;
+    
+      svg {
+        @extend %msl-menu-icon-size;
+      }
+    }
   }
 }

@@ -106,7 +106,7 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
 
   for (const [type, applied] of collection.filters) {
     const itemKey = item[type]
-    if (!itemKey) {
+    if (itemKey === undefined ) {
       return false
     }
 

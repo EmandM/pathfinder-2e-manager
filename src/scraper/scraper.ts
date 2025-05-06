@@ -13,7 +13,6 @@ const config = {
 
   // Comment out any targets you do not want to scrape.
   targets: [
-    'action',
     'alchemical',
     'ancestry',
     'archetype',
@@ -37,6 +36,9 @@ const config = {
     'trait',
     'weapon',
     'weapon-group',
+
+    // Need to retreive action after skill as the results are combined 
+    'action',
   ],
 }
 
@@ -53,7 +55,7 @@ const client = new Client({
 })
 
 async function retrieveTargets() {
-  for (const target of config.targets.sort()) {
+  for (const target of config.targets) {
     try {
       let query: estypes.QueryDslQueryContainer = advancedQueries[target as keyof typeof advancedQueries]
       if (!query) {

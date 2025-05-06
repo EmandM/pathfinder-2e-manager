@@ -14,6 +14,7 @@ export interface Card {
   source_category: string[]
   trait: string[]
   trait_raw: string[]
+  trait_group: string[]
   rarity: string
   range: number
   level: number
@@ -34,9 +35,12 @@ export interface Card {
   url: string
   attribute: string[]
   size: string[1]
+  skill: string[]
+  skill_markdown: string
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
+  is_trained: boolean
 }
 
 export enum FilterState {

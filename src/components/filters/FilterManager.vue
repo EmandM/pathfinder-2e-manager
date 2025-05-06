@@ -135,14 +135,16 @@ function handleSearch(search: string) {
 
 <template>
   <div class="shortcutAndPrint manager-row flex">
-    <FilterTag
-      v-for="tag in shortcutTags"
-      :key="tag.displayName"
-      :title="tag.displayName"
-      :initial-state="tag.initialState"
-      :color="tag.filter.color"
-      @change="(newState: FilterState) => handleTagState(tag, newState)"
-    />
+    <div class="flex flex-wrap grow">
+      <FilterTag
+        v-for="tag in shortcutTags"
+        :key="tag.displayName"
+        :title="tag.displayName"
+        :initial-state="tag.initialState"
+        :color="tag.filter.color"
+        @change="(newState: FilterState) => handleTagState(tag, newState)"
+      />
+    </div>
 
     <el-button type="primary" class="print-button" @click="emit('print')">
       Print

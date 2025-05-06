@@ -16,23 +16,29 @@ abstract class FilterClass<K extends keyof Card> {
   }
 
   abstract isMatch(cardValue: Card[K], filterOption: string): boolean
+  
+  getLabelText(value: Card[K] extends any[] ? Card[K][number] : Card[K]): string {
+    return `${value}`
+  }
 
   hydrate(cards: Card[]) {
     const set = new Set<string>()
 
     for (const card of cards) {
-      const values: Card[keyof Card] = card[this.key]
+      const values = card[this.key]
 
       if (Array.isArray(values)) {
         for (const value of values) {
-          set.add(`${value}`)
+          set.add(this.getLabelText(value))
         }
       }
       else if (typeof values === 'object') {
         console.warn('Unimplemented - object fields')
       }
-      else {
-        set.add(`${values}`)
+      else if (typeof values === 'boolean') {
+        set.add(this.getLabelText(values))
+      } else if (values) {
+        set.add(this.getLabelText(values))
       }
     }
 
@@ -79,6 +85,25 @@ class BookmarkFilter extends FilterClass<'id'> {
   }
 }
 
+class BooleanFilter<K extends KeysMatching<boolean>> extends FilterClass<K> {
+  trueLabel: string
+  falseLabel: string
+
+  constructor(name: string, key: K, color: string, trueLabel: string, falseLabel: string) {
+    super(name, key, color)
+    this.trueLabel = trueLabel
+    this.falseLabel = falseLabel
+  }
+
+  isMatch(value: boolean, filterOption: string): boolean {
+    return filterOption === this.trueLabel ? value : !value
+  }
+
+  getLabelText(value: boolean): string {
+    return value ? this.trueLabel : this.falseLabel
+  }
+}
+
 const baseFilters: Filter[] = [
   new StringArrayFilter('Traits', 'trait', color.red),
   new StringArrayFilter('Source', 'source', color.yellow),
@@ -117,6 +142,13 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     selectable: [
       new StringArrayFilter('Attribute', 'attribute', color.blue),
     ],
+  },
+  action: {
+    shortcut: new StringArrayFilter('Skill', 'skill', color.bluegreen),
+    selectable: [
+      new StringArrayFilter('Trait group', 'trait_group', color.blue),
+      new BooleanFilter('Trained', 'is_trained', color.darkblue, 'Trained action', 'Untrained action'),
+    ]
   },
 }
 

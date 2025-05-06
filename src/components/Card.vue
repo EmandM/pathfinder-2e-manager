@@ -29,8 +29,10 @@ md.use(mila, {
 
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
-const show_rarity = !['creature', 'deity'].includes(source.category)
+const show_rarity = !['creature', 'deity', 'action', 'skill'].includes(source.category)
 const show_size = !!source.size
+const show_trained = source.is_trained
+const show_skills = source.category == 'action'
 </script>
 
 <template>
@@ -55,15 +57,12 @@ const show_size = !!source.size
         </div>
       </div>
       <hr class="divider">
-      <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">
-        {{ source.rarity }}
-      </div>
-      <div v-if="show_size" class="trait size">
-        {{ source.size[0] }}
-      </div>
-      <div v-for="trait in traits" :key="trait" class="trait">
-        {{ trait }}
-      </div>
+
+      <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
+      <div v-if="show_size" class="trait size">{{ source.size[0] }}</div>
+      <div v-if="show_trained" class="trait trained">Trained</div>
+      <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
+      <div v-if="show_skills" v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
 
       <div v-if="source.features" class="item-desc item-features">
         <div v-for="(value, feature) in source.features" :key="feature" class="feature">
@@ -168,6 +167,10 @@ hr.divider {
 
   &.size {
     background-color: #478c42;
+  }
+
+  &.trained {
+    background-color: #4287f5;
   }
 }
 
