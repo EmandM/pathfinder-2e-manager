@@ -21,18 +21,26 @@ function getNamedBlock(text: string, name: string): string {
 // removes nested items from card markdown and text (nested items will have their own result)
 function splitCardText(card: Card): Card {
   let markdown = getNamedBlock(card.markdown, card.name)
-  let text = getNamedBlock(card.text, card.name)
+  let text = card.text
+
+  let composeText = false
+  if (['alchemical', 'armor', 'equipment', 'feat', 'runes', 'shield', 'weapon-group', 'weapon'].includes(card.category)) {
+    text = getNamedBlock(card.text, card.name)
+    composeText = true
+  }
 
   if (card.category === 'creature') {
     markdown += getNamedBlock(card.markdown, 'level="2"')
-    text += getNamedBlock(card.text, 'level="2"')
+    text = card.text
   }
   else if (markdown.includes('level="2"')) {
     const titleBlock = getNamedBlock(card.markdown, 'level="1"')
     markdown = titleBlock + markdown
 
-    const firstBlock = getNamedBlock(card.markdown, 'level="1"')
-    text = firstBlock + text
+    if (composeText) {
+      const firstBlock = getNamedBlock(card.markdown, 'level="1"')
+      text += firstBlock + text
+    }
   }
 
   const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column)|(?<=>(?!.*<)).+$/gs)
