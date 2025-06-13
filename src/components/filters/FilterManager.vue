@@ -39,7 +39,7 @@ appliedFilters.filters.forEach((applied, _) => {
 
   showFilterSelect(applied.filter.name, true)
   applied.appliedValues.forEach((state, value) => {
-    addFilter(applied.filter.name, value, state)
+    addFilter(applied.filter, value, state)
   })
   emit('change')
 })
@@ -63,18 +63,24 @@ function showFilterSelect(name: string, init: boolean = false) {
     return
   }
 
-  // Do a deep object copy of the filter so we don't intefer with underlying state
-  const filter: Filter = newFilter
-  const existing = appliedFilters.filters.get(newFilter.key)
-  if (!existing || init) {
-    filter.options = [...newFilter.options].sort()
+  if (newFilter.isSingleOption) {
+    addFilter(newFilter)
   }
   else {
-    // if filters are already applied from this select, remove their values from the filter.
-    filter.options = [...newFilter.options.filter(val => !existing.appliedValues.has(val))].sort()
+    // Do a deep object copy of the filter so we don't intefer with underlying state
+    const filter: Filter = newFilter
+    const existing = appliedFilters.filters.get(newFilter.key)
+    if (!existing || init) {
+      filter.options = [...newFilter.options].sort()
+    }
+    else {
+      // if filters are already applied from this select, remove their values from the filter.
+      filter.options = [...newFilter.options.filter(val => !existing.appliedValues.has(val))].sort()
+    }
+
+    shownFilters.value.set(name, filter)
   }
 
-  shownFilters.value.set(name, filter)
   options.value = remove(options.value, name)
 };
 
@@ -84,36 +90,40 @@ function hideFilterSelect(name: string) {
   shownFilters.value.delete(name)
 };
 
-function addFilter(type: string, name: string, initialState?: FilterState) {
-  const tag = `${type} - ${capitalizeFirstLetter(name)}`
-  const filter = shownFilters.value.get(type)
-  if (!filter) {
-    return
+function addFilter(filter: Filter, selected?: string, initialState?: FilterState) {
+  if (!filter.isSingleOption) {
+    filter.options = [...remove(filter.options, selected)]
   }
-  filter.options = [...remove(filter.options, name)]
 
   inUse.value.push({
     filter,
-    selectedValue: name,
-    displayName: tag,
+    selectedValue: selected,
+    displayName: filter.getTag(selected),
     initialState,
   })
 
   // initialState is only passed on page load. We don't want to edit the filter list on page load.
   if (!initialState) {
-    appliedFilters.addFilter(filter, name)
+    appliedFilters.addFilter(filter, selected)
     emit('change')
   }
 }
 
 function removeFilter(removeTag: SelectedFilter) {
-  const filter = shownFilters.value.get(removeTag.filter.name)
-  if (filter) {
-    filter.options.push(removeTag.selectedValue)
-    filter.options.sort()
-  }
   inUse.value = remove(inUse.value, removeTag.displayName, 'displayName')
   appliedFilters.removeFilter(removeTag.filter.key, removeTag.selectedValue)
+
+  const filter = shownFilters.value.get(removeTag.filter.name)
+  if (filter) {
+    if (filter.isSingleOption) {
+      options.value.push(filter.name)
+      options.value.sort()
+    }
+    else {
+      filter.options.push(removeTag.selectedValue)
+      filter.options.sort()
+    }
+  }
   emit('change')
 };
 
@@ -135,7 +145,7 @@ function handleSearch(search: string) {
 
 <template>
   <div class="shortcutAndPrint manager-row flex">
-    <div class="flex flex-wrap grow">
+    <div class="flex grow flex-wrap">
       <FilterTag
         v-for="tag in shortcutTags"
         :key="tag.displayName"
@@ -170,7 +180,7 @@ function handleSearch(search: string) {
       :title="item.name"
       :options="item.options"
       is-closable
-      @change="(value: string) => addFilter(item.name, value)"
+      @change="(value: string) => addFilter(item, value)"
       @close="() => hideFilterSelect(item.name)"
     />
   </div>

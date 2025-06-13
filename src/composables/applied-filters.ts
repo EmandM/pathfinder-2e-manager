@@ -113,7 +113,8 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
 
   for (const [type, applied] of collection.filters) {
     const itemKey = item[type]
-    if (itemKey === undefined) {
+
+    if (itemKey === undefined && !applied.filter.isSingleOption) {
       return false
     }
 

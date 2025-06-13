@@ -1,5 +1,6 @@
 import type { Card } from '~/composables/types'
 import { useBookmarks } from '~/composables/bookmark-storage'
+import { capitalizeFirstLetter } from '~/composables/capitalize'
 import * as color from './filter-colors'
 
 export type Filter = FilterClass<keyof Card>
@@ -8,6 +9,9 @@ abstract class FilterClass<K extends keyof Card> {
   key: K
   color: string
   options: string[]
+
+  isSingleOption: boolean
+  shouldHide: boolean
 
   constructor(name: string, key: K, color: string) {
     this.name = name
@@ -44,6 +48,10 @@ abstract class FilterClass<K extends keyof Card> {
     }
 
     this.options = [...set]
+  }
+
+  public getTag(option: string) {
+    return `${this.name} - ${capitalizeFirstLetter(option)}`
   }
 }
 
@@ -105,6 +113,25 @@ class BooleanFilter<K extends KeysMatching<boolean>> extends FilterClass<K> {
   }
 }
 
+class HasImageFilter extends FilterClass<'image'> {
+  isSingleOption = true
+  constructor(color: string) {
+    super('Has Image', 'image', color)
+  }
+
+  isMatch(value: Array<string>, _: string): boolean {
+    return value?.length > 0
+  }
+
+  hydrate(_cards: Card[]): void {
+    this.options = []
+  }
+
+  public getTag(_: string): string {
+    return 'Items with images'
+  }
+}
+
 const baseFilters: Filter[] = [
   new StringArrayFilter('Traits', 'trait', color.red),
   new StringArrayFilter('Source', 'source', color.yellow),
@@ -155,6 +182,12 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   shield: {
     shortcut: new ValueFilter('Subcategory', 'item_subcategory', color.blue),
     selectable: [],
+  },
+  creature: {
+    selectable: [new HasImageFilter(color.pink)],
+  },
+  deity: {
+    selectable: [new HasImageFilter(color.pink)],
   },
 }
 

@@ -67,7 +67,7 @@ function splitCardText(card: Card): Card {
   // Check for description
   let description = ''
   const descBlocks = markdown
-    .matchAll(/(?:---\s*|<column.*?>|<\/sup>)(.*?)(?=\*\*|<|\/>|---|$)/gs)
+    .matchAll(/(?:---\s*|<column.*?>|<\/sup>|pg. \d+)(.*?)(?=\*\*|<|\/>|---|$)/gs)
   for (const line of descBlocks) {
     if (!line[1]) {
       continue

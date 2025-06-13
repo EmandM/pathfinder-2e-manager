@@ -57,27 +57,35 @@ const show_trained = source.is_trained
       </div>
       <hr class="divider">
 
-      <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
-      <div v-if="show_size" class="trait size">{{ source.size[0] }}</div>
-      <div v-if="show_trained" class="trait trained">Trained</div>
-      <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
-      <div v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
+      <div class="flex">
+        <div class="flex-1">
+          <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
+          <div v-if="show_size" class="trait size">{{ source.size[0] }}</div>
+          <div v-if="show_trained" class="trait trained">Trained</div>
+          <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
+          <div v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
 
-      <div v-for="(list, idx) in source.features" :key="idx">
-        <div class="item-desc item-features">
-          <div v-for="(value, feature) in list" :key="feature" class="feature">
-            <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
+          <div v-for="(list, idx) in source.features" :key="idx">
+            <div class="item-desc item-features">
+              <div v-for="(value, feature) in list" :key="feature" class="feature">
+                <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
+              </div>
+            </div>
+
+            <hr v-if="idx < source.features.length - 1 || source.description" class="divider">
+          </div>
+
+          <div class="item-desc">
+            <span class="item-markdown" v-html="md.render(source.description)" />
+          </div>
+          <div v-if="!isPrint" class="copyright">
+            {{ source.primary_source }}
           </div>
         </div>
 
-        <hr v-if="idx < source.features.length - 1 || source.description" class="divider">
-      </div>
-
-      <div class="item-desc">
-        <span class="item-markdown" v-html="md.render(source.description)" />
-      </div>
-      <div v-if="!isPrint" class="copyright">
-        {{ source.primary_source }}
+        <div v-for="image in source.image" :key="image" class="item-image">
+          <img :src="useAonLink(image)">
+        </div>
       </div>
     </div>
   </div>
@@ -202,30 +210,40 @@ hr.divider {
   padding-top: 4px;
 }
 
-.item-markdown:deep() {
-  p {
-    margin: 0;
+.item-markdown {
+  &.image {
+    width: 20%;
   }
-
-  row {
-    display: flex;
-  }
-
-  @media screen and (max-width: 40em) {
-    row {
-      flex-wrap: wrap;
+  &:deep() {
+    p {
+      margin: 0;
     }
-  }
 
-  img {
-    height: 15rem;
+    row {
+      display: flex;
+    }
+
+    @media screen and (max-width: 40em) {
+      row {
+        flex-wrap: wrap;
+      }
+    }
+
+    img {
+      display: none;
+    }
   }
 }
 
-.print .item-markdown:deep() {
+.item-image {
+  width: 18%;
   img {
-    display: none;
+    width: 100%;
   }
+}
+
+.print .item-image {
+  display: none;
 }
 
 .print .item {

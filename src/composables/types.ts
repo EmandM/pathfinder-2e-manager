@@ -26,6 +26,7 @@ export interface Card {
   weapon_type: string[]
   item_category: string
   item_subcategory: string
+  image: string[]
   type: string
   text: string
   description: string
