@@ -67,7 +67,7 @@ function splitCardText(card: Card): Card {
   // Check for description
   let description = ''
   const descBlocks = markdown
-    .matchAll(/(?:---\s*|<column.*?>)(.*?)(?=\*\*|<|\/>|---|$)/gs)
+    .matchAll(/(?:---\s*|<column.*?>|<\/sup>)(.*?)(?=\*\*|<|\/>|---|$)/gs)
   for (const line of descBlocks) {
     if (!line[1]) {
       continue
@@ -128,13 +128,10 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
   }
 
   search.forEach((item) => {
-    if (!isAValidEntry(item._source)) {
+    let card = item._source
+    if (!isAValidEntry(card)) {
       return
     }
-
-    let card = splitCardText(item._source)
-
-    card.search_text = lowerSearchText(card.text)
 
     if (card.category === 'skill') {
       saveRelatedActions(card)
@@ -143,6 +140,10 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     if (card.category === 'action') {
       card = applySkillToAction(card)
     }
+
+    card = splitCardText(item._source)
+
+    card.search_text = lowerSearchText(card.text)
 
     cleanMap.push(card)
   })
