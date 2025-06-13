@@ -34,10 +34,11 @@ const config = {
     'spell',
     'source',
     'trait',
+    'vehicle',
     'weapon',
     'weapon-group',
 
-    // Need to retreive action after skill as the results are combined 
+    // Need to retreive action after skill as the results are combined
     'action',
   ],
 }
@@ -48,6 +49,9 @@ const advancedQueries: { [key: string]: estypes.QueryDslQueryContainer } = {
   spell: { bool: { filter: [{ query_string: { query: 'category:spell -trait:mythic !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
   equipment: { bool: { filter: [{ query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon)  !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
   alchemical: { bool: { filter: [{ query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:"Alchemical Items" !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
+  shield: {
+    bool: { filter: { query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:"Shields" !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, must_not: { term: { exclude_from_search: true } } },
+  },
 }
 
 const client = new Client({

@@ -14,5 +14,6 @@ export default antfu({
     'vue/no-mutating-props': ['error', {
       shallowOnly: true,
     }],
+    'vue/singleline-html-element-content-newline': [0],
   },
 })

@@ -52,7 +52,7 @@ declare module 'vue' {
     Search: typeof import('./components/filters/Search.vue')['default']
     Select: typeof import('./components/filters/Select.vue')['default']
   }
-  export interface ComponentCustomProperties {
+  export interface GlobalDirectives {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
   }
 }

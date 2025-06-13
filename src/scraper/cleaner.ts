@@ -1,53 +1,96 @@
+/* eslint-disable regexp/no-super-linear-backtracking */
 import type { Card } from '../composables/types.ts'
 import { useAonLink } from '../composables/aon-link.ts'
 import { applySkillToAction, checkActionToSkill, saveRelatedActions } from './actionSkills.ts'
 
-function removeExtraFromDescription(description: string): string {
-  return description.replace(/<title.*/gs, '')
-}
-
 function prefixImageLinks(description: string): string {
-  return description.replace(/src="\/images\//gs, `src="${useAonLink('/images/')}`)
+  return description.replace(/src="\/images\//g, `src="${useAonLink('/images/')}`)
 }
 
-function indexOfEnd(text: string, searchText: string): number {
-  let index = text.indexOf(searchText)
-  if (index == -1) {
-    // return -1 to indicate not found.
-    return -1
-  }
-
-  return index + searchText.length
-}
-
-const markdownDivider = '---'
-const titleClose = '</title>'
-function getDescription(markdown: string): string {
-  let split = indexOfEnd(markdown, markdownDivider)
-  if (split == -1) {
-    // if markdown divider is not found, look for the end of a title tag.
-    split = indexOfEnd(markdown, titleClose)
-  }
-
-  let description = markdown.substring(split)
-    .replaceAll('---', '')
-  description = removeExtraFromDescription(description)
-  description = prefixImageLinks(description)
-  return description.trim()
-}
-
-function getFeatures(markdown: string): Card['features'] | undefined {
-  const match = markdown.match(/<column.*?(<row.*<\/row>).*?<\/column>/s)
-  if (match) {
-    const features = match[1]
-      .replaceAll(/\*\* ?\r\n/g, '** ')
-      .matchAll(/\*\*(.+?)\*\* (.+?)[\n\r]/gs)
-    const allFeatures = {}
-    for (const feature of features) {
-      allFeatures[feature[1]] = feature[2]
+function getNamedBlock(text: string, name: string): string {
+  const split = text.matchAll(/<title.*?(?=<title|$)/gs)
+  for (const match of split) {
+    const text = match[0]
+    if (text.includes(name)) {
+      return text
     }
-    return allFeatures
   }
+  return ''
+}
+
+// removes nested items from card markdown and text (nested items will have their own result)
+function splitCardText(card: Card): Card {
+  let markdown = getNamedBlock(card.markdown, card.name)
+  let text = getNamedBlock(card.text, card.name)
+
+  if (card.category === 'creature') {
+    markdown += getNamedBlock(card.markdown, 'level="2"')
+    text += getNamedBlock(card.text, 'level="2"')
+  }
+  else if (markdown.includes('level="2"')) {
+    const titleBlock = getNamedBlock(card.markdown, 'level="1"')
+    markdown = titleBlock + markdown
+
+    const firstBlock = getNamedBlock(card.markdown, 'level="1"')
+    text = firstBlock + text
+  }
+
+  const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column)|(?<=>(?!.*<)).+$/gs)
+  const featBlocks = [] as Card['features']
+  for (const col of columns) {
+    // Collect the features
+    const feats = col[0]
+      .replaceAll(/\*\* ?\r\n/g, '** ')
+      .matchAll(/\*\*(.+?)\*\*(.*?)(?=\r|\n)/gs)
+    const allFeatures = {}
+    let hasFeats = false
+    for (const feature of feats) {
+      const [key, value] = getFeature(feature)
+      if (key) {
+        hasFeats = true
+        allFeatures[key] = value.trim()
+      }
+    }
+    if (hasFeats) {
+      featBlocks.push(allFeatures)
+    }
+  }
+
+  // Check for description
+  let description = ''
+  const descBlocks = markdown
+    .matchAll(/(?:---\s*|<column.*?>)(.*?)(?=\*\*|<|\/>|---|$)/gs)
+  for (const line of descBlocks) {
+    if (!line[1]) {
+      continue
+    }
+    description += line[1]
+  }
+
+  if (featBlocks) {
+    card.features = featBlocks
+  }
+
+  card.markdown = markdown
+  card.text = text
+  card.description = prefixImageLinks(description.trim())
+
+  return card
+}
+
+function getFeature(pair: RegExpExecArray): [string, string] {
+  const key = pair[1]
+  const value = pair[2]
+
+  if (key === 'Price' && value === '—') {
+    return [key, '0p']
+  }
+
+  if (key === 'Source') {
+    return ['', '']
+  }
+
+  return [key, value]
 }
 
 const validOldSources = ['Treasure Vault', 'Troubles in Otari']
@@ -81,23 +124,19 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
       return
     }
 
-    item._source.description = getDescription(item._source.markdown)
-    item._source.search_text = lowerSearchText(item._source.text)
+    let card = splitCardText(item._source)
 
-    const features = getFeatures(item._source.markdown)
-    if (features) {
-      item._source.features = features
+    card.search_text = lowerSearchText(card.text)
+
+    if (card.category === 'skill') {
+      saveRelatedActions(card)
     }
 
-    if (item._source.category == 'skill') {
-      saveRelatedActions(item._source)
+    if (card.category === 'action') {
+      card = applySkillToAction(card)
     }
 
-    if (item._source.category == 'action') {
-      item._source = applySkillToAction(item._source)
-    }
-
-    cleanMap.push(item._source)
+    cleanMap.push(card)
   })
 
   return cleanMap

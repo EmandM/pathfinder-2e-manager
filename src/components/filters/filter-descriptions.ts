@@ -16,8 +16,8 @@ abstract class FilterClass<K extends keyof Card> {
   }
 
   abstract isMatch(cardValue: Card[K], filterOption: string): boolean
-  
-  getLabelText(value: Card[K] extends any[] ? Card[K][number] : Card[K]): string {
+
+  getLabelText(value: any): string {
     return `${value}`
   }
 
@@ -37,7 +37,8 @@ abstract class FilterClass<K extends keyof Card> {
       }
       else if (typeof values === 'boolean') {
         set.add(this.getLabelText(values))
-      } else if (values) {
+      }
+      else if (values) {
         set.add(this.getLabelText(values))
       }
     }
@@ -136,6 +137,7 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   equipment: {
     selectable: [
       new ValueFilter('Category', 'item_category', color.bluegreen),
+      new ValueFilter('Subcategory', 'item_subcategory', color.blue),
     ],
   },
   skill: {
@@ -148,7 +150,11 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     selectable: [
       new StringArrayFilter('Trait group', 'trait_group', color.blue),
       new BooleanFilter('Trained', 'is_trained', color.darkblue, 'Trained action', 'Untrained action'),
-    ]
+    ],
+  },
+  shield: {
+    shortcut: new ValueFilter('Subcategory', 'item_subcategory', color.blue),
+    selectable: [],
   },
 }
 

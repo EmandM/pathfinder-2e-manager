@@ -1,7 +1,14 @@
-import type { AppliedFilter, Card } from './types'
+import type { Card } from './types'
 import type { Filter } from '~/components/filters/filter-descriptions'
 import { ref } from 'vue'
 import { FilterState } from './types'
+
+export type FilterValues = Map<string, FilterState>
+
+export interface AppliedFilter {
+  filter: Filter
+  appliedValues: FilterValues
+}
 
 export class AppliedFilterCollection {
   filters: Map<Filter['key'], AppliedFilter> = new Map()
@@ -106,7 +113,7 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
 
   for (const [type, applied] of collection.filters) {
     const itemKey = item[type]
-    if (itemKey === undefined ) {
+    if (itemKey === undefined) {
       return false
     }
 

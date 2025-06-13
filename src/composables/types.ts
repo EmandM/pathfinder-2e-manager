@@ -1,4 +1,3 @@
-import type { Filter } from '~/components/filters/filter-descriptions'
 import type { actionToImage } from '~/composables/action-to-image'
 
 export interface Card {
@@ -26,10 +25,11 @@ export interface Card {
   weapon_group: string[]
   weapon_type: string[]
   item_category: string
+  item_subcategory: string
   type: string
   text: string
   description: string
-  features: { [feature: string]: string }
+  features: { [feature: string]: string }[]
   primary_source_category: string
   release_date: string
   url: string
@@ -47,11 +47,4 @@ export enum FilterState {
   includes = 'include',
   excludes = 'exclude',
   inactive = 'inactive',
-}
-
-export type FilterValues = Map<string, FilterState>
-
-export interface AppliedFilter {
-  filter: Filter
-  appliedValues: FilterValues
 }

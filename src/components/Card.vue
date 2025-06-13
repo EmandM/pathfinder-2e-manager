@@ -29,10 +29,9 @@ md.use(mila, {
 
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
-const show_rarity = !['creature', 'deity', 'action', 'skill'].includes(source.category)
+const show_rarity = source.rarity !== 'common'
 const show_size = !!source.size
 const show_trained = source.is_trained
-const show_skills = source.category == 'action'
 </script>
 
 <template>
@@ -62,15 +61,18 @@ const show_skills = source.category == 'action'
       <div v-if="show_size" class="trait size">{{ source.size[0] }}</div>
       <div v-if="show_trained" class="trait trained">Trained</div>
       <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
-      <div v-if="show_skills" v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
+      <div v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
 
-      <div v-if="source.features" class="item-desc item-features">
-        <div v-for="(value, feature) in source.features" :key="feature" class="feature">
-          <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
+      <div v-for="(list, idx) in source.features" :key="idx">
+        <div class="item-desc item-features">
+          <div v-for="(value, feature) in list" :key="feature" class="feature">
+            <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
+          </div>
         </div>
+
+        <hr v-if="idx < source.features.length - 1 || source.description" class="divider">
       </div>
 
-      <hr v-if="source.features" class="divider">
       <div class="item-desc">
         <span class="item-markdown" v-html="md.render(source.description)" />
       </div>
@@ -100,9 +102,11 @@ hr.divider {
   display: flex;
   flex-wrap: wrap;
 }
+
 .print .feature {
   padding-right: 0.25rem;
 }
+
 .notPrint .feature {
   padding-right: 0.4rem;
 }
@@ -148,9 +152,11 @@ hr.divider {
   display: inline-block;
   border: 1px solid black;
 }
+
 .notPrint .trait {
   padding: 4px;
 }
+
 .print .trait {
   padding: 1px 2.5px 1px 2.5px;
 }
@@ -235,6 +241,7 @@ hr.divider {
   width: 100%;
   padding: 12px;
 }
+
 .cardSize.print {
   flex: none;
   display: block;
