@@ -54,12 +54,23 @@ export class AppliedFilterCollection {
     if (set) {
       return
     }
+    if (!filter.options) {
+      return
+    }
 
     set = { filter, appliedValues: new Map() }
     for (const value of filter.options) {
       set.appliedValues.set(value, FilterState.inactive)
     }
     this.filters.set(filter.key, set)
+  }
+
+  getAppliedValues(filter: Filter): string[] {
+    const internal = this.filters.get(filter.key)
+    if (!internal) {
+      return []
+    }
+    return internal.appliedValues.keys().toArray()
   }
 
   // Levels are weird. It's the only thing with an OR match and no exclude. Do them special
@@ -89,16 +100,21 @@ export function usePersistentAppliedFilters(pageName: string): AppliedFilterColl
   return appliedFilters
 }
 
-// Creates an iterator that iterates over all the valid items of the list.
-// Valid items are items that match all of the passed in filters.
-export function* useFilteredList(list: Card[], filters: AppliedFilterCollection): Iterator<Card> {
-  let i = 0
-  while (i < list.length) {
-    if (doFilter(list[i], filters)) {
-      yield list[i]
+/**
+ * Creates an iterator that iterates over all the valid items of the list.
+ * Valid items are items that match all of the passed in filters.
+ * @param list unfiltered list of cards
+ * @param filters FilterCollection to use for filtering
+ * @returns Filtered list of cards
+ */
+export function useFilteredList(list: Card[], filters: AppliedFilterCollection): Card[] {
+  const filteredList: Card[] = []
+  for (const card of list) {
+    if (doFilter(card, filters)) {
+      filteredList.push(card)
     }
-    i++
   }
+  return filteredList
 }
 
 // Decides whether the current card is is valid based on the given filter

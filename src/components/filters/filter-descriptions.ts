@@ -25,25 +25,32 @@ abstract class FilterClass<K extends keyof Card> {
     return `${value}`
   }
 
-  hydrate(cards: Card[]) {
+  hydrate(cards: Card[], toExclude: string[]) {
     const set = new Set<string>()
+
+    const addToSet = (value: any) => {
+      const text = this.getLabelText(value)
+      if (!toExclude.includes(text)) {
+        set.add(text)
+      }
+    }
 
     for (const card of cards) {
       const values = card[this.key]
 
       if (Array.isArray(values)) {
         for (const value of values) {
-          set.add(this.getLabelText(value))
+          addToSet(value)
         }
       }
       else if (typeof values === 'object') {
         console.warn('Unimplemented - object fields')
       }
       else if (typeof values === 'boolean') {
-        set.add(this.getLabelText(values))
+        addToSet(values)
       }
       else if (values) {
-        set.add(this.getLabelText(values))
+        addToSet(values)
       }
     }
 
@@ -173,8 +180,8 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     ],
   },
   action: {
-    shortcut: new StringArrayFilter('Skill', 'skill', color.bluegreen),
     selectable: [
+      new StringArrayFilter('Skill', 'skill', color.bluegreen),
       new StringArrayFilter('Trait group', 'trait_group', color.blue),
       new BooleanFilter('Trained', 'is_trained', color.darkblue, 'Trained action', 'Untrained action'),
     ],
@@ -189,6 +196,9 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   deity: {
     selectable: [new HasImageFilter(color.pink)],
   },
+  feat: {
+    selectable: [new StringArrayFilter('Skill', 'skill', color.bluegreen)]
+  }
 }
 
 type PageFilterList = keyof typeof filterByPage & string

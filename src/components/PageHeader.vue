@@ -80,7 +80,7 @@ const activeIndex = computed(() => route.path)
       Bookmark manager
     </el-menu-item>
 
-    <el-menu-item class="toggle" h="full" @click="toggleDark()">
+    <el-menu-item index="dark" class="toggle" h="full" @click="toggleDark()">
       <button
         class="w-full cursor-pointer border-none bg-transparent"
         style="height: var(--el-menu-item-height)"
@@ -89,7 +89,7 @@ const activeIndex = computed(() => route.path)
       </button>
     </el-menu-item>
 
-    <el-menu-item h="full">
+    <el-menu-item index="gh" h="full">
       <a class="size-full flex items-center justify-center" :href="repository.url" target="_blank">
         <div i-ri-github-fill />
       </a>

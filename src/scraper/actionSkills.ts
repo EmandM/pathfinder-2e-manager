@@ -1,14 +1,21 @@
 import type { Card } from '../composables/types.ts'
 
-function getInnerFromRegexes(markdown: string, outerRegex: RegExp, innerRegex: RegExp): Card['id'][] {
-  const blocks = markdown.match(outerRegex)
+/**
+ * Gets a single list of items as defined by the given regexes
+ * @param markdown Markdown text from the card
+ * @param blockRegex Regex indicating the block to search for
+ * @param itemRegex Rexex indicating separate items within the block
+ * @returns List of items
+ */
+function getInnerFromRegexes(markdown: string, blockRegex: RegExp, itemRegex: RegExp): string[] {
+  const blocks = markdown.match(blockRegex)
   if (!blocks) {
     return []
   }
 
-  let out: Card['id'][] = null
+  let out: string[] = null
   blocks.forEach((actionBlock) => {
-    const ids = actionBlock.match(innerRegex)
+    const ids = actionBlock.match(itemRegex)
     if (!ids) {
       return
     }
@@ -23,6 +30,9 @@ function getInnerFromRegexes(markdown: string, outerRegex: RegExp, innerRegex: R
   return out || []
 }
 
+/**
+ * Defines blocks of info and whether the items in this block are trained
+ */
 interface SkillInfo {
   isTrained: boolean
   skills: string[]
@@ -32,6 +42,9 @@ interface InfoMap {
   [key: string]: SkillInfo
 }
 
+/**
+ * Defines blocks of info and whether the items in this block are trained
+ */
 class ActionToSkill {
   actionsToInfo: InfoMap
 
@@ -63,7 +76,6 @@ class ActionToSkill {
 }
 
 let actionToSkill: ActionToSkill = null
-let nameToSkill: ActionToSkill = null
 
 const untrainedGeneral = /<title((?!<\/title>).)*Untrained General Actions<\/title>.*?(?=<title|$)/s
 const untrained = /<title((?!<\/title>).)*Untrained Actions<\/title>.*?(?=<title|$)/s
@@ -87,15 +99,14 @@ export function saveRelatedActions(card: Card) {
 
 export function checkActionToSkill(firstEntry: Card) {
   if (firstEntry.category === 'skill') {
-    if (actionToSkill || nameToSkill) {
+    if (actionToSkill) {
       console.error('actionToSkill object is already populated. Ensure skill scrape is not processed twice')
     }
     actionToSkill = new ActionToSkill()
-    nameToSkill = new ActionToSkill()
   }
 
   if (firstEntry.category === 'action') {
-    if (!actionToSkill || !nameToSkill) {
+    if (!actionToSkill) {
       console.error('actionToSkill object is unpopulated. Ensure skill scrape is processed before action scrape')
     }
   }
@@ -103,6 +114,7 @@ export function checkActionToSkill(firstEntry: Card) {
 
 export function applySkillToAction(action: Card): Card {
   if (!actionToSkill) {
+    console.error('actionToSkill object is unpopulated. Ensure skill scrape is processed before action scrape')
     return
   }
 

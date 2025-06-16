@@ -30,12 +30,10 @@ md.use(mila, {
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
-const show_size = !!source.size
-const show_trained = source.is_trained
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, notPrint: !isPrint }">
+  <div class="cardSize" :class="{ print: isPrint, notPrint: !isPrint, large: source.category === 'creature' }">
     <div class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -60,15 +58,15 @@ const show_trained = source.is_trained
       <div class="flex">
         <div class="flex-1">
           <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
-          <div v-if="show_size" class="trait size">{{ source.size[0] }}</div>
-          <div v-if="show_trained" class="trait trained">Trained</div>
+          <div v-if="!!source.size" class="trait size">{{ source.size[0] }}</div>
+          <div v-if="source.is_trained" class="trait trained">Trained</div>
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
           <div v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
 
           <div v-for="(list, idx) in source.features" :key="idx">
             <div class="item-desc item-features">
-              <div v-for="(value, feature) in list" :key="feature" class="feature">
-                <b>{{ feature }}</b> <span v-html="md.renderInline(value)" />
+              <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{newline: feature === 'newline'}">
+                <b v-html="md.renderInline(feature)"></b> <span v-html="md.renderInline(value)" />
               </div>
             </div>
 
@@ -109,6 +107,13 @@ hr.divider {
 .item-features {
   display: flex;
   flex-wrap: wrap;
+}
+
+.feature.newline {
+  flex-basis: 100%;
+  b, span {
+    display: none;
+  }
 }
 
 .print .feature {
@@ -279,6 +284,15 @@ hr.divider {
 
   height: 325px;
   overflow: hidden;
+
+  &:deep() a {
+    color: inherit;
+    text-decoration: none; 
+  }
+}
+
+.cardSize.large {
+  grid-column: span 2;
 }
 
 .buttons {

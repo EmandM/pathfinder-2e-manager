@@ -41,17 +41,13 @@ const bookmarker = useBookmarks()
 
 // Import the data
 const data = dataImporter(pageName, (data) => {
-  // Once the data is imported
-  // use the imported data to hydrate the options for the filters
-  hydrateFilterOptions(data as Card[], filters)
-  filterList.value = filters.selectable
   // push all the data into the card list
   cards.push(...data as Card[])
 
   // Pre-add the shortcut filters
   if (filters.shortcut) {
+    filters.shortcut.hydrate(cards, [])
     appliedFilters.addShortcutFilter(filters.shortcut)
-    shortcut.value = filters.shortcut
   }
 
   setupFilter()
@@ -59,34 +55,41 @@ const data = dataImporter(pageName, (data) => {
 
 // Empty the displayed list and create the iterator
 // setupFilter is called each time the filters change
+let offset = 0
+const limit = 50
+let filteredCards: Card[] = []
 function setupFilter() {
-  filter = useFilteredList(cards, appliedFilters)
+  filteredCards = useFilteredList(cards, appliedFilters)
+
+  // Use the filtered cards to update the options for the filters
+  hydrateFilterOptions(filteredCards, filters, appliedFilters)
+  filterList.value = filters.selectable
+  if (filters.shortcut) {
+    shortcut.value = filters.shortcut
+  }
+
   displayed.value = []
+  offset = 0
   loadItems()
 }
 
 // Load the requested number of items into the displayed list
 // loadItems is called for the infinite scroll
 function loadItems() {
-  for (let i = 0; i < numItemsToLoad; i++) {
-    const item = filter.next()
-    if (!item.done) {
-      displayed.value.push(item.value)
-    }
+  console.log('loading items')
+  if (offset === filteredCards.length) {
+    console.log('at end')
+    return
   }
+  const nextLimit = Math.min(offset + limit, filteredCards.length)
+  displayed.value.push(...filteredCards.slice(offset, nextLimit))
+  offset = nextLimit
 }
 
 // Gather all the items that are valid for the current filters
 // Pass those items to the usePrint composable to load the print page
 function doPrint() {
-  const printFilter = useFilteredList(cards, appliedFilters)
-  const items = []
-  let item = printFilter.next()
-  while (!item.done) {
-    items.push(item.value)
-    item = printFilter.next()
-  }
-  goToPrint(items)
+  goToPrint(filteredCards)
 }
 </script>
 
@@ -102,7 +105,7 @@ function doPrint() {
   <el-divider>
     <el-icon><i-msl-star-rounded /></el-icon>
   </el-divider>
-  <div v-if="data.isLoaded" v-infinite-scroll="loadItems" class="cards">
+  <div v-if="data.isLoaded" v-infinite-scroll="loadItems" infinite-scroll-distance="500" class="cards">
     <Card
       v-for="card in displayed"
       :key="card.id"

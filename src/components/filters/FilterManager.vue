@@ -2,7 +2,7 @@
 import type { Ref } from 'vue'
 import type { Filter } from './filter-descriptions'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import { ref, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
 import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
@@ -31,6 +31,14 @@ const options = ref(filterList.map(filter => filter.name).sort())
 watchEffect(() => options.value = filterList.map(filter => filter.name).sort())
 
 const inUse: Ref<SelectedFilter[]> = ref([])
+function updateOptions() {
+  console.log('updating options')
+  for (const filter of inUse.value) {
+    const inputFilter = filterList.find(f => f.key = filter.filter.key)
+    filter.filter.options = inputFilter.options
+  }
+}
+
 appliedFilters.filters.forEach((applied, _) => {
   // Don't hydrate the shortcut filter
   if (applied.filter.key === shortcut.key) {
@@ -55,6 +63,11 @@ watchEffect(() => {
     }
   }) || []
 })
+
+function onChange() {
+  emit('change')
+  setTimeout(updateOptions)
+}
 
 function showFilterSelect(name: string, init: boolean = false) {
   const newFilter = filterList.find(filter => filter.name === name)
@@ -105,7 +118,7 @@ function addFilter(filter: Filter, selected?: string, initialState?: FilterState
   // initialState is only passed on page load. We don't want to edit the filter list on page load.
   if (!initialState) {
     appliedFilters.addFilter(filter, selected)
-    emit('change')
+    onChange()
   }
 }
 
@@ -124,22 +137,22 @@ function removeFilter(removeTag: SelectedFilter) {
       filter.options.sort()
     }
   }
-  emit('change')
+  onChange()
 };
 
 function handleTagState(tag: SelectedFilter, state: FilterState) {
   appliedFilters.updateState(tag.filter.key, tag.selectedValue, state)
-  emit('change')
+  onChange()
 }
 
 function handleLevelFilter(selected: string[]) {
   appliedFilters.setLevelFilter(selected)
-  emit('change')
+  onChange()
 }
 
 function handleSearch(search: string) {
   appliedFilters.setSearchString(search)
-  emit('change')
+  onChange()
 }
 </script>
 

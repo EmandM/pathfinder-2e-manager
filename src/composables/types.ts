@@ -25,19 +25,22 @@ export interface Card {
   weapon_group: string[]
   weapon_type: string[]
   item_category: string
+  item_child_id?: string[]
+  item_parent_id?: string
   item_subcategory: string
   image: string[]
   type: string
   text: string
   description: string
-  features: { [feature: string]: string }[]
+  features: [string, string][][]
+  pfs: string
+  pfs_note: string
   primary_source_category: string
   release_date: string
   url: string
   attribute: string[]
   size: string[1]
   skill: string[]
-  skill_markdown: string
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
