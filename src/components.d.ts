@@ -50,6 +50,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Search: typeof import('./components/filters/Search.vue')['default']
+    SearchMenuItem: typeof import('./components/SearchMenuItem.vue')['default']
     Select: typeof import('./components/filters/Select.vue')['default']
   }
   export interface GlobalDirectives {

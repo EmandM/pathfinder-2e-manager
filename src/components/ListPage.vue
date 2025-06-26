@@ -6,7 +6,6 @@ import { ref } from 'vue'
 import { useFilteredList, usePersistentAppliedFilters } from '~/composables/applied-filters'
 import { useBookmarks } from '~/composables/bookmark-storage'
 import { dataImporter } from '~/composables/data-importer'
-import { hydrateFilterOptions } from '~/composables/hydrate-filters'
 import { usePrinter } from '~/composables/print'
 import { useFiltersForPage, useLevelFilter } from './filters/filter-descriptions'
 
@@ -17,8 +16,8 @@ const { pageName } = defineProps<{
 /*
  * Page behaviour configuration
  */
-// Number of cards to load at one time
-const numItemsToLoad = 20
+let offset = 0
+const limit = 50
 
 /*
  * Empty page state
@@ -27,7 +26,7 @@ const numItemsToLoad = 20
 const filterList: Ref<Filter[]> = ref([]) // List of filters for the filter manager
 const shortcut: Ref<Filter | undefined> = ref() // Shortcut filter for the filter manager
 const cards: Card[] = [] // all cards for the current page
-let filter: Iterator<Card> // iterator that has the current filters applied
+let filteredCards: Card[] = [] // all cards that match the current applied filters
 const displayed: Ref<Card[]> = ref([]) // cards to display (generated from filter)
 
 /*
@@ -46,26 +45,24 @@ const data = dataImporter(pageName, (data) => {
 
   // Pre-add the shortcut filters
   if (filters.shortcut) {
-    filters.shortcut.hydrate(cards, [])
+    filters.shortcut.hydrate(cards)
+    shortcut.value = filters.shortcut
+
     appliedFilters.addShortcutFilter(filters.shortcut)
   }
 
-  setupFilter()
+  doFilter()
 })
 
-// Empty the displayed list and create the iterator
-// setupFilter is called each time the filters change
-let offset = 0
-const limit = 50
-let filteredCards: Card[] = []
-function setupFilter() {
+// Called each time the filters change
+function doFilter() {
+  console.log('filtering')
+
   filteredCards = useFilteredList(cards, appliedFilters)
 
   // Use the filtered cards to update the options for the filters
-  hydrateFilterOptions(filteredCards, filters, appliedFilters)
-  filterList.value = filters.selectable
-  if (filters.shortcut) {
-    shortcut.value = filters.shortcut
+  for (const filter of filters.selectable) {
+    filter.hydrate(filteredCards, appliedFilters.getAppliedValues(filter))
   }
 
   displayed.value = []
@@ -99,7 +96,7 @@ function doPrint() {
     :filter-list="filterList"
     :level-options="levelFilter"
     :applied-filters="appliedFilters"
-    @change="setupFilter"
+    @change="doFilter"
     @print="doPrint"
   />
   <el-divider>

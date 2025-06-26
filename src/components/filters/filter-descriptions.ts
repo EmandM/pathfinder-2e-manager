@@ -25,7 +25,7 @@ abstract class FilterClass<K extends keyof Card> {
     return `${value}`
   }
 
-  hydrate(cards: Card[], toExclude: string[]) {
+  hydrate(cards: Card[], toExclude: string[] = []) {
     const set = new Set<string>()
 
     const addToSet = (value: any) => {
@@ -197,8 +197,8 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     selectable: [new HasImageFilter(color.pink)],
   },
   feat: {
-    selectable: [new StringArrayFilter('Skill', 'skill', color.bluegreen)]
-  }
+    selectable: [new StringArrayFilter('Skill', 'skill', color.bluegreen)],
+  },
 }
 
 type PageFilterList = keyof typeof filterByPage & string

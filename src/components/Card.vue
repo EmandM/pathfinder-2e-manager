@@ -65,8 +65,8 @@ const show_rarity = source.rarity !== 'common'
 
           <div v-for="(list, idx) in source.features" :key="idx">
             <div class="item-desc item-features">
-              <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{newline: feature === 'newline'}">
-                <b v-html="md.renderInline(feature)"></b> <span v-html="md.renderInline(value)" />
+              <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{ newline: feature === 'newline' }">
+                <b v-html="md.renderInline(feature)" /> <span v-html="md.renderInline(value)" />
               </div>
             </div>
 
@@ -111,7 +111,8 @@ hr.divider {
 
 .feature.newline {
   flex-basis: 100%;
-  b, span {
+  b,
+  span {
     display: none;
   }
 }
@@ -287,7 +288,7 @@ hr.divider {
 
   &:deep() a {
     color: inherit;
-    text-decoration: none; 
+    text-decoration: none;
   }
 }
 

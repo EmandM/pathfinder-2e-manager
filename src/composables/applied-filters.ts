@@ -7,7 +7,7 @@ export type FilterValues = Map<string, FilterState>
 
 export interface AppliedFilter {
   filter: Filter
-  appliedValues: FilterValues
+  appliedOptions: FilterValues
 }
 
 export class AppliedFilterCollection {
@@ -16,12 +16,12 @@ export class AppliedFilterCollection {
   addFilter(filter: Filter, selectedValue: string) {
     let set = this.filters.get(filter.key)
     if (!set) {
-      set = { filter, appliedValues: new Map() }
+      set = { filter, appliedOptions: new Map() }
       this.filters.set(filter.key, set)
     }
     console.log('adding filter', filter)
 
-    set.appliedValues.set(selectedValue, FilterState.includes)
+    set.appliedOptions.set(selectedValue, FilterState.includes)
   }
 
   removeFilter(filterKey: Filter['key'], selectedValue: string) {
@@ -31,8 +31,8 @@ export class AppliedFilterCollection {
       return
     }
 
-    set.appliedValues.delete(selectedValue)
-    if (set.appliedValues.size <= 0) {
+    set.appliedOptions.delete(selectedValue)
+    if (set.appliedOptions.size <= 0) {
       this.filters.delete(filterKey)
     }
   }
@@ -44,8 +44,8 @@ export class AppliedFilterCollection {
       console.error('tried to toggle a tag that was never added')
       return
     }
-    if (filter.appliedValues.has(selectedValue)) {
-      filter.appliedValues.set(selectedValue, state)
+    if (filter.appliedOptions.has(selectedValue)) {
+      filter.appliedOptions.set(selectedValue, state)
     }
   }
 
@@ -58,9 +58,9 @@ export class AppliedFilterCollection {
       return
     }
 
-    set = { filter, appliedValues: new Map() }
+    set = { filter, appliedOptions: new Map() }
     for (const value of filter.options) {
-      set.appliedValues.set(value, FilterState.inactive)
+      set.appliedOptions.set(value, FilterState.inactive)
     }
     this.filters.set(filter.key, set)
   }
@@ -70,7 +70,22 @@ export class AppliedFilterCollection {
     if (!internal) {
       return []
     }
-    return internal.appliedValues.keys().toArray()
+    return internal.appliedOptions.keys().toArray()
+  }
+
+  /**
+   * Gets the current applied state of a given option for a given filter
+   * @param filter The filter where to look for the option state
+   * @param option The option to get the state for
+   * @returns The current FilterState of the option. If the option is not currently applied, undefined is returned.
+   */
+  getAppliedState(filter: Filter, option: Filter['options'][number]): FilterState | undefined {
+    const internal = this.filters.get(filter.key)
+    if (!internal) {
+      return undefined
+    }
+
+    return internal.appliedOptions.get(option)
   }
 
   // Levels are weird. It's the only thing with an OR match and no exclude. Do them special
@@ -134,7 +149,7 @@ function doFilter(item: Card, collection: AppliedFilterCollection): boolean {
       return false
     }
 
-    for (const [value, state] of applied.appliedValues) {
+    for (const [value, state] of applied.appliedOptions) {
       const isMatch = applied.filter.isMatch(itemKey, value)
       if (state === FilterState.includes && !isMatch) {
         return false

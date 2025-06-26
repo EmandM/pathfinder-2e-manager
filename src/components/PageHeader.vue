@@ -14,70 +14,73 @@ const activeIndex = computed(() => route.path)
     mode="horizontal"
     :ellipsis="false"
     :default-active="activeIndex"
-    router
   >
-    <el-menu-item index="/">
-      Pathfinder 2e manager
+    <el-menu-item index="/" route="/">
+      <router-link :to="{ name: '/' }">
+        Pathfinder 2e manager
+      </router-link>
     </el-menu-item>
-    <el-menu-item index="/search/spell">
+    <search-menu-item topic="spell">
       Spells
-    </el-menu-item>
+    </search-menu-item>
     <el-sub-menu index="2">
       <template #title>
         Items
       </template>
-      <el-menu-item index="/search/weapon">
+      <search-menu-item topic="weapon">
         Weapons
-      </el-menu-item>
-      <el-menu-item index="/search/armor">
+      </search-menu-item>
+      <search-menu-item topic="armor">
         Armor
-      </el-menu-item>
-      <el-menu-item index="/search/shield">
+      </search-menu-item>
+      <search-menu-item topic="shield">
         Shields
-      </el-menu-item>
-      <el-menu-item index="/search/alchemical">
+      </search-menu-item>
+      <search-menu-item topic="alchemical">
         Alchemical
-      </el-menu-item>
-      <el-menu-item index="/search/runes">
+      </search-menu-item>
+      <search-menu-item topic="runes">
         Runes
-      </el-menu-item>
-      <el-menu-item index="/search/equipment">
+      </search-menu-item>
+      <search-menu-item topic="equipment">
         Equipment
-      </el-menu-item>
+      </search-menu-item>
     </el-sub-menu>
     <el-sub-menu index="3">
       <template #title>
         World
       </template>
-      <el-menu-item index="/search/creature">
+      <search-menu-item topic="creature">
         Creatures
-      </el-menu-item>
-      <el-menu-item index="/search/creature-family">
+      </search-menu-item>
+      <search-menu-item topic="equipment">
         Creature Family
-      </el-menu-item>
-      <el-menu-item index="/search/deity">
+      </search-menu-item>
+      <search-menu-item topic="deity">
         Deities
-      </el-menu-item>
+      </search-menu-item>
     </el-sub-menu>
     <el-sub-menu index="4">
       <template #title>
         Rules
       </template>
-      <el-menu-item index="/search/action">
+      <search-menu-item topic="action">
         Actions
-      </el-menu-item>
-      <el-menu-item index="/search/feat">
+      </search-menu-item>
+      <search-menu-item topic="feat">
         Feats
-      </el-menu-item>
-      <el-menu-item index="/search/trait">
+      </search-menu-item>
+      <search-menu-item topic="trait">
         Traits
-      </el-menu-item>
-      <el-menu-item index="/search/skill">
+      </search-menu-item>
+      <search-menu-item topic="armor">
         Skills
-      </el-menu-item>
+      </search-menu-item>
     </el-sub-menu>
     <el-menu-item index="/bookmarks">
-      Bookmark manager
+      <router-link :to="{ name: '/bookmarks' }">
+        Bookmark manager
+      </router-link>
     </el-menu-item>
 
     <el-menu-item index="dark" class="toggle" h="full" @click="toggleDark()">
@@ -102,5 +105,9 @@ const activeIndex = computed(() => route.path)
   .toggle {
     margin-left: auto;
   }
+}
+
+.el-menu > .el-menu-item a {
+  text-decoration: none;
 }
 </style>

@@ -2,7 +2,7 @@
 import type { Ref } from 'vue'
 import type { Filter } from './filter-descriptions'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import { ref, watch, watchEffect } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
 import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
@@ -32,7 +32,6 @@ watchEffect(() => options.value = filterList.map(filter => filter.name).sort())
 
 const inUse: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
-  console.log('updating options')
   for (const filter of inUse.value) {
     const inputFilter = filterList.find(f => f.key = filter.filter.key)
     filter.filter.options = inputFilter.options
@@ -46,7 +45,7 @@ appliedFilters.filters.forEach((applied, _) => {
   }
 
   showFilterSelect(applied.filter.name, true)
-  applied.appliedValues.forEach((state, value) => {
+  applied.appliedOptions.forEach((state, value) => {
     addFilter(applied.filter, value, state)
   })
   emit('change')
@@ -55,11 +54,12 @@ appliedFilters.filters.forEach((applied, _) => {
 let shortcutTags: SelectedFilter[] = []
 watchEffect(() => {
   shortcutTags = shortcut?.options?.map((opt) => {
+    const currentState = appliedFilters.getAppliedState(shortcut, opt)
     return {
       filter: shortcut,
       selectedValue: opt,
       displayName: capitalizeFirstLetter(opt),
-      initialState: FilterState.inactive,
+      initialState: currentState || FilterState.inactive,
     }
   }) || []
 })
@@ -88,7 +88,7 @@ function showFilterSelect(name: string, init: boolean = false) {
     }
     else {
       // if filters are already applied from this select, remove their values from the filter.
-      filter.options = [...newFilter.options.filter(val => !existing.appliedValues.has(val))].sort()
+      filter.options = [...newFilter.options.filter(val => !existing.appliedOptions.has(val))].sort()
     }
 
     shownFilters.value.set(name, filter)
