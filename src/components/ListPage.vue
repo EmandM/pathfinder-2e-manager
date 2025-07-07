@@ -64,6 +64,7 @@ function doFilter() {
   for (const filter of filters.selectable) {
     filter.hydrate(filteredCards, appliedFilters.getAppliedValues(filter))
   }
+  filterList.value = filters.selectable
 
   displayed.value = []
   offset = 0
