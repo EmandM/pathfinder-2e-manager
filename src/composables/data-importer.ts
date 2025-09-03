@@ -49,3 +49,20 @@ export function dataImporter(type: string, onImport: (data: Card[]) => void): Re
 
   return importResult
 }
+
+export function dataImportAll(types: string[], onImport: (data: Card[]) => void): void {
+  const promises = Array.from({ length: types.length })
+
+  for (let i = 0; i < types.length; i++) {
+    promises[i] = new Promise((resolve, _) => {
+      dataImporter(types[i], (cards) => {
+        resolve(cards)
+      })
+    })
+  }
+
+  void Promise.all(promises).then((results: Card[]) => {
+    const allCards = results.flat()
+    onImport(allCards)
+  })
+}

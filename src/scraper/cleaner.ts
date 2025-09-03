@@ -1,6 +1,7 @@
 /* eslint-disable regexp/no-super-linear-backtracking */
 import type { Card } from '../composables/types.ts'
 import { useAonLink } from '../composables/aon-link.ts'
+import { useActionImage } from '../composables/action-to-image.ts'
 import { applySkillToAction, checkActionToSkill, saveRelatedActions } from './actionSkills.ts'
 
 function prefixImageLinks(description: string): string {
@@ -131,11 +132,17 @@ function formatCard(card: Card): Card {
       .matchAll(/\*\*(.+?)\*\*(.*?)(?=\r|\n)/gs)
     const group: [string, string][] = []
     let hasFeats = false
-    let seenDamage = false
+    const seenDamage = false
     for (const feature of feats) {
       const [key, value] = getFeature(feature)
       if (key) {
         hasFeats = true
+
+        // // Replace all aon images with renderable images
+        // value.replaceAll(/<actions string=\"(.+)\" \/>/g, (_, actionType) => {
+        //   return `<img :src="${useActionImage(actionType)}" class="action-icon" :alt="${actionType}">`
+        // })
+
         group.push([key.trim(), value.trim()])
 
         if (key === 'Damage') {
@@ -209,7 +216,7 @@ function getFeature(pair: RegExpExecArray): [string, string] {
     return [linkText[1], value]
   }
 
-  value = value.replace(/<br ?\/>/s, ' ')
+  value = value.replace(/<br ?\/>/, ' ')
 
   return [key, value]
 }
@@ -228,7 +235,7 @@ function isAValidEntry(item: Card): boolean {
     return false
   }
   if (item.item_child_id) {
-    console.log("Skipping item with children:", item.name)
+    console.log('Skipping item with children:', item.name)
     return false
   }
   return true

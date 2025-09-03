@@ -7,6 +7,10 @@ function handleListCreate() {
   console.log('create clicked')
   manager.createList()
 }
+
+function handleReloadClick() {
+  manager.updateData()
+}
 </script>
 
 <template>
@@ -24,11 +28,15 @@ function handleListCreate() {
         @delete="manager.deleteList(index)"
       />
     </div>
-    <div class="add-list px-2 py-6">
+    <div class="add-list flex px-2 py-6">
       <el-button type="primary" @click="handleListCreate">
         Create new list<el-icon class="el-icon--right">
           <i-msl-add-2 />
         </el-icon>
+      </el-button>
+
+      <el-button type="warning" class="configure-btn" @click="handleReloadClick">
+        Update data
       </el-button>
     </div>
   </div>
@@ -38,5 +46,8 @@ function handleListCreate() {
 .bookmark-item {
   padding: 8px 0;
   border-bottom: 1px solid var(--el-border-color);
+}
+.configure-btn {
+  margin-left: auto;
 }
 </style>

@@ -1,12 +1,14 @@
 import type { RemovableRef } from '@vueuse/core'
+import type { Ref } from 'vue'
 import type { Card } from './types'
 import { useStorage } from '@vueuse/core'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ref, Ref } from 'vue'
 
 interface Override {
   count?: number
   description?: string
+  trait_raw?: string[]
 }
 
 interface PrintCustomisations {
@@ -51,15 +53,20 @@ class Printer {
     }
     // apply overrides here
     const override = this.getOverride(card.id)
-    let moddedCard = Object.assign({}, card)
+    const moddedCard = Object.assign({}, card)
 
-    if (override.description)  {
+    if (override.description) {
       moddedCard.description = override.description
     }
 
+    if (override.trait_raw) {
+      moddedCard.trait_raw = override.trait_raw
+    }
+
     if (override.count) {
-      return Array(override.count).fill(moddedCard)
-    } else if (override.count == 0) {
+      return Array.from({ length: override.count }, () => moddedCard)
+    }
+    else if (override.count === 0) {
       return []
     }
 
@@ -73,7 +80,7 @@ class Printer {
 
   resetOverride(id: Card['id']) {
     delete this.overrides.value[id]
-    if (Object.keys(this.overrides.value).length == 0) {
+    if (Object.keys(this.overrides.value).length === 0) {
       this.overrideExists.value = false
     }
   }
@@ -98,7 +105,7 @@ class Printer {
 
   // Set Overrides
   private setField<T extends keyof Override>(id: Card['id'], fieldName: T, value: Override[T]) {
-    let override = this.getOverride(id)
+    const override = this.getOverride(id)
     override[fieldName] = value
     this.overrides.value[id] = override
     this.overrideExists.value = true
@@ -110,6 +117,10 @@ class Printer {
 
   setDescription(id: Card['id'], description: string) {
     this.setField(id, 'description', description)
+  }
+
+  setTraits(id: Card['id'], trait_raw: string[]) {
+    this.setField(id, 'trait_raw', trait_raw)
   }
 }
 

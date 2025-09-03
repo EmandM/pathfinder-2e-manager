@@ -4,6 +4,7 @@ import markdownit from 'markdown-it'
 import mila from 'markdown-it-link-attributes'
 import { useActionImage } from '~/composables/action-to-image'
 import { useAonLink } from '~/composables/aon-link'
+import { imagePlugin } from '~/composables/image-renderer'
 
 const { source, isBookmarked } = defineProps<{
   source: Card
@@ -26,6 +27,7 @@ md.use(mila, {
     target: '_blank',
   },
 })
+md.use(imagePlugin, 'inline-action')
 
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
@@ -107,6 +109,12 @@ hr.divider {
 .item-features {
   display: flex;
   flex-wrap: wrap;
+
+  &:deep() {
+    .inline-action {
+      height: 14px;
+    }
+  }
 }
 
 .feature.newline {

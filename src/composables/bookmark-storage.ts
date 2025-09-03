@@ -1,6 +1,8 @@
 import type { RemovableRef } from '@vueuse/core'
 import type { Card } from './types'
 import { useStorage } from '@vueuse/core'
+import { dataImportAll } from './data-importer'
+import { keyBy } from './key-by'
 
 const defaultListName = 'bookmarks'
 
@@ -105,6 +107,33 @@ class Bookmarker {
 
   getListNames(): string[] {
     return this.lists.value.map(list => list.name)
+  }
+
+  updateData() {
+    console.log('Starting update of all bookmarked cards')
+    const types = {}
+
+    this.lists.value.forEach((list) => {
+      Object.values(list.bookmarked).forEach((card) => {
+        types[card.category] = true
+      })
+    })
+
+    dataImportAll(Object.keys(types), (cards: Card[]) => {
+      const cardLookup = keyBy(cards, card => card.id)
+
+      for (const list of this.lists.value) {
+        for (const id in list.bookmarked) {
+          const updated = cardLookup[id]
+          if (!updated) {
+            console.warn(`No updated card found for ${list.bookmarked[id].name}`)
+            continue
+          }
+          list[id] = updated
+        }
+      }
+      console.log('Successfully updated bookmarks!')
+    })
   }
 }
 

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { usePrintCustomization } from '~/composables/print'
 import IconExclamation from '~icons/material-symbols-light/warning'
+import { usePrintCustomization } from '~/composables/print'
 
 const printer = usePrintCustomization()
 let toPrint = printer.loadItemsToPrint()
-let toConfigure = printer.loadItemsToConfigure()
-let hasOverride = printer.watchHasOverrides()
+const toConfigure = printer.loadItemsToConfigure()
+const hasOverride = printer.watchHasOverrides()
 
 const isConfigureMode = ref(false)
 
@@ -42,30 +42,31 @@ function handleReset() {
     </el-button>
 
     <el-popconfirm
-        v-if="hasOverride"
-        title="Are you sure to reset all print overrides?"
-        confirm-button-type="danger"
-        cancel-button-type="info"
-        icon-color="#DD2C00"
-        :icon="IconExclamation"
-        @confirm="handleReset"
-      >
-        <template #reference>
-          <el-button type="warning" class="reset-btn">
-            Reset all overrides
-          </el-button>
-        </template>
-      </el-popconfirm>
+      v-if="hasOverride"
+      title="Are you sure to reset all print overrides?"
+      confirm-button-type="danger"
+      cancel-button-type="info"
+      icon-color="#DD2C00"
+      :icon="IconExclamation"
+      @confirm="handleReset"
+    >
+      <template #reference>
+        <el-button type="warning" class="reset-btn">
+          Reset all overrides
+        </el-button>
+      </template>
+    </el-popconfirm>
   </div>
   <div v-if="!isConfigureMode" class="cards">
     <Card v-for="item in toPrint" :key="item.id" :source="item" is-print />
   </div>
 
   <div v-else class="configuration">
-    <div v-for="item in toConfigure" class="config">
-      <PrintCardConfig 
-        :key="item.id" 
-        :source="item" />
+    <div v-for="item in toConfigure" :key="item.id" class="config">
+      <PrintCardConfig
+        :key="item.id"
+        :source="item"
+      />
     </div>
   </div>
 </template>
@@ -81,7 +82,7 @@ function handleReset() {
 }
 
 .reset-btn {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 .cards {

@@ -9,7 +9,11 @@ export const actionToImage = {
   'Free Action': 'action_free',
 }
 
-export function useActionImage(type: keyof typeof actionToImage): string {
+export function useActionImage(type: string): string {
+  if (!actionToImage[type]) {
+    console.error('no image found for type')
+    return type
+  }
   const suffix = isDark.value ? '' : '_black'
   return `${import.meta.env.BASE_URL}img/${actionToImage[type]}${suffix}.png`
 }
