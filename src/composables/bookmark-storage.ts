@@ -129,7 +129,7 @@ class Bookmarker {
             console.warn(`No updated card found for ${list.bookmarked[id].name}`)
             continue
           }
-          list[id] = updated
+          list.bookmarked[id] = updated
         }
       }
       console.log('Successfully updated bookmarks!')
