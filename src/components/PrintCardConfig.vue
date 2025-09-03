@@ -97,7 +97,7 @@ function handleReset() {
   </el-dialog>
 
   <el-dialog v-model="traitDialogVisible" :title="source.name" width="500" draggable>
-    <el-input-tag v-model="traits" placeholder="Please input" />
+    <el-input-tag v-model="traits" draggable placeholder="Please input" />
 
     <template #footer>
       <div class="dialog-footer">

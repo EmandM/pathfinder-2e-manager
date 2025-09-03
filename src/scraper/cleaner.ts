@@ -1,7 +1,6 @@
 /* eslint-disable regexp/no-super-linear-backtracking */
 import type { Card } from '../composables/types.ts'
 import { useAonLink } from '../composables/aon-link.ts'
-import { useActionImage } from '../composables/action-to-image.ts'
 import { applySkillToAction, checkActionToSkill, saveRelatedActions } from './actionSkills.ts'
 
 function prefixImageLinks(description: string): string {
@@ -129,19 +128,21 @@ function formatCard(card: Card): Card {
     // Collect the features
     const feats = col[0]
       .replaceAll(/(\*\*|<actions.*?\/>) ?\r\n/g, '$1 ')
-      .matchAll(/\*\*(.+?)\*\*(.*?)(?=\r|\n)/gs)
+      .matchAll(/(?:\*\*(.+?)\*\*|## (.+?)<row .+?>)(.*?)(?=(?:\r|\n)\n)/gs)
     const group: [string, string][] = []
     let hasFeats = false
     const seenDamage = false
     for (const feature of feats) {
-      const [key, value] = getFeature(feature)
+      let [key, value] = getFeature(feature)
       if (key) {
         hasFeats = true
 
-        // // Replace all aon images with renderable images
-        // value.replaceAll(/<actions string=\"(.+)\" \/>/g, (_, actionType) => {
-        //   return `<img :src="${useActionImage(actionType)}" class="action-icon" :alt="${actionType}">`
-        // })
+        // The markdown uses <row> tags to indicate a newline
+        if (value.match(/<\/?row>/)) {
+          value = value.replaceAll(/<\/?row>/g, ' ')
+
+          group.push(['newline', ''])
+        }
 
         group.push([key.trim(), value.trim()])
 
@@ -167,7 +168,7 @@ function formatCard(card: Card): Card {
    */
   let description = ''
   const descBlocks = markdown
-    .matchAll(/(?:---\s*|<column.*?>|<\/sup>(?!,)|pg. \d+)(.*?)(?=\*\*|<|\/>|---|$)/gs)
+    .matchAll(/(?:---\s*|<column.*?>|<\/sup>(?!,)|pg. \d+)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
   for (const line of descBlocks) {
     if (!line[1]) {
       continue
@@ -200,8 +201,8 @@ function formatCard(card: Card): Card {
 }
 
 function getFeature(pair: RegExpExecArray): [string, string] {
-  const key = pair[1]
-  let value = pair[2]
+  const key = pair[1] || pair[2]
+  let value = pair[3]
 
   if (key === 'Price' && value === '—') {
     return [key, '0p']
@@ -214,6 +215,13 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   const linkText = key.match(/\[(.+?)\]\(.+?\)/s)
   if (linkText) {
     return [linkText[1], value]
+  }
+
+  // Tables have ## headings that are handled weird otherwise
+  const tableText = value.match(/##(.+?)<row .*?>(.*)$/s)
+  if (tableText) {
+    console.log(value)
+    return [tableText[1], tableText[2]]
   }
 
   value = value.replace(/<br ?\/>/, ' ')
