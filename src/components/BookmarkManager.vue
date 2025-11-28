@@ -3,6 +3,7 @@ import type { BookmarkList } from '~/composables/bookmark-storage'
 import { computed, nextTick, ref, watchEffect } from 'vue'
 import IconExclamation from '~icons/material-symbols-light/warning'
 import { usePrinter } from '~/composables/print'
+import { useRouter } from 'vue-router';
 
 const { list, isActive } = defineProps<{
   list: BookmarkList
@@ -28,6 +29,11 @@ function handleActiveClick() {
 
 function handlePrint() {
   goToPrint(Object.values(list.bookmarked))
+}
+
+const router = useRouter()
+function handleView() {
+  router.push(`/view/${list.name}`)
 }
 
 function handleSetName() {
@@ -67,6 +73,13 @@ function handleSetName() {
     </div>
 
     <div class="flex">
+      <el-button class="view-button" @click="handleView">
+        View
+        <el-icon class="el-icon--right">
+          <i-msl-print-outline />
+        </el-icon>
+      </el-button>
+
       <el-button type="primary" class="print-button" @click="handlePrint">
         Print
         <el-icon class="el-icon--right">

@@ -9,8 +9,9 @@ import { dataImporter } from '~/composables/data-importer'
 import { usePrinter } from '~/composables/print'
 import { useFiltersForPage, useLevelFilter } from './filters/filter-descriptions'
 
-const { pageName } = defineProps<{
+const { pageName, collection } = defineProps<{
   pageName: string
+  collection?: Card[]
 }>()
 
 /*
@@ -25,7 +26,7 @@ const limit = 50
  */
 const filterList: Ref<Filter[]> = ref([]) // List of filters for the filter manager
 const shortcut: Ref<Filter | undefined> = ref() // Shortcut filter for the filter manager
-const cards: Card[] = [] // all cards for the current page
+const cards: Card[] = collection ?? [] // all cards for the current page
 let filteredCards: Card[] = [] // all cards that match the current applied filters
 const displayed: Ref<Card[]> = ref([]) // cards to display (generated from filter)
 
@@ -38,21 +39,28 @@ const levelFilter = useLevelFilter(pageName)
 const goToPrint = usePrinter()
 const bookmarker = useBookmarks()
 
-// Import the data
-const data = dataImporter(pageName, (data) => {
-  // push all the data into the card list
-  cards.push(...data as Card[])
+let isLoaded = ref(false);
+if (collection == null) {
+  // Import the data
+  const data = dataImporter(pageName, (data) => {
+    // push all the data into the card list
+    cards.push(...data as Card[])
 
-  // Pre-add the shortcut filters
-  if (filters.shortcut) {
-    filters.shortcut.hydrate(cards)
-    shortcut.value = filters.shortcut
+    // Pre-add the shortcut filters
+    if (filters.shortcut) {
+      filters.shortcut.hydrate(cards)
+      shortcut.value = filters.shortcut
 
-    appliedFilters.addShortcutFilter(filters.shortcut)
-  }
+      appliedFilters.addShortcutFilter(filters.shortcut)
+    }
 
+    doFilter()
+    isLoaded.value = true;
+  })
+} else {
   doFilter()
-})
+  isLoaded.value = true;
+}
 
 // Called each time the filters change
 function doFilter() {
@@ -103,7 +111,7 @@ function doPrint() {
   <el-divider>
     <el-icon><i-msl-star-rounded /></el-icon>
   </el-divider>
-  <div v-if="data.isLoaded" v-infinite-scroll="loadItems" infinite-scroll-distance="500" class="cards">
+  <div v-if="isLoaded" v-infinite-scroll="loadItems" infinite-scroll-distance="500" class="cards">
     <Card
       v-for="card in displayed"
       :key="card.id"

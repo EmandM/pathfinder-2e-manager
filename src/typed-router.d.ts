@@ -22,5 +22,6 @@ declare module 'vue-router/auto-routes' {
     '/bookmarks': RouteRecordInfo<'/bookmarks', '/bookmarks', Record<never, never>, Record<never, never>>,
     '/print': RouteRecordInfo<'/print', '/print', Record<never, never>, Record<never, never>>,
     '/search/[topic]': RouteRecordInfo<'/search/[topic]', '/search/:topic', { topic: ParamValue<true> }, { topic: ParamValue<false> }>,
+    '/view/[bookmarkList]': RouteRecordInfo<'/view/[bookmarkList]', '/view/:bookmarkList', { bookmarkList: ParamValue<true> }, { bookmarkList: ParamValue<false> }>,
   }
 }

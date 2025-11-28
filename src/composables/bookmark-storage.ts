@@ -135,6 +135,15 @@ class Bookmarker {
       console.log('Successfully updated bookmarks!')
     })
   }
+
+  getCardsInList(name: string): Card[] {
+    const list = this.getList(name);
+    if (!list) {
+      return []
+    }
+
+    return Object.values(list.bookmarked)
+  }
 }
 
 const defaultList: BookmarkList[] = [{
