@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { BookmarkList } from '~/composables/bookmark-storage'
 import { computed, nextTick, ref, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 import IconExclamation from '~icons/material-symbols-light/warning'
 import { usePrinter } from '~/composables/print'
-import { useRouter } from 'vue-router';
 
 const { list, isActive } = defineProps<{
   list: BookmarkList

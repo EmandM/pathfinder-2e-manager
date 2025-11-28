@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { DragChangeEvent } from 'vue-draggable-next'
+import type { Card } from '~/composables/types'
 import { ref } from 'vue'
+import { VueDraggableNext as draggable } from 'vue-draggable-next'
 import IconExclamation from '~icons/material-symbols-light/warning'
 import { usePrintCustomization } from '~/composables/print'
-import { DragChangeEvent, VueDraggableNext as draggable, MoveEvent } from 'vue-draggable-next'
-import type { Card } from '~/composables/types'
-
 
 const printer = usePrintCustomization()
 let toPrint = printer.loadItemsToPrint()
@@ -27,10 +27,8 @@ function handlePrint() {
   }
 }
 
-function itemMoved(evt: DragChangeEvent<Card>) {
+function itemMoved(_evt: DragChangeEvent<Card>) {
   printer.printList.value = toConfigure
-    console.log('Future index: ' + evt.moved.newIndex)
-    console.log('element: ' + evt.moved.element.name, evt.moved.oldIndex)
 }
 
 function handleReset() {

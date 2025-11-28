@@ -14,6 +14,6 @@ const { topic } = defineProps<{
 
 <style scoped lang="scss">
 .el-menu-item.el-menu-item a {
-  color: inherit
+  color: inherit;
 }
 </style>

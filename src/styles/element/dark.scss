@@ -13,15 +13,14 @@ $--bg-color: (
 );
 
 $--menu: (
-  "bg-color": #151b23
+  'bg-color': #151b23,
 );
-
 
 @forward 'element-plus/theme-chalk/src/dark/var.scss' with (
   $colors: $--colors,
-  $bg-color: $--bg-color,
+  $bg-color: $--bg-color
 );
-  
+
 @use 'element-plus/theme-chalk/src/dark/css-vars.scss' as *;
 
 // More specific overrides

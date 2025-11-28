@@ -3,7 +3,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { FilterState } from '~/composables/types'
-import { disabled } from './filter-colors'
 
 const props = defineProps<{
   title: string

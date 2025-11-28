@@ -85,7 +85,7 @@ code {
   .el-icon {
     &.el-sub-menu__icon-arrow {
       @extend %msl-menu-icon-size;
-    
+
       svg {
         @extend %msl-menu-icon-size;
       }

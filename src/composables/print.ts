@@ -60,26 +60,26 @@ class Printer {
     const override = this.getOverride(card.id)
     const moddedCard = Object.assign({}, card)
 
-    var overrideFields = Object.keys(override)
+    const overrideFields = Object.keys(override)
     overrideFields.forEach((field) => {
       if (field === 'count') {
         return
       }
 
       if (override[field]) {
+        // eslint-disable-next-line ts/no-unsafe-assignment
         moddedCard[field] = override[field]
       }
     })
 
-    
     if (override.count === 0) {
       return []
     }
 
-    var toReturn = [moddedCard]
+    let toReturn = [moddedCard]
 
     if (override.print_image) {
-      var imageCard = Object.assign({}, moddedCard)
+      const imageCard = Object.assign({}, moddedCard)
       moddedCard.print_image = false
       toReturn = [moddedCard, imageCard]
     }

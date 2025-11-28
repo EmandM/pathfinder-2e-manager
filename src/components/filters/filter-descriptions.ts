@@ -201,10 +201,10 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   },
   hazard: {
     selectable: [
-      new ValueFilter("Hazard Type", 'hazard_type', color.bluegreen),
-      new ValueFilter("Complexity", 'complexity', color.blue)
-    ]
-  }
+      new ValueFilter('Hazard Type', 'hazard_type', color.bluegreen),
+      new ValueFilter('Complexity', 'complexity', color.blue),
+    ],
+  },
 }
 
 type PageFilterList = keyof typeof filterByPage & string

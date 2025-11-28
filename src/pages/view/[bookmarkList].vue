@@ -5,9 +5,9 @@ import { useBookmarks } from '~/composables/bookmark-storage'
 
 const route = useRoute('/view/[bookmarkList]')
 const bookmarkListName = ref(route.params.bookmarkList)
-const bookmarkManager = useBookmarks();
+const bookmarkManager = useBookmarks()
 
-const cards = bookmarkManager.getCardsInList(bookmarkListName.value);
+const cards = bookmarkManager.getCardsInList(bookmarkListName.value)
 </script>
 
 <template>

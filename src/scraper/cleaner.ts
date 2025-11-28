@@ -192,17 +192,17 @@ function formatCard(card: Card): Card {
    * Clean out unneded keys (needs to be last)
   */
   const extra_keys = ['exclude_from_search', 'text']
-  // for (const key of Object.keys(card)) {
-  //   if (key.includes('_markdown') || extra_keys.includes(key))
-  //     delete card[key]
-  // }
+  for (const key of Object.keys(card)) {
+    if (key.includes('_markdown') || extra_keys.includes(key))
+      delete card[key]
+  }
 
   return Object.fromEntries(Object.entries(card).sort()) as Card
 }
 
 function getFeature(pair: RegExpExecArray): [string, string] {
   const key = pair[1] || pair[2]
-  let value = pair[3]
+  const value = pair[3]
 
   if (key === 'Price' && value === '—') {
     return [key, '0p']

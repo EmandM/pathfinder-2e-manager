@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '~/composables/types'
-import { computed, ref, watch } from 'vue'
+import { computed, ref } from 'vue'
 import { usePrintCustomization } from '~/composables/print'
 
 const { source } = defineProps<{
@@ -16,7 +16,7 @@ const description = ref(existing?.description || source.description)
 const traits = ref(existing?.trait_raw || source.trait_raw)
 const xlCard = ref(existing?.xl_card || false)
 const printImage = ref(existing?.print_image || false)
-const imageDisabled = !source.image;
+const imageDisabled = !source.image
 
 const descriptionDialogVisible = ref(false)
 
@@ -72,7 +72,7 @@ function handleReset() {
     <div class="actions">
       <div class="action">
         <el-checkbox v-model="xlCard" label="XL" @change="handleXlCardChange" />
-        <el-checkbox v-model="printImage" label="print image" @change="handlePrintImage" :disabled="imageDisabled" />
+        <el-checkbox v-model="printImage" label="print image" :disabled="imageDisabled" @change="handlePrintImage" />
       </div>
       <el-button class="action" plain @click="descriptionDialogVisible = true">
         Description
@@ -145,8 +145,6 @@ function handleReset() {
 
     .action {
       margin-left: 0.5rem;
-
-
 
       .el-checkbox {
         margin-right: 8px;

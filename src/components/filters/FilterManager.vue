@@ -8,7 +8,7 @@ import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
 import Select from './Select.vue'
 
-const { filterList, appliedFilters: appliedFilters, shortcut } = defineProps<{
+const { filterList, appliedFilters, shortcut } = defineProps<{
   filterList: Filter[]
   levelOptions: string[]
   appliedFilters: AppliedFilterCollection
@@ -131,7 +131,8 @@ function removeFilterTag(removeTag: SelectedFilter) {
     // If it's a single option tag, add it back to the main dropdown
     mainDropdownOptions.value.push(removeTag.filter.name)
     mainDropdownOptions.value.sort()
-  } else {
+  }
+  else {
     // Otherwise add it back to the sub-dropdown
     const subDropdown = shownSubDropdowns.value.get(removeTag.filter.name)
     if (!subDropdown) {

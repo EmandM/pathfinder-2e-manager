@@ -39,10 +39,10 @@ const levelFilter = useLevelFilter(pageName)
 const goToPrint = usePrinter()
 const bookmarker = useBookmarks()
 
-let isLoaded = ref(false);
+const isLoaded = ref(false)
 if (collection == null) {
   // Import the data
-  const data = dataImporter(pageName, (data) => {
+  dataImporter(pageName, (data) => {
     // push all the data into the card list
     cards.push(...data as Card[])
 
@@ -55,11 +55,12 @@ if (collection == null) {
     }
 
     doFilter()
-    isLoaded.value = true;
+    isLoaded.value = true
   })
-} else {
+}
+else {
   doFilter()
-  isLoaded.value = true;
+  isLoaded.value = true
 }
 
 // Called each time the filters change

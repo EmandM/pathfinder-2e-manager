@@ -137,7 +137,7 @@ class Bookmarker {
   }
 
   getCardsInList(name: string): Card[] {
-    const list = this.getList(name);
+    const list = this.getList(name)
     if (!list) {
       return []
     }

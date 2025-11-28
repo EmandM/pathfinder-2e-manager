@@ -9,21 +9,20 @@ $custom-colors: (
     'base': #f2711c,
   ),
   'danger': (
-    'base': #DD2C00,
+    'base': #dd2c00,
   ),
   'error': (
     'base': #db2828,
   ),
   'info': (
-    'base': #546E7A,
+    'base': #546e7a,
   ),
 );
-
 
 // You should use them in scss, because we calculate it by sass.
 // comment next lines to use default color
 @forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  $colors: $custom-colors,
+  $colors: $custom-colors
 );
 
 // You can comment it to hide debug info.

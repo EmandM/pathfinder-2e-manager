@@ -37,7 +37,7 @@ const isCreature = source.category === 'creature' && !source.print_image
 
 <template>
   <div class="cardSize" :class="{ print: isPrint, notPrint: !isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card }">
-    <div class="item" v-if="!source.print_image">
+    <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
           <div class="listview-title">
@@ -59,7 +59,7 @@ const isCreature = source.category === 'creature' && !source.print_image
       <hr class="divider top-divider">
 
       <div class="flex">
-        <div class="flex-1 desc-container">
+        <div class="desc-container flex-1">
           <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
           <div v-if="!!source.size" class="trait size">{{ source.size[0] }}</div>
           <div v-if="source.is_trained" class="trait trained">Trained</div>
@@ -82,7 +82,7 @@ const isCreature = source.category === 'creature' && !source.print_image
           <div v-if="!isPrint" class="copyright">
             {{ source.primary_source }}
           </div>
-          <div v-if="source.xl_card && isPrint && !isCreature"></div>
+          <div v-if="source.xl_card && isPrint && !isCreature" />
         </div>
 
         <div v-for="image in source.image" :key="image" class="item-image">
@@ -90,7 +90,7 @@ const isCreature = source.category === 'creature' && !source.print_image
         </div>
       </div>
     </div>
-    <div class="image" v-else>
+    <div v-else class="image">
       <div v-for="image in source.image" :key="image">
         <img :src="useAonLink(image)">
       </div>
@@ -319,7 +319,7 @@ hr.divider {
     height: 650px;
   }
   &.large.split {
-    background: 
+    background:
       linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
       linear-gradient(to left, black 0.5px, transparent 0.5px) 48% 100%,
       linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 100%,
@@ -337,9 +337,10 @@ hr.divider {
 
     .desc-container {
       column-count: 2;
-      column-gap: 20px; 
+      column-gap: 20px;
     }
-    .stretcher-bearer, .top-divider {
+    .stretcher-bearer,
+    .top-divider {
       width: calc(50% - 7px);
     }
   }
