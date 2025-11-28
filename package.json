@@ -23,6 +23,7 @@
     "n": "^10.1.0",
     "unplugin-vue-markdown": "^28.3.1",
     "vue": "^3.2.37",
+    "vue-draggable-next": "^2.3.0",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
@@ -31,10 +32,10 @@
     "@iconify-json/ep": "^1.2.1",
     "@iconify-json/material-symbols-light": "^1.2.15",
     "@iconify-json/ri": "^1.2.3",
-    "@types/markdown-it-link-attributes": "^3.0.5",
-    "@types/node": "^22.13.5",
     "@types/elasticsearch": "^5.0.43",
     "@types/markdown-it": "^14.1.2",
+    "@types/markdown-it-link-attributes": "^3.0.5",
+    "@types/node": "^22.13.5",
     "@unocss/eslint-plugin": "^66.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/compiler-sfc": "^3.5.13",
