@@ -49,6 +49,10 @@ export interface Card {
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
   is_trained: boolean
+
+  // Print configuration
+  xl_card: boolean
+  print_image: boolean
 }
 
 export enum FilterState {
@@ -56,3 +60,5 @@ export enum FilterState {
   excludes = 'exclude',
   inactive = 'inactive',
 }
+
+export type KeysMatching<X, T> = { [K in keyof X]-?: X[K] extends T ? K : never }[keyof X]

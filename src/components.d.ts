@@ -13,6 +13,7 @@ declare module 'vue' {
     ButtonFilter: typeof import('./components/filters/ButtonFilter.vue')['default']
     Card: typeof import('./components/Card.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
+    ElCheckbox: typeof import('element-plus/es')['ElCheckbox']
     ElCheckboxButton: typeof import('element-plus/es')['ElCheckboxButton']
     ElCheckboxGroup: typeof import('element-plus/es')['ElCheckboxGroup']
     ElDialog: typeof import('element-plus/es')['ElDialog']

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Card } from '~/composables/types'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { usePrintCustomization } from '~/composables/print'
 
 const { source } = defineProps<{
@@ -14,6 +14,9 @@ const noOverride = computed(() => !printer.getConfiguredOverride(source.id))
 const count = ref((existing?.count || existing?.count === 0) ? existing.count : 1)
 const description = ref(existing?.description || source.description)
 const traits = ref(existing?.trait_raw || source.trait_raw)
+const xlCard = ref(existing?.xl_card || false)
+const printImage = ref(existing?.print_image || false)
+const imageDisabled = !source.image;
 
 const descriptionDialogVisible = ref(false)
 
@@ -47,6 +50,14 @@ function handleTraitsSave() {
   traitDialogVisible.value = false
 }
 
+function handleXlCardChange(newVal: boolean) {
+  printer.setFlag(source.id, 'xl_card', newVal)
+}
+
+function handlePrintImage(newVal: boolean) {
+  printer.setFlag(source.id, 'print_image', newVal)
+}
+
 function handleReset() {
   printer.resetOverride(source.id)
   count.value = 1
@@ -59,13 +70,17 @@ function handleReset() {
     <span>{{ source.name }}</span>
 
     <div class="actions">
-      <el-input-number v-model="count" class="action" :min="0" @change="handleCountChange" />
+      <div class="action">
+        <el-checkbox v-model="xlCard" label="XL" @change="handleXlCardChange" />
+        <el-checkbox v-model="printImage" label="print image" @change="handlePrintImage" :disabled="imageDisabled" />
+      </div>
       <el-button class="action" plain @click="descriptionDialogVisible = true">
-        Edit description
+        Description
       </el-button>
       <el-button class="action" plain @click="traitDialogVisible = true">
-        Edit traits
+        Traits
       </el-button>
+      <el-input-number v-model="count" class="action" :min="0" @change="handleCountChange" />
       <el-button class="action" plain type="warning" :disabled="noOverride" @click="handleReset">
         Reset
       </el-button>
@@ -129,7 +144,13 @@ function handleReset() {
     display: flex;
 
     .action {
-      margin-left: 1rem;
+      margin-left: 0.5rem;
+
+
+
+      .el-checkbox {
+        margin-right: 8px;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 import type { RemovableRef } from '@vueuse/core'
 import type { Ref } from 'vue'
-import type { Card } from './types'
+import type { Card, KeysMatching } from './types'
 import { useStorage } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -9,6 +9,8 @@ interface Override {
   count?: number
   description?: string
   trait_raw?: string[]
+  xl_card: boolean
+  print_image: boolean
 }
 
 interface PrintCustomisations {
@@ -42,7 +44,10 @@ class Printer {
 
   private getOverride(id: Card['id']): Override {
     if (!this.overrides.value[id]) {
-      this.overrides.value[id] = {}
+      this.overrides.value[id] = {
+        xl_card: false,
+        print_image: false,
+      }
     }
     return this.overrides.value[id]
   }
@@ -55,22 +60,35 @@ class Printer {
     const override = this.getOverride(card.id)
     const moddedCard = Object.assign({}, card)
 
-    if (override.description) {
-      moddedCard.description = override.description
-    }
+    var overrideFields = Object.keys(override)
+    overrideFields.forEach((field) => {
+      if (field === 'count') {
+        return
+      }
 
-    if (override.trait_raw) {
-      moddedCard.trait_raw = override.trait_raw
-    }
+      if (override[field]) {
+        moddedCard[field] = override[field]
+      }
+    })
 
-    if (override.count) {
-      return Array.from({ length: override.count }, () => moddedCard)
-    }
-    else if (override.count === 0) {
+    
+    if (override.count === 0) {
       return []
     }
 
-    return [moddedCard]
+    var toReturn = [moddedCard]
+
+    if (override.print_image) {
+      var imageCard = Object.assign({}, moddedCard)
+      moddedCard.print_image = false
+      toReturn = [moddedCard, imageCard]
+    }
+
+    if (override.count) {
+      toReturn.push(...Array.from({ length: override.count - 1 }, () => moddedCard))
+    }
+
+    return toReturn
   }
 
   resetOverrides() {
@@ -121,6 +139,10 @@ class Printer {
 
   setTraits(id: Card['id'], trait_raw: string[]) {
     this.setField(id, 'trait_raw', trait_raw)
+  }
+
+  setFlag(id: Card['id'], flagName: KeysMatching<Override, boolean>, value: boolean) {
+    this.setField(id, flagName, value)
   }
 }
 

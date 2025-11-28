@@ -2,10 +2,14 @@
 import { ref } from 'vue'
 import IconExclamation from '~icons/material-symbols-light/warning'
 import { usePrintCustomization } from '~/composables/print'
+import { DragChangeEvent, VueDraggableNext as draggable, MoveEvent } from 'vue-draggable-next'
+import type { Card } from '~/composables/types'
+
 
 const printer = usePrintCustomization()
 let toPrint = printer.loadItemsToPrint()
 const toConfigure = printer.loadItemsToConfigure()
+
 const hasOverride = printer.watchHasOverrides()
 
 const isConfigureMode = ref(false)
@@ -21,6 +25,12 @@ function handlePrint() {
   else {
     window.print()
   }
+}
+
+function itemMoved(evt: DragChangeEvent<Card>) {
+  printer.printList.value = toConfigure
+    console.log('Future index: ' + evt.moved.newIndex)
+    console.log('element: ' + evt.moved.element.name, evt.moved.oldIndex)
 }
 
 function handleReset() {
@@ -62,12 +72,18 @@ function handleReset() {
   </div>
 
   <div v-else class="configuration">
-    <div v-for="item in toConfigure" :key="item.id" class="config">
-      <PrintCardConfig
-        :key="item.id"
-        :source="item"
-      />
-    </div>
+    <draggable
+      :list="toConfigure"
+      item-key="id"
+      @change="itemMoved"
+    >
+      <div v-for="item in toConfigure" :key="item.id" class="config">
+        <PrintCardConfig
+          :key="item.id"
+          :source="item"
+        />
+      </div>
+    </draggable>
   </div>
 </template>
 
