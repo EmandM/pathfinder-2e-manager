@@ -75,9 +75,6 @@ function handleSetName() {
     <div class="flex">
       <el-button class="view-button" @click="handleView">
         View
-        <el-icon class="el-icon--right">
-          <i-msl-print-outline />
-        </el-icon>
       </el-button>
 
       <el-button type="primary" class="print-button" @click="handlePrint">
