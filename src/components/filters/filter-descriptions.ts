@@ -199,6 +199,12 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   feat: {
     selectable: [new StringArrayFilter('Skill', 'skill', color.bluegreen)],
   },
+  hazard: {
+    selectable: [
+      new ValueFilter("Hazard Type", 'hazard_type', color.bluegreen),
+      new ValueFilter("Complexity", 'complexity', color.blue)
+    ]
+  }
 }
 
 type PageFilterList = keyof typeof filterByPage & string

@@ -42,6 +42,10 @@ export interface Card {
   size: string[1]
   skill: string[]
 
+  // Hazard
+  hazard_type: string
+  complexity: string
+
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
   is_trained: boolean

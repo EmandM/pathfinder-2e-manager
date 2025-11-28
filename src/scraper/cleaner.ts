@@ -122,13 +122,13 @@ function formatCard(card: Card): Card {
    * We maintain the groups so that we can display dividers in-between the groups
    * Therefore features is an array of objects with key-value features
   */
-  const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column)|(?<=>(?!.*<)).+$/gs)
+  const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column|$)/gs)
   const featBlocks = [] as Card['features']
   for (const col of columns) {
     // Collect the features
     const feats = col[0]
-      .replaceAll(/(\*\*|<actions.*?\/>) ?\r\n/g, '$1 ')
-      .matchAll(/(?:\*\*(.+?)\*\*|## (.+?)<row .+?>)(.*?)(?=(?:\r|\n)\n)/gs)
+      .replaceAll(/<br ?\/>/g, '\n\n')
+      .matchAll(/(?:\*\*(.+?)\*\*|## (.+?)<row .+?>)(.+?)(?:(?=(?:\r|\n)\n)|$)/gs)
     const group: [string, string][] = []
     let hasFeats = false
     const seenDamage = false
@@ -168,7 +168,7 @@ function formatCard(card: Card): Card {
    */
   let description = ''
   const descBlocks = markdown
-    .matchAll(/(?:---\s*|<column.*?>|<\/sup>(?!,)|pg. \d+)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
+    .matchAll(/(?:---\s*|<\/?column.*?>|<\/sup>(?!,)|pg. \d+)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
   for (const line of descBlocks) {
     if (!line[1]) {
       continue
@@ -192,10 +192,10 @@ function formatCard(card: Card): Card {
    * Clean out unneded keys (needs to be last)
   */
   const extra_keys = ['exclude_from_search', 'text']
-  for (const key of Object.keys(card)) {
-    if (key.includes('_markdown') || extra_keys.includes(key))
-      delete card[key]
-  }
+  // for (const key of Object.keys(card)) {
+  //   if (key.includes('_markdown') || extra_keys.includes(key))
+  //     delete card[key]
+  // }
 
   return Object.fromEntries(Object.entries(card).sort()) as Card
 }
@@ -224,12 +224,12 @@ function getFeature(pair: RegExpExecArray): [string, string] {
     return [tableText[1], tableText[2]]
   }
 
-  value = value.replace(/<br ?\/>/, ' ')
+  // value = value.replace(/<br ?\/>/, ' ')
 
   return [key, value]
 }
 
-const validOldSources = ['Treasure Vault', 'Troubles in Otari']
+const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead']
 /**
  * Returns true if the source was published after the remaster started.
  * Some older sources are manually included.

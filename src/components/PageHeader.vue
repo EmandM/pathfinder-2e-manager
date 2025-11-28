@@ -59,6 +59,9 @@ const activeIndex = computed(() => route.path)
       <search-menu-item topic="deity">
         Deities
       </search-menu-item>
+      <search-menu-item topic="hazard">
+        Hazards
+      </search-menu-item>
     </el-sub-menu>
     <el-sub-menu index="4">
       <template #title>

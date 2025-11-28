@@ -17,7 +17,6 @@ const config = {
     'ancestry',
     'archetype',
     'armor',
-    // 'article',
     'background',
     'class',
     'condition',
@@ -27,7 +26,6 @@ const config = {
     'equipment',
     'feat',
     'hazard',
-    // "rules",
     'runes',
     'skill',
     'shield',
@@ -40,6 +38,10 @@ const config = {
 
     // Need to retreive action after skill as the results are combined
     'action',
+
+    // Other categories that exist
+    // 'article',
+    // "rules",
   ],
 }
 

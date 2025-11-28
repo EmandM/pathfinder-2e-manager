@@ -8,7 +8,7 @@ import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
 import Select from './Select.vue'
 
-const { filterList, appliedFilters, shortcut } = defineProps<{
+const { filterList, appliedFilters: appliedFilters, shortcut } = defineProps<{
   filterList: Filter[]
   levelOptions: string[]
   appliedFilters: AppliedFilterCollection
@@ -26,18 +26,20 @@ interface SelectedFilter {
   initialState?: FilterState
 }
 
-const shownFilters: Ref<Map<string, Filter>> = ref(new Map())
-const options = ref(filterList.map(filter => filter.name).sort())
-watchEffect(() => options.value = filterList.map(filter => filter.name).sort())
+// Shown filters represents the sub dropdown lists
+const shownSubDropdowns: Ref<Map<string, Filter>> = ref(new Map())
+const mainDropdownOptions = ref(filterList.map(filter => filter.name).sort())
+watchEffect(() => mainDropdownOptions.value = filterList.map(filter => filter.name).sort())
 
-const inUse: Ref<SelectedFilter[]> = ref([])
+const shownFilterTags: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
-  for (const filter of inUse.value) {
+  for (const filter of shownFilterTags.value) {
     const inputFilter = filterList.find(f => f.key = filter.filter.key)
     filter.filter.options = inputFilter.options
   }
 }
 
+// Display the filters that are already applied (local state)
 appliedFilters.filters.forEach((applied, _) => {
   // Don't hydrate the shortcut filter
   if (applied.filter.key === shortcut.key) {
@@ -83,6 +85,7 @@ function showFilterSelect(name: string, init: boolean = false) {
     // Do a deep object copy of the filter so we don't intefer with underlying state
     const filter: Filter = newFilter
     const existing = appliedFilters.filters.get(newFilter.key)
+
     if (!existing || init) {
       filter.options = [...newFilter.options].sort()
     }
@@ -91,16 +94,17 @@ function showFilterSelect(name: string, init: boolean = false) {
       filter.options = [...newFilter.options.filter(val => !existing.appliedOptions.has(val))].sort()
     }
 
-    shownFilters.value.set(name, filter)
+    console.log(`Adding ${name} to the shownFilterDropdowns list`)
+    shownSubDropdowns.value.set(name, filter)
   }
 
-  options.value = remove(options.value, name)
+  mainDropdownOptions.value = remove(mainDropdownOptions.value, name)
 };
 
 function hideFilterSelect(name: string) {
-  options.value.push(name)
-  options.value.sort()
-  shownFilters.value.delete(name)
+  mainDropdownOptions.value.push(name)
+  mainDropdownOptions.value.sort()
+  shownSubDropdowns.value.delete(name)
 };
 
 function addFilter(filter: Filter, selected?: string, initialState?: FilterState) {
@@ -108,7 +112,7 @@ function addFilter(filter: Filter, selected?: string, initialState?: FilterState
     filter.options = [...remove(filter.options, selected)]
   }
 
-  inUse.value.push({
+  shownFilterTags.value.push({
     filter,
     selectedValue: selected,
     displayName: filter.getTag(selected),
@@ -122,21 +126,27 @@ function addFilter(filter: Filter, selected?: string, initialState?: FilterState
   }
 }
 
-function removeFilter(removeTag: SelectedFilter) {
-  inUse.value = remove(inUse.value, removeTag.displayName, 'displayName')
-  appliedFilters.removeFilter(removeTag.filter.key, removeTag.selectedValue)
-
-  const filter = shownFilters.value.get(removeTag.filter.name)
-  if (filter) {
-    if (filter.isSingleOption) {
-      options.value.push(filter.name)
-      options.value.sort()
+function removeFilterTag(removeTag: SelectedFilter) {
+  if (removeTag.filter.isSingleOption) {
+    // If it's a single option tag, add it back to the main dropdown
+    mainDropdownOptions.value.push(removeTag.filter.name)
+    mainDropdownOptions.value.sort()
+  } else {
+    // Otherwise add it back to the sub-dropdown
+    const subDropdown = shownSubDropdowns.value.get(removeTag.filter.name)
+    if (!subDropdown) {
+      console.error('Could not find value of filter to remove', removeTag, shownSubDropdowns)
+      return
     }
-    else {
-      filter.options.push(removeTag.selectedValue)
-      filter.options.sort()
-    }
+    subDropdown.options.push(removeTag.selectedValue)
+    subDropdown.options.sort()
   }
+
+  // Remove from the tag display
+  shownFilterTags.value = remove(shownFilterTags.value, removeTag.displayName, 'displayName')
+  // Remove from doing the filter for the cards
+  appliedFilters.removeFilter(removeTag.filter.key, removeTag.selectedValue)
+  // Call onChange so that we can re-filter
   onChange()
 };
 
@@ -185,10 +195,10 @@ function handleSearch(search: string) {
       @change="handleLevelFilter"
     />
 
-    <Select title="Choose a filter" :options="options" @change="showFilterSelect" />
+    <Select title="Choose a filter" :options="mainDropdownOptions" @change="showFilterSelect" />
 
     <Select
-      v-for="[name, item] in shownFilters"
+      v-for="[name, item] in shownSubDropdowns"
       :key="name"
       :title="item.name"
       :options="item.options"
@@ -199,14 +209,14 @@ function handleSearch(search: string) {
   </div>
   <div class="selected-filters manager-row">
     <FilterTag
-      v-for="tag in inUse"
+      v-for="tag in shownFilterTags"
       :key="tag.displayName"
       :title="tag.displayName"
       :initial-state="tag.initialState"
       :color="tag.filter.color"
       closable
       @change="(newState: FilterState) => handleTagState(tag, newState)"
-      @close="() => removeFilter(tag)"
+      @close="() => removeFilterTag(tag)"
     />
   </div>
 </template>
