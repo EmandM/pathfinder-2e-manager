@@ -18,7 +18,6 @@ const config = {
     'archetype',
     'armor',
     'background',
-    'class',
     'condition',
     'creature',
     'creature-family',
@@ -42,6 +41,7 @@ const config = {
     // Other categories that exist
     // 'article',
     // "rules",
+    // 'class',
   ],
 }
 
