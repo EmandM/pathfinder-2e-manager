@@ -11,15 +11,24 @@ describe('cleanSearch', () => {
     'phantomwolf',
     'topplingfurniture',
   ])('%s - cleans single input', (input) => {
-    runTestForFilePrefix(input)
+    runTestForFilePrefix(`singleInput/${input}`)
   })
 
-  it.skip('runs a single test as expected', () => {
-    runTestForFilePrefix('topplingfurniture')
+  it('runs a single test as expected', () => {
+    runTestForFilePrefix('singleInput/background')
   })
 
   it.skip('sets up a test as expected', () => {
     buildExpectedForPrefix('topplingfurniture')
+  })
+
+  it('adds skills to the associated actions', () => {
+    // First, process the skill to save the associated actions
+    runTestForFilePrefix('addSkillToAction/stealth')
+    // Second, process the associated action
+    const output = runTestForFilePrefix('addSkillToAction/sneak')
+
+    expect(output.associated_skill).toEqual(['Stealth'])
   })
 })
 
@@ -56,11 +65,12 @@ function buildExpectedForPrefix(prefix: string) {
   writeExpectedToFile(prefix, data)
 }
 
-function runTestForFilePrefix(prefix: string) {
+function runTestForFilePrefix(prefix: string): Card {
   const inputData = readInputFromFile(prefix)
   const expected = readExpectedFromFile(prefix)
   const output = cleanSearch([inputData])
   expect(output).toHaveLength(1)
   const data = output[0]
   expect(data).toEqual(expected)
+  return data
 }

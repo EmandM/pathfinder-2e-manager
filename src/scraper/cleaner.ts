@@ -267,8 +267,10 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     }
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Toppling Furniture') {
+    // if (card.name === 'Stealth' || card.name === 'Sneak') {
+    //   console.log('\n')
     //   console.log(JSON.stringify(item))
+    //   console.log('\n')
     // }
 
     if (card.category === 'skill') {

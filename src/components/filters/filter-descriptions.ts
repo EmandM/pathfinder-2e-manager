@@ -181,7 +181,7 @@ const filterByPage: { [key: string]: FiltersForPage } = {
   },
   action: {
     selectable: [
-      new StringArrayFilter('Skill', 'skill', color.bluegreen),
+      new StringArrayFilter('Skill', 'associated_skill', color.bluegreen),
       new StringArrayFilter('Trait group', 'trait_group', color.blue),
       new BooleanFilter('Trained', 'is_trained', color.darkblue, 'Trained action', 'Untrained action'),
     ],

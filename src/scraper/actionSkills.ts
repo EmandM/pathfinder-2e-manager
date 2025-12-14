@@ -118,7 +118,7 @@ export function applySkillToAction(action: Card): Card {
     return
   }
 
-  const skills = action.skill || []
+  const skills = action.associated_skill || []
   let isTrained = false
 
   const idInfo = actionToSkill.get(action.id)
@@ -135,7 +135,7 @@ export function applySkillToAction(action: Card): Card {
     isTrained = nameInfo.isTrained
   }
 
-  action.skill = skills
+  action.associated_skill = skills
   action.is_trained = isTrained
   return action
 }

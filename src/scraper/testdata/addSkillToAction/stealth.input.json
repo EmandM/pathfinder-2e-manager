@@ -1,0 +1,54 @@
+{
+  "_index": "aon66",
+  "_id": "skill-48",
+  "_score": null,
+  "_source": {
+    "attribute": [
+      "Dexterity"
+    ],
+    "category": "skill",
+    "exclude_from_search": false,
+    "id": "skill-48",
+    "legacy_id": [
+      "skill-15"
+    ],
+    "markdown": "<title level=\"1\" right=\"Skill \" pfs=\"\">[Stealth](/Skills.aspx?ID=48)</title>\r\n\r\n**Source** [Player Core](/Sources.aspx?ID=216) pg. 244 <sup>2.0</sup>\n\nYou are skilled at avoiding detection, allowing you to slip past foes, hide, or conceal an item.\n\n<title level=\"3\">Being Stealthy</title> If you want to sneak around when there are creatures that can see you, you can use a combination of [Hide](/Actions.aspx?ID=62) and [Sneak](/Actions.aspx?ID=63) to do so. \n<ul><li>First, **Hide** behind something (either by taking advantage of [cover](/Rules.aspx?ID=459) or having the [concealed](/Conditions.aspx?ID=4) condition due to fog, a spell, or a similar effect). A successful Stealth check makes you [hidden](/Conditions.aspx?ID=22), though the creatures still know roughly where you are.</li><li>Second, now that you're hidden, you can **Sneak**. That means you can move at half your Speed and attempt another Stealth check. If it's successful, you're now [undetected](/Conditions.aspx?ID=39). That means the creatures don't know which square you're in anymore.</li></ul> If you were approaching creatures that didn't know you were there, you could begin Sneaking right away, since they didn't know your location to start with. Some actions can cause you to become [observed](/Conditions.aspx?ID=27) again, but they're mostly what you'd expect: standing out in the open, attacking someone, making a bunch of noise, and so forth. Unobtrusive actions, such as Recalling Knowledge or reloading a weapon, allow you to remain hidden or undetected. If you Strike someone after successfully Hiding or Sneaking, though, they're [off-guard](/Conditions.aspx?ID=58) to that Strike.\n\n Creatures can try to find you using the [Seek](/Actions.aspx?ID=84) action.\n\n Three conditions explain the states of detection. Remember that these conditions are relative to each creature—you can be observed by one creature while hidden to another and undetected by a third. [**Observed**](/Conditions.aspx?ID=27): You're in the creature's clear view. [**Hidden**](/Conditions.aspx?ID=22): The creature knows your location but can't see you. [**Undetected**](/Conditions.aspx?ID=39): The creature doesn't know your location.\r\n\r\n<title level=\"3\">Unobservable Stealth</title> In some cases, it can be impossible for a creature to fully observe you. Typically this happens if you're [invisible](/Conditions.aspx?ID=26), the observer is [blinded](/Conditions.aspx?ID=1), or you're in [darkness](/Rules.aspx?ID=409) and the creature can't see in darkness. In such cases, any critical failure you roll on a check to Sneak is a failure instead. You also continue to be [undetected](/Conditions.aspx?ID=39) if you lose [cover or greater cover](/Rules.aspx?ID=459) against or are no longer [concealed](/Conditions.aspx?ID=4) from such a creature.\r\n\r\n<title level=\"2\">Item Bonuses for Stealth</title>\n<table>\r\n<thead>\r\n<tr>\r\n<th>Item</th>\r\n<th>Bonus</th>\r\n<th>Level</th>\r\n<th>Category</th>\r\n<th>Consumable</th>\r\n<th>Note</th>\r\n</tr>\r\n</thead>\r\n<tbody>\r\n\r\n<tr>\r\n<td>[Shining Hackle](/Equipment.aspx?ID=3978)</td>\r\n<td>-1</td>\r\n<td>4</td>\r\n<td>[Worn Items](/equipment/worn-items)</td>\r\n<td>No</td>\r\n<td>Item penalty to Stealth</td>\r\n</tr>\n\n<tr>\r\n<td>[Essence Charm](/Equipment.aspx?ID=3795)</td>\r\n<td>+1</td>\r\n<td>4</td>\r\n<td>[Other Worn Items](/equipment/worn-items/other-worn-items)</td>\r\n<td>No</td>\r\n<td>Item bonus to a check of the crafter's choice</td>\r\n</tr>\n\n<tr>\r\n<td>[Underbrush Cloak](/Equipment.aspx?ID=3984)</td>\r\n<td>+1</td>\r\n<td>5</td>\r\n<td>[Worn Items](/equipment/worn-items)</td>\r\n<td>No</td>\r\n<td>Item bonus to Stealth</td>\r\n</tr>\n\n<tr>\r\n<td>[Quicksilver Mutagen](/Equipment.aspx?ID=3319)</td>\r\n<td>+1</td>\r\n<td>0</td>\r\n<td>[Alchemical Elixirs](/equipment/alchemical-items/alchemical-elixirs)</td>\r\n<td>Yes</td>\r\n<td></td>\r\n</tr>\n\n<tr>\r\n<td>[Onyx Panther](/Equipment.aspx?ID=2988)</td>\r\n<td>+1</td>\r\n<td>2</td>\r\n<td>[Talismans](/equipment/consumables/talismans)</td>\r\n<td>Yes</td>\r\n<td>Stealth to Sneak</td>\r\n</tr>\n\n<tr>\r\n<td>[Humbug Pocket](/Equipment.aspx?ID=3089)</td>\r\n<td>+2</td>\r\n<td>9</td>\r\n<td>[Worn Items](/equipment/worn-items)</td>\r\n<td>No</td>\r\n<td></td>\r\n</tr>\n\n<tr>\r\n<td>[Eagle Wing](/Equipment.aspx?ID=3811)</td>\r\n<td>+2</td>\r\n<td>10</td>\r\n<td>[Specific Magic Armor](/equipment/armor/specific-magic-armor)</td>\r\n<td>No</td>\r\n<td>Item bonus to Stealth checks you attempt while in the air.</td>\r\n</tr>\n\n<tr>\r\n<td>[Quicksilver Mutagen](/Equipment.aspx?ID=3319)</td>\r\n<td>+2</td>\r\n<td>0</td>\r\n<td>[Alchemical Elixirs](/equipment/alchemical-items/alchemical-elixirs)</td>\r\n<td>Yes</td>\r\n<td></td>\r\n</tr>\n\n<tr>\r\n<td>[Humbug Pocket (Greater)](/Equipment.aspx?ID=3089)</td>\r\n<td>+3</td>\r\n<td>17</td>\r\n<td>[Worn Items](/equipment/worn-items)</td>\r\n<td>No</td>\r\n<td>Checks to [Conceal an Object](/Actions.aspx?ID=2403)</td>\r\n</tr>\n\n<tr>\r\n<td>[Silvanshee Collar](/Equipment.aspx?ID=3649)</td>\r\n<td>+3</td>\r\n<td>19</td>\r\n<td>[Apex Items](/equipment/apex-items)</td>\r\n<td>No</td>\r\n<td>item bonus to stealth checks</td>\r\n</tr>\n\n<tr>\r\n<td>[Quicksilver Mutagen](/Equipment.aspx?ID=3319)</td>\r\n<td>+3</td>\r\n<td>0</td>\r\n<td>[Alchemical Elixirs](/equipment/alchemical-items/alchemical-elixirs)</td>\r\n<td>Yes</td>\r\n<td></td>\r\n</tr>\n\n<tr>\r\n<td>[Quicksilver Mutagen](/Equipment.aspx?ID=3319)</td>\r\n<td>+4</td>\r\n<td>0</td>\r\n<td>[Alchemical Elixirs](/equipment/alchemical-items/alchemical-elixirs)</td>\r\n<td>Yes</td>\r\n<td></td>\r\n</tr>\r\n\r\n</tbody>\r\n</table>\r\n\r\n<title level=\"2\">Related Feats</title>\r\n\r\nTo see a list of Feats related to Stealth, [click here](/feats?include-traits=skill&amp;exclude-traits=archetype&amp;include-skills=stealth&amp;sort=level-asc%3Bname-asc).\r\n\r\n<title level=\"2\">Stealth Untrained Actions</title>\r\n\r\n<document level=\"3\" id=\"action-2403\" />\r\n\r\n<document level=\"3\" id=\"action-2404\" />\r\n\r\n<document level=\"3\" id=\"action-2405\" />",
+    "name": "Stealth",
+    "primary_source": "Player Core",
+    "primary_source_raw": "Player Core pg. 244",
+    "primary_source_category": "Rulebooks",
+    "rarity": "common",
+    "rarity_id": 1,
+    "release_date": "2023-11-15",
+    "resistance": {},
+    "search_markdown": "<additional-info>\r\n**Source** [Player Core](/Sources.aspx?ID=216) pg. 244 <sup>2.0</sup>\r\n</additional-info>\r\n\r\n---\r\n\r\n<summary>\r\nYou are skilled at avoiding detection, allowing you to slip past foes, hide, or conceal an item.\r\n</summary>",
+    "skill": [
+      "Stealth"
+    ],
+    "skill_markdown": "Stealth",
+    "skill_mod": {},
+    "source": [
+      "Player Core"
+    ],
+    "source_raw": [
+      "Player Core pg. 244"
+    ],
+    "source_category": [
+      "Rulebooks"
+    ],
+    "source_markdown": "[Player Core](/Sources.aspx?ID=216) pg. 244 <sup>2.0</sup>",
+    "speed": {},
+    "summary": "You are skilled at avoiding detection, allowing you to slip past foes, hide, or conceal an item.",
+    "summary_markdown": "You are skilled at avoiding detection, allowing you to slip past foes, hide, or conceal an item.",
+    "text": " Stealth Source Player Core pg. 244 2.0 You are skilled at avoiding detection, allowing you to slip past foes, hide, or conceal an item. Being Stealthy If you want to sneak around when there are creatures that can see you, you can use a combination of Hide and Sneak to do so. First, Hide behind something (either by taking advantage of cover or having the concealed condition due to fog, a spell, or a similar effect). A successful Stealth check makes you hidden, though the creatures still know roughly where you are. Second, now that you're hidden, you can Sneak . That means you can move at half your Speed and attempt another Stealth check. If it's successful, you're now undetected. That means the creatures don't know which square you're in anymore. If you were approaching creatures that didn't know you were there, you could begin Sneaking right away, since they didn't know your location to start with. Some actions can cause you to become observed again, but they're mostly what you'd expect: standing out in the open, attacking someone, making a bunch of noise, and so forth. Unobtrusive actions, such as Recalling Knowledge or reloading a weapon, allow you to remain hidden or undetected. If you Strike someone after successfully Hiding or Sneaking, though, they're off-guard to that Strike. Creatures can try to find you using the Seek action. Three conditions explain the states of detection. Remember that these conditions are relative to each creature—you can be observed by one creature while hidden to another and undetected by a third. Observed : You're in the creature's clear view. Hidden : The creature knows your location but can't see you. Undetected : The creature doesn't know your location. Unobservable Stealth In some cases, it can be impossible for a creature to fully observe you. Typically this happens if you're invisible, the observer is blinded, or you're in darkness and the creature can't see in darkness. In such cases, any critical failure you roll on a check to Sneak is a failure instead. You also continue to be undetected if you lose cover or greater cover against or are no longer concealed from such a creature. Item Bonuses for Stealth Item Bonus Level Category Consumable Note Shining Hackle -1 4 Worn Items No Item penalty to Stealth Essence Charm +1 4 Other Worn Items No Item bonus to a check of the crafter's choice Underbrush Cloak +1 5 Worn Items No Item bonus to Stealth Quicksilver Mutagen +1 0 Alchemical Elixirs Yes Onyx Panther +1 2 Talismans Yes Stealth to Sneak Humbug Pocket +2 9 Worn Items No Eagle Wing +2 10 Specific Magic Armor No Item bonus to Stealth checks you attempt while in the air. Quicksilver Mutagen +2 0 Alchemical Elixirs Yes Humbug Pocket (Greater) +3 17 Worn Items No Checks to Conceal an Object Silvanshee Collar +3 19 Apex Items No item bonus to stealth checks Quicksilver Mutagen +3 0 Alchemical Elixirs Yes Quicksilver Mutagen +4 0 Alchemical Elixirs Yes Related Feats To see a list of Feats related to Stealth, click here. Stealth Untrained Actions ",
+    "type": "Skill",
+    "url": "/Skills.aspx?ID=48",
+    "weakness": {}
+  },
+  "sort": [
+    9223372036854776000,
+    9223372036854776000,
+    "stealth",
+    1284
+  ]
+}

@@ -64,7 +64,7 @@ const isCreature = source.category === 'creature' && !source.print_image
           <div v-if="!!source.size" class="trait size">{{ source.size[0] }}</div>
           <div v-if="source.is_trained" class="trait trained">Trained</div>
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
-          <div v-for="skill in source.skill" :key="skill" class="trait size">{{ skill }}</div>
+          <div v-for="skill in source.associated_skill" :key="skill" class="trait size">{{ skill }}</div>
 
           <div v-for="(list, idx) in source.features" :key="idx">
             <div class="item-desc item-features">

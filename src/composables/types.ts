@@ -46,6 +46,9 @@ export interface Card {
   hazard_type: string
   complexity: string
 
+  // Action
+  associated_skill: string[] // added manually to track the skill associated with an action
+
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
   is_trained: boolean
