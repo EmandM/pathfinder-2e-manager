@@ -34,7 +34,7 @@ See `src/styles/element/index.scss`.
 
 ## Project information
 
-This project was bootstraped from [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter). and inspired by [Pathfinder-2e-Spell-DB](https://github.com/fyjham-ts/Pathfinder-2E-Spell-DB).
+This project was bootstraped from [element-plus-vite-starter](https://github.com/element-plus/element-plus-vite-starter) and inspired by [Pathfinder-2e-Spell-DB](https://github.com/fyjham-ts/Pathfinder-2E-Spell-DB).
 
 ### Tooling
 

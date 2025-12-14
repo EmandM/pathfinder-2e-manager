@@ -266,6 +266,11 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
       return
     }
 
+    // Uncomment to print off matching file for testing
+    // if (card.name === 'Toppling Furniture') {
+    //   console.log(JSON.stringify(item))
+    // }
+
     if (card.category === 'skill') {
       saveRelatedActions(card)
     }

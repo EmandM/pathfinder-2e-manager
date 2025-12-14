@@ -1,0 +1,74 @@
+{
+  "_index": "aon66",
+  "_id": "background-491",
+  "_score": null,
+  "_source": {
+    "attribute": [
+      "Charisma",
+      "Intelligence"
+    ],
+    "category": "background",
+    "exclude_from_search": false,
+    "feat": [
+      "Arcane Sense"
+    ],
+    "feat_markdown": "[Arcane Sense](/Feats.aspx?ID=5119)",
+    "id": "background-491",
+    "is_general_background": false,
+    "markdown": "<title level=\"1\" right=\"Background \" pfs=\"Standard\">[Academic Scion](/Backgrounds.aspx?ID=491)</title>\r\n\r\n<traits>\r\n<trait label=\"Uncommon\" url=\"/Traits.aspx?ID=721\" />\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [Rival Academies](/Sources.aspx?ID=235) pg. 22\r\n\r\n \n\n</column>\r\n\r\nYou were born to famed scholars of magic; your childhood was filled with old books, ink-stained lesson papers, and casual dinners with your parents’ brilliant colleagues. This erudite upbringing eases your academic journey, as you were introduced early on to seminal texts and foundational theories that granted you a preternatural instinct and affinity for magic, but that also exposed you to massive pressures from familial expectations.\r\n\r\nChoose two attribute boosts. One must be to Charisma\r\nor Intelligence, and one is a free attribute boost.\r\n\r\nYou're trained in the [Arcana](/Skills.aspx?ID=35) skill, and the [Academia Lore](/skills/lore) skill or a Lore skill [associated with your school](/Backgrounds.aspx?Group=32) You gain the [Arcane Sense](/Feats.aspx?ID=5119) skill feat.",
+    "name": "Academic Scion",
+    "pfs": "Standard",
+    "primary_source": "Rival Academies",
+    "primary_source_raw": "Rival Academies pg. 22",
+    "primary_source_category": "Lost Omens",
+    "primary_source_group": "Convocation",
+    "rarity": "uncommon",
+    "rarity_id": 2,
+    "release_date": "2025-02-26",
+    "resistance": {},
+    "search_markdown": "<traits>\r\n<trait label=\"Uncommon\" url=\"/Traits.aspx?ID=721\" />\r\n</traits>\r\n\r\n<additional-info>\r\n**Source** [Rival Academies](/Sources.aspx?ID=235) pg. 22\r\n\r\n**Attributes**\r\nCharisma, Intelligence\r\n\r\n**Skills**\r\n[Arcana](/Skills.aspx?ID=35), Academia [Lore](/Skills.aspx?ID=8) or a Lore skill [associated with your school](/Backgrounds.aspx?Group=32)\r\n\r\n**Feat**\r\n[Arcane Sense](/Feats.aspx?ID=5119)\r\n</additional-info>\r\n\r\n---\r\n\r\n<summary>\r\nYou were born to famed scholars of magic; your childhood was filled with old books, ink-stained lesson papers, and casual dinners with your parents’ …\r\n</summary>",
+    "skill": [
+      "Arcana",
+      "Academia Lore or a Lore skill <a href=\"/Backgrounds.aspx?Group=32\"><u>associated with your school</u></a>"
+    ],
+    "skill_markdown": "[Arcana](/Skills.aspx?ID=35), Academia [Lore](/Skills.aspx?ID=8) or a Lore skill [associated with your school](/Backgrounds.aspx?Group=32)",
+    "skill_mod": {},
+    "source": [
+      "Rival Academies"
+    ],
+    "source_raw": [
+      "Rival Academies pg. 22"
+    ],
+    "source_category": [
+      "Lost Omens"
+    ],
+    "source_group": [
+      "Convocation"
+    ],
+    "source_markdown": "[Rival Academies](/Sources.aspx?ID=235) pg. 22",
+    "speed": {},
+    "spoilers": "Convocation",
+    "summary": "You were born to famed scholars of magic; your childhood was filled with old books, ink-stained lesson papers, and casual dinners with your parents’ …",
+    "summary_markdown": "You were born to famed scholars of magic; your childhood was filled with old books, ink-stained lesson papers, and casual dinners with your parents’ …",
+    "text": " Academic Scion Source Rival Academies pg. 22 You were born to famed scholars of magic; your childhood was filled with old books, ink-stained lesson papers, and casual dinners with your parents’ brilliant colleagues. This erudite upbringing eases your academic journey, as you were introduced early on to seminal texts and foundational theories that granted you a preternatural instinct and affinity for magic, but that also exposed you to massive pressures from familial expectations. Choose two attribute boosts. One must be to Charisma or Intelligence, and one is a free attribute boost. You're trained in the Arcana skill, and the Academia Lore skill or a Lore skill associated with your school You gain the Arcane Sense skill feat.",
+    "trait": [
+      "Uncommon"
+    ],
+    "trait_group": [
+      "Rarity"
+    ],
+    "trait_markdown": "[Uncommon](/Traits.aspx?ID=721)",
+    "trait_raw": [
+      "Uncommon"
+    ],
+    "type": "Background",
+    "url": "/Backgrounds.aspx?ID=491",
+    "weakness": {}
+  },
+  "sort": [
+    9223372036854776000,
+    9223372036854776000,
+    "academic scion",
+    21592
+  ]
+}

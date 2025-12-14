@@ -14,7 +14,8 @@
     "lint-fix": "eslint --fix",
     "preview": "vite preview",
     "typecheck": "vue-tsc --noEmit",
-    "scraper": "node --experimental-strip-types ./src/scraper/scraper.ts"
+    "scraper": "node --experimental-strip-types ./src/scraper/scraper.ts",
+    "test": "vitest run"
   },
   "dependencies": {
     "@vueuse/core": "^12.0.0",
@@ -49,6 +50,7 @@
     "unplugin-vue-router": "^0.11.2",
     "vite": "^6.0.3",
     "vite-ssg": "^25.2.0",
+    "vitest": "^3.2.4",
     "vue-tsc": "^2.2.4"
   }
 }

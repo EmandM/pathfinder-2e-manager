@@ -1,0 +1,365 @@
+{
+  "ac": 15,
+  "ac_scale": "Moderate",
+  "ac_scale_number": 3,
+  "alignment": "NE",
+  "attack_bonus": [
+    7
+  ],
+  "attack_bonus_scale": [
+    "Moderate"
+  ],
+  "attack_bonus_scale_number": [
+    3
+  ],
+  "category": "creature",
+  "charisma": 0,
+  "charisma_scale": "Low",
+  "charisma_scale_number": 2,
+  "constitution": 1,
+  "constitution_scale": "Low",
+  "constitution_scale_number": 2,
+  "creature_ability": [
+    "Walk the Ethereal Line",
+    "Susceptible to Death",
+    "Vulnerable to Kindness",
+    "Pack Attack"
+  ],
+  "creature_family": "Phantom",
+  "description": "",
+  "dexterity": 4,
+  "dexterity_scale": "High",
+  "dexterity_scale_number": 4,
+  "features": [
+    [
+      [
+        "Recall Knowledge - Ethereal",
+        "([Occultism](/Skills.aspx?ID=11)): DC 20"
+      ],
+      [
+        "Recall Knowledge - Spirit",
+        "([Occultism](/Skills.aspx?ID=11)): DC 20"
+      ],
+      [
+        "Unspecific Lore",
+        ": DC 18"
+      ],
+      [
+        "Specific Lore",
+        ": DC 15"
+      ]
+    ],
+    [
+      [
+        "Perception",
+        "+7; [darkvision](/MonsterAbilities.aspx?ID=12)"
+      ],
+      [
+        "Languages",
+        "[Common](/Languages.aspx?ID=1)"
+      ],
+      [
+        "Skills",
+        "[Acrobatics](/Skills.aspx?ID=1) +7, [Intimidation](/Skills.aspx?ID=7) +5"
+      ],
+      [
+        "Str",
+        "-5"
+      ],
+      [
+        "Dex",
+        "+4"
+      ],
+      [
+        "Con",
+        "+1"
+      ],
+      [
+        "Int",
+        "-3"
+      ],
+      [
+        "Wis",
+        "+2"
+      ],
+      [
+        "Cha",
+        "+0"
+      ],
+      [
+        "Walk the Ethereal Line",
+        "<actions string=\"Two Actions\" /> The phantom walks the thin line between the [Ethereal](/Equipment.aspx?ID=284) and [Material Planes](/Planes.aspx?ID=1) in order to exist on both planes simultaneously. They can shift back to solely the Ethereal Plane by using this ability again."
+      ]
+    ],
+    [
+      [
+        "AC",
+        "15"
+      ],
+      [
+        "Fort",
+        "+6"
+      ],
+      [
+        "Ref",
+        "+9"
+      ],
+      [
+        "Will",
+        "+5"
+      ],
+      [
+        "HP",
+        "14"
+      ],
+      [
+        "Immunities",
+        "[disease](/Traits.aspx?ID=46), [paralyzed](/Conditions.aspx?ID=28), [poison](/Traits.aspx?ID=126), precision"
+      ],
+      [
+        "Resistances",
+        "all damage 2 (except [force](/Traits.aspx?ID=75) or [_ghost touch_](/Equipment.aspx?ID=297); double resistance vs. non-[magical](/Traits.aspx?ID=103))"
+      ],
+      [
+        "Susceptible to Death",
+        "Though phantoms aren't alive, neither are they [undead](/Traits.aspx?ID=160), and they are uniquely vulnerable to the effects of death. A phantom whose Hit Points are reduced to 0 as a result of a [death](/Traits.aspx?ID=40) effect (such as from a spell like [_finger of death_](/Spells.aspx?ID=116)) is immediately whisked away to the River of Souls, where their soul resumes the usual path to the afterlife."
+      ],
+      [
+        "Vulnerable to Kindness",
+        "Any creature within 30 feet that the phantom can see and hear can issue a calm and friendly greeting to it as a two-action activity with the [auditory](/Traits.aspx?ID=16), [concentrate](/Traits.aspx?ID=32), [linguistic](/Traits.aspx?ID=101), and [mental](/Traits.aspx?ID=106) traits. A creature greeting the phantom in this manner must attempt a DC 17 [Diplomacy](/Skills.aspx?ID=6) check."
+      ],
+      [
+        "Critical Success",
+        "The phantom takes 4d8 mental damage and is [stunned 1](/Conditions.aspx?ID=36)."
+      ],
+      [
+        "Success",
+        "The phantom takes 2d8 mental damage."
+      ],
+      [
+        "Failure",
+        "The phantom takes 1d8 mental damage."
+      ],
+      [
+        "Critical Failure",
+        "The phantom is unaffected, and is not affected by this weakness for 1 round."
+      ]
+    ],
+    [
+      [
+        "Speed",
+        "fly 35 feet"
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "Melee",
+        "<actions string=\"Single Action\" />"
+      ],
+      [
+        "Damage",
+        "1d6+2 force"
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "Occult Innate Spells",
+        "DC 14, attack +6"
+      ],
+      [
+        "Cantrips (1st)",
+        "[Daze](/Spells.aspx?ID=61), [Ghost Sound](/Spells.aspx?ID=132)"
+      ],
+      [
+        "1st",
+        "[Fear](/Spells.aspx?ID=110)"
+      ],
+      [
+        "Pack Attack",
+        "The phantom wolf's Strikes deal an additional 1d4 damage to creatures within reach of at least one of its allies."
+      ]
+    ]
+  ],
+  "fortitude_save": 6,
+  "fortitude_save_scale": "Low",
+  "fortitude_save_scale_number": 2,
+  "hp": 14,
+  "hp_raw": "14",
+  "hp_scale": "Low",
+  "hp_scale_number": 2,
+  "id": "creature-2731",
+  "immunity": [
+    "disease",
+    "paralyzed",
+    "poison",
+    "precision"
+  ],
+  "intelligence": -3,
+  "intelligence_scale": "Low",
+  "intelligence_scale_number": 2,
+  "language": [
+    "Common"
+  ],
+  "level": 1,
+  "markdown": "<title level=\"1\" pfs=\"\">[Phantom Wolf](/Monsters.aspx?ID=2731)</title>\r\n\r\n<row gap=\"medium\">\r\n\r\n<column gap=\"medium\" flex=\"1 1 400px\">\n\n<column gap=\"tiny\">\r\n**[Recall Knowledge - Ethereal](/Rules.aspx?ID=563)**\r\n([Occultism](/Skills.aspx?ID=11)): DC 20\r\n\r\n**[Recall Knowledge - Spirit](/Rules.aspx?ID=563)**\r\n([Occultism](/Skills.aspx?ID=11)): DC 20\r\n\r\n**[Unspecific Lore](/Rules.aspx?ID=563)**: DC 18\r\n\r\n**[Specific Lore](/Rules.aspx?ID=563)**: DC 15\r\n</column>\r\n\r\n</column>\r\n\r\n<column gap=\"medium\">\r\n\r\n</column>\r\n\r\n</row>\r\n\r\n<title level=\"2\" right=\"Creature 1\">[Phantom Wolf](/Monsters.aspx?ID=2731)</title>\r\n\r\n<traits>\r\n<trait label=\"Rare\" url=\"/Traits.aspx?ID=137\" />\r\n<trait label=\"NE\" url=\"/Rules.aspx?ID=95\" />\r\n<trait label=\"Medium\" />\r\n<trait label=\"Ethereal\" url=\"/Traits.aspx?ID=63\" />\r\n<trait label=\"Incorporeal\" url=\"/Traits.aspx?ID=222\" />\r\n<trait label=\"Phantom\" url=\"/Traits.aspx?ID=361\" />\r\n<trait label=\"Spirit\" url=\"/Traits.aspx?ID=149\" />\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [Pathfinder #196: The Summer That Never Was](/Sources.aspx?ID=214) pg. 15\n\n**Perception** +7; [darkvision](/MonsterAbilities.aspx?ID=12)\r\n\r\n**Languages**\r\n[Common](/Languages.aspx?ID=1)\r\n\r\n**Skills**\r\n[Acrobatics](/Skills.aspx?ID=1) +7, [Intimidation](/Skills.aspx?ID=7) +5\r\n\r\n<row gap=\"medium\">\r\n**Str** -5\r\n\r\n**Dex** +4\r\n\r\n**Con** +1\r\n\r\n**Int** -3\r\n\r\n**Wis** +2\r\n\r\n**Cha** +0\r\n</row>\r\n\r\n**Walk the Ethereal Line** <actions string=\"Two Actions\" /> The phantom walks the thin line between the [Ethereal](/Equipment.aspx?ID=284) and [Material Planes](/Planes.aspx?ID=1) in order to exist on both planes simultaneously. They can shift back to solely the Ethereal Plane by using this ability again.\n\n</column>\r\n\r\n---\r\n\r\n<column gap=\"tiny\">\r\n\r\n<row gap=\"medium\">\r\n**AC** 15 \r\n\r\n**Fort** +6 \r\n\r\n**Ref** +9 \r\n\r\n**Will** +5 \n\n</row>\r\n\r\n<row gap=\"medium\">\r\n**HP** 14\n\n</row>\r\n\r\n**Immunities**\r\n[disease](/Traits.aspx?ID=46), [paralyzed](/Conditions.aspx?ID=28), [poison](/Traits.aspx?ID=126), precision\r\n\r\n**Resistances**\r\nall damage 2 (except [force](/Traits.aspx?ID=75) or [_ghost touch_](/Equipment.aspx?ID=297); double resistance vs. non-[magical](/Traits.aspx?ID=103))\n\n**Susceptible to Death** Though phantoms aren't alive, neither are they [undead](/Traits.aspx?ID=160), and they are uniquely vulnerable to the effects of death. A phantom whose Hit Points are reduced to 0 as a result of a [death](/Traits.aspx?ID=40) effect (such as from a spell like [_finger of death_](/Spells.aspx?ID=116)) is immediately whisked away to the River of Souls, where their soul resumes the usual path to the afterlife.<br />**Vulnerable to Kindness** Any creature within 30 feet that the phantom can see and hear can issue a calm and friendly greeting to it as a two-action activity with the [auditory](/Traits.aspx?ID=16), [concentrate](/Traits.aspx?ID=32), [linguistic](/Traits.aspx?ID=101), and [mental](/Traits.aspx?ID=106) traits. A creature greeting the phantom in this manner must attempt a DC 17 [Diplomacy](/Skills.aspx?ID=6) check.<br /> **Critical Success** The phantom takes 4d8 mental damage and is [stunned 1](/Conditions.aspx?ID=36).<br /> **Success** The phantom takes 2d8 mental damage.<br /> **Failure** The phantom takes 1d8 mental damage.<br /> **Critical Failure** The phantom is unaffected, and is not affected by this weakness for 1 round.\r\n\r\n</column>\r\n\r\n---\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Speed** fly 35 feet\r\n\r\n**Melee**\r\n<actions string=\"Single Action\" />\r\njaws +7 ([Finesse](/Traits.aspx?ID=179), [Force](/Traits.aspx?ID=75), [Magical](/Traits.aspx?ID=103)),\r\n**Damage** 1d6+2 force\r\n\r\n**Occult Innate Spells** DC 14, attack +6\r\n- **Cantrips (1st)**\r\n[Daze](/Spells.aspx?ID=61), [Ghost Sound](/Spells.aspx?ID=132)\r\n- **1st**\r\n[Fear](/Spells.aspx?ID=110)\r\n\r\n**Pack Attack**   The phantom wolf's Strikes deal an additional 1d4 damage to creatures within reach of at least one of its allies.\r\n\r\n</column>\n\n<document level=\"2\" id=\"creature-family-255\" />",
+  "name": "Phantom Wolf",
+  "npc": false,
+  "perception": 7,
+  "perception_scale": "Moderate",
+  "perception_scale_number": 3,
+  "primary_source": "Pathfinder #196: The Summer That Never Was",
+  "primary_source_category": "Adventure Paths",
+  "primary_source_group": "Season of Ghosts",
+  "primary_source_raw": "Pathfinder #196: The Summer That Never Was pg. 15",
+  "rarity": "rare",
+  "rarity_id": 3,
+  "reflex_save": 9,
+  "reflex_save_scale": "Moderate",
+  "reflex_save_scale_number": 3,
+  "release_date": "2023-10-18",
+  "resistance": {
+    "acid": 2,
+    "all": 2,
+    "area": 2,
+    "bleed": 2,
+    "bludgeoning": 2,
+    "chaotic": 2,
+    "cold": 2,
+    "cold_iron": 2,
+    "electricity": 2,
+    "evil": 2,
+    "fire": 2,
+    "good": 2,
+    "holy": 2,
+    "lawful": 2,
+    "mental": 2,
+    "orichalcum": 2,
+    "physical": 2,
+    "piercing": 2,
+    "poison": 2,
+    "precision": 2,
+    "silver": 2,
+    "slashing": 2,
+    "sonic": 2,
+    "spirit": 2,
+    "splash": 2,
+    "unholy": 2,
+    "vitality": 2,
+    "void": 2
+  },
+  "resistance_raw": "all damage 2 (except  force  or   ghost touch  ; double resistance vs. non- magical )\r\n",
+  "search_text": " phantom wolf recall knowledge - ethereal (occultism): dc 20 recall knowledge - spirit (occultism): dc 20 unspecific lore : dc 18 specific lore : dc 15 phantom wolf source pathfinder #196: the summer that never was pg. 15 perception +7; darkvision languages common skills acrobatics +7, intimidation +5 str -5 dex +4 con +1 int -3 wis +2 cha +0 walk the ethereal line two actions the phantom walks the thin line between the ethereal and material planes in order to exist on both planes simultaneously. they can shift back to solely the ethereal plane by using this ability again. --- ac 15 fort +6 ref +9 will +5 hp 14 immunities disease, paralyzed, poison, precision resistances all damage 2 (except force or ghost touch ; double resistance vs. non-magical) susceptible to death though phantoms aren't alive, neither are they undead, and they are uniquely vulnerable to the effects of death. a phantom whose hit points are reduced to 0 as a result of a death effect (such as from a spell like finger of death ) is immediately whisked away to the river of souls, where their soul resumes the usual path to the afterlife. vulnerable to kindness any creature within 30 feet that the phantom can see and hear can issue a calm and friendly greeting to it as a two-action activity with the auditory, concentrate, linguistic, and mental traits. a creature greeting the phantom in this manner must attempt a dc 17 diplomacy check. critical success the phantom takes 4d8 mental damage and is stunned 1. success the phantom takes 2d8 mental damage. failure the phantom takes 1d8 mental damage. critical failure the phantom is unaffected, and is not affected by this weakness for 1 round. --- speed fly 35 feet melee single action jaws +7 (finesse, force, magical), damage 1d6+2 force occult innate spells dc 14, attack +6 - cantrips (1st) daze, ghost sound - 1st fear pack attack the phantom wolf's strikes deal an additional 1d4 damage to creatures within reach of at least one of its allies. ",
+  "sense": " darkvision ",
+  "size": [
+    "Medium"
+  ],
+  "size_id": [
+    3
+  ],
+  "skill": [
+    "Acrobatics",
+    "Intimidation"
+  ],
+  "skill_mod": {
+    "acrobatics": 7,
+    "intimidation": 5
+  },
+  "source": [
+    "Pathfinder #196: The Summer That Never Was"
+  ],
+  "source_category": [
+    "Adventure Paths"
+  ],
+  "source_group": [
+    "Season of Ghosts"
+  ],
+  "source_raw": [
+    "Pathfinder #196: The Summer That Never Was pg. 15"
+  ],
+  "speed": {
+    "fly": 35,
+    "max": 35
+  },
+  "speed_raw": "fly 35 feet",
+  "spell": [
+    "Fear",
+    "Daze",
+    "Ghost Sound"
+  ],
+  "spell_attack_bonus": [
+    6
+  ],
+  "spell_attack_bonus_scale": [
+    "Moderate"
+  ],
+  "spell_attack_bonus_scale_number": [
+    3
+  ],
+  "spell_dc": [
+    14
+  ],
+  "spell_dc_scale": [
+    "Moderate"
+  ],
+  "spell_dc_scale_number": [
+    3
+  ],
+  "spoilers": "Season of Ghosts",
+  "strength": -5,
+  "strength_scale": "Low",
+  "strength_scale_number": 2,
+  "strike_damage_average": [
+    5
+  ],
+  "strike_damage_scale": [
+    "Moderate"
+  ],
+  "strike_damage_scale_number": [
+    3
+  ],
+  "strongest_save": [
+    "ref",
+    "reflex"
+  ],
+  "tradition": [
+    "Occult"
+  ],
+  "trait": [
+    "Ethereal",
+    "Incorporeal",
+    "Phantom",
+    "Rare",
+    "Spirit",
+    "NE",
+    "Medium"
+  ],
+  "trait_group": [
+    "Creature Type",
+    "Monster",
+    "Rarity"
+  ],
+  "trait_raw": [
+    "Ethereal",
+    "Incorporeal",
+    "Phantom",
+    "Rare",
+    "Spirit"
+  ],
+  "type": "Creature",
+  "url": "/Monsters.aspx?ID=2731",
+  "vision": "Darkvision",
+  "weakest_save": [
+    "will"
+  ],
+  "weakness": {},
+  "will_save": 5,
+  "will_save_scale": "Low",
+  "will_save_scale_number": 2,
+  "wisdom": 2,
+  "wisdom_scale": "Low",
+  "wisdom_scale_number": 2
+}
