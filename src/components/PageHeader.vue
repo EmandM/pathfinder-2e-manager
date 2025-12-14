@@ -53,7 +53,7 @@ const activeIndex = computed(() => route.path)
       <search-menu-item topic="creature">
         Creatures
       </search-menu-item>
-      <search-menu-item topic="equipment">
+      <search-menu-item topic="creature-family">
         Creature Family
       </search-menu-item>
       <search-menu-item topic="deity">
@@ -76,8 +76,11 @@ const activeIndex = computed(() => route.path)
       <search-menu-item topic="trait">
         Traits
       </search-menu-item>
-      <search-menu-item topic="armor">
+      <search-menu-item topic="skills">
         Skills
+      </search-menu-item>
+      <search-menu-item topic="background">
+        Backgrounds
       </search-menu-item>
     </el-sub-menu>
     <el-menu-item index="/bookmarks">
