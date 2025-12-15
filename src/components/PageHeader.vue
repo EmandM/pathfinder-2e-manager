@@ -76,7 +76,7 @@ const activeIndex = computed(() => route.path)
       <search-menu-item topic="trait">
         Traits
       </search-menu-item>
-      <search-menu-item topic="skills">
+      <search-menu-item topic="skill">
         Skills
       </search-menu-item>
       <search-menu-item topic="background">

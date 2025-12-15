@@ -10,16 +10,19 @@ describe('cleanSearch', () => {
     'background',
     'phantomwolf',
     'topplingfurniture',
+    'acid_grip',
+    'animal_feature',
+    'folklore_enthusiast',
   ])('%s - cleans single input', (input) => {
     runTestForFilePrefix(`singleInput/${input}`)
   })
 
-  it('runs a single test as expected', () => {
-    runTestForFilePrefix('singleInput/background')
+  it.skip('runs a single test as expected', () => {
+    runTestForFilePrefix('singleInput/topplingfurniture')
   })
 
-  it.skip('sets up a test as expected', () => {
-    buildExpectedForPrefix('topplingfurniture')
+  it.skip('builds up a test as expected', () => {
+    buildExpectedForPrefix('singleInput/shuriken')
   })
 
   it('adds skills to the associated actions', () => {

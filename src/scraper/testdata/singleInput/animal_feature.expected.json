@@ -1,0 +1,81 @@
+{
+  "actions": "Single Action",
+  "actions_number": 2,
+  "category": "spell",
+  "description": "Without fully transforming your body, you gain one animalistic feature, which you select from the list below each time you Cast the Spell. \n<ul><li>**Cat Eyes** You gain [low-light vision](/Rules.aspx?ID=416).</li><li>**Claws** You gain a claw attack that deals 1d6 slashing damage and has the [agile](/Traits.aspx?ID=170), [finesse](/Traits.aspx?ID=179), and [unarmed](/Traits.aspx?ID=199) traits.</li><li>**Jaws** You gain a jaws attack that deals 1d8 piercing damage and has the [unarmed](/Traits.aspx?ID=199) trait.</li></ul>\n\n\r\n**Heightened (4th)** Add the following options to the list. \n<ul><li>**Fish Tail** You gain a swim Speed equal to your land Speed.</li><li>**Owl Eyes** You gain [darkvision](/Rules.aspx?ID=415).</li><li>**Wings** You gain a fly Speed equal to your land Speed.</li></ul>",
+  "duration": 60,
+  "duration_raw": "1 minute",
+  "features": [
+    [
+      [
+        "Duration",
+        "1 minute"
+      ]
+    ]
+  ],
+  "heighten": [
+    "4th"
+  ],
+  "heighten_group": [
+    "2nd rank",
+    "Heightened 4th rank"
+  ],
+  "heighten_level": [
+    2,
+    4
+  ],
+  "id": "spell-1866",
+  "legacy_id": [
+    "spell-767"
+  ],
+  "level": 2,
+  "markdown": "<title level=\"1\" right=\"Focus 2\" pfs=\"Standard\">\r\n[Animal Feature](/Spells.aspx?ID=1866)\r\n<actions string=\"Single Action\" />\r\n</title>\n\n<traits>\r\n<trait label=\"Uncommon\" url=\"/Traits.aspx?ID=159\" />\r\n<trait label=\"Concentrate\" url=\"/Traits.aspx?ID=32\" />\r\n<trait label=\"Focus\" url=\"/Traits.aspx?ID=511\" />\r\n<trait label=\"Manipulate\" url=\"/Traits.aspx?ID=104\" />\r\n<trait label=\"Morph\" url=\"/Traits.aspx?ID=113\" />\r\n<trait label=\"Ranger\" url=\"/Traits.aspx?ID=682\" />\r\n</traits>\r\n\r\n<column gap=\"tiny\">\n\n**Source** [Player Core](/Sources.aspx?ID=216) pg. 383 <sup>2.0</sup>\n\n<row gap=\"medium\">\n\n \n\n</row>\r\n\r\n<row gap=\"medium\">\n\n</row>\r\n\r\n<row gap=\"medium\">\n\n**Duration** 1 minute\r\n</row>\r\n\r\n</column>\r\n\r\n---\r\n\r\nWithout fully transforming your body, you gain one animalistic feature, which you select from the list below each time you Cast the Spell. \n<ul><li>**Cat Eyes** You gain [low-light vision](/Rules.aspx?ID=416).</li><li>**Claws** You gain a claw attack that deals 1d6 slashing damage and has the [agile](/Traits.aspx?ID=170), [finesse](/Traits.aspx?ID=179), and [unarmed](/Traits.aspx?ID=199) traits.</li><li>**Jaws** You gain a jaws attack that deals 1d8 piercing damage and has the [unarmed](/Traits.aspx?ID=199) trait.</li></ul>\n\n---\r\n**Heightened (4th)** Add the following options to the list. \n<ul><li>**Fish Tail** You gain a swim Speed equal to your land Speed.</li><li>**Owl Eyes** You gain [darkvision](/Rules.aspx?ID=415).</li><li>**Wings** You gain a fly Speed equal to your land Speed.</li></ul>",
+  "name": "Animal Feature",
+  "pfs": "Standard",
+  "primary_source": "Player Core",
+  "primary_source_category": "Rulebooks",
+  "primary_source_raw": "Player Core pg. 383",
+  "rarity": "uncommon",
+  "rarity_id": 2,
+  "release_date": "2023-11-15",
+  "resistance": {},
+  "search_text": "\nanimal feature single action source player core pg. 383 2.0 duration 1 minute --- without fully transforming your body, you gain one animalistic feature, which you select from the list below each time you cast the spell. cat eyes you gain low-light vision. claws you gain a claw attack that deals 1d6 slashing damage and has the agile, finesse, and unarmed traits. jaws you gain a jaws attack that deals 1d8 piercing damage and has the unarmed trait. --- heightened (4th) add the following options to the list. fish tail you gain a swim speed equal to your land speed. owl eyes you gain darkvision. wings you gain a fly speed equal to your land speed. ",
+  "skill_mod": {},
+  "source": [
+    "Player Core"
+  ],
+  "source_category": [
+    "Rulebooks"
+  ],
+  "source_raw": [
+    "Player Core pg. 383"
+  ],
+  "speed": {},
+  "spell_type": "Focus",
+  "summary": "Without fully transforming your body, you gain one animalistic feature, which you select from the list below each time you Cast the Spell.",
+  "trait": [
+    "Concentrate",
+    "Focus",
+    "Manipulate",
+    "Morph",
+    "Ranger",
+    "Uncommon"
+  ],
+  "trait_group": [
+    "Mechanics",
+    "Class",
+    "Rarity"
+  ],
+  "trait_raw": [
+    "Concentrate",
+    "Focus",
+    "Manipulate",
+    "Morph",
+    "Ranger",
+    "Uncommon"
+  ],
+  "type": "Spell",
+  "url": "/Spells.aspx?ID=1866",
+  "warden_spell_tier": "Advanced",
+  "weakness": {}
+}

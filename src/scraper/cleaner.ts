@@ -91,6 +91,32 @@ function getText(card: Card): string {
   return headerBlock
 }
 
+function getSpellDescription(markdown: string): string {
+  const split = markdown.indexOf('---')
+  let description = markdown.substring(split + 3)
+    .replaceAll('---', '')
+  description = description.replace(/<title.*/gs, '')
+  description = prefixImageLinks(description)
+  return description.trim()
+}
+
+function getDescription(markdown: string): string {
+  let description = ''
+  const descBlocks = markdown
+    .matchAll(/(?:---\s*|<\/?column.*?>|<\/sup>(?!,)|pg. \d+(?:, .*? pg. \d+)*)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
+  for (const line of descBlocks) {
+    if (!line[1]) {
+      continue
+    }
+    // check if the line has any letters in it (sometimes strange formatting characters get matched)
+    const hasWords = line[1].match(/[A-Z]/gi)
+    if (hasWords) {
+      description += line[1]
+    }
+  }
+  return description.trim()
+}
+
 /**
  * Reformats the Archives of Nethys result for manager usage.
  * - Splits markdown and text to remove nested items (nested items will each have their own result).
@@ -111,6 +137,11 @@ function formatCard(card: Card): Card {
     markdown = markdown.substring(0, note.index) + markdown.substring(note.index + note[0].length)
   }
 
+  // backgrounds have inconsistent bolding of skills that's causing issues
+  if (card.category === 'background') {
+    markdown = markdown.replaceAll(/\*\*(Charisma|Constitution|Dexterity|Intelligence|Strength|Wisdom)\*\*/g, '$1')
+  }
+
   // Assign back to the card
   card.markdown = markdown
   card.search_text = getText(card).toLowerCase()
@@ -122,7 +153,13 @@ function formatCard(card: Card): Card {
    * We maintain the groups so that we can display dividers in-between the groups
    * Therefore features is an array of objects with key-value features
   */
-  const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column|$)/gs)
+  let columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column|$)/gs)
+
+  // spells are special, we don't want to capture the end of the string for spells
+  if (card.category === 'spell') {
+    columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column)/gs)
+  }
+
   const featBlocks = [] as Card['features']
   for (const col of columns) {
     // Collect the features
@@ -166,20 +203,10 @@ function formatCard(card: Card): Card {
   /*
    * Calculate the description from the calculated markdown
    */
-  let description = ''
-  const descBlocks = markdown
-    .matchAll(/(?:---\s*|<\/?column.*?>|<\/sup>(?!,)|pg. \d+)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
-  for (const line of descBlocks) {
-    if (!line[1]) {
-      continue
-    }
-    // check if the line has any letters in it (sometimes strange formatting characters get matched)
-    const hasWords = line[1].match(/[A-Z]/gi)
-    if (hasWords) {
-      description += line[1]
-    }
-  }
-  card.description = prefixImageLinks(description.trim())
+  const description = (card.category === 'spell')
+    ? getSpellDescription(markdown)
+    : getDescription(markdown)
+  card.description = prefixImageLinks(description)
 
   /*
    * The skills are sometimes duplicated
@@ -220,11 +247,8 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   // Tables have ## headings that are handled weird otherwise
   const tableText = value.match(/##(.+?)<row .*?>(.*)$/s)
   if (tableText) {
-    console.log(value)
     return [tableText[1], tableText[2]]
   }
-
-  // value = value.replace(/<br ?\/>/, ' ')
 
   return [key, value]
 }
@@ -267,7 +291,7 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     }
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Stealth' || card.name === 'Sneak') {
+    // if (card.name === 'Shuriken') {
     //   console.log('\n')
     //   console.log(JSON.stringify(item))
     //   console.log('\n')
