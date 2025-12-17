@@ -91,7 +91,7 @@ function getText(card: Card): string {
   return headerBlock
 }
 
-function getSpellDescription(markdown: string): string {
+function getBasicDescription(markdown: string): string {
   const split = markdown.indexOf('---')
   let description = markdown.substring(split + 3)
     .replaceAll('---', '')
@@ -100,7 +100,7 @@ function getSpellDescription(markdown: string): string {
   return description.trim()
 }
 
-function getDescription(markdown: string): string {
+function getComplexDescription(markdown: string): string {
   let description = ''
   const descBlocks = markdown
     .matchAll(/(?:---\s*|<\/?column.*?>|<\/sup>(?!,)|pg. \d+(?:, .*? pg. \d+)*)(.*?)(?=\*\*|<|\/>|---|##|$)/gs)
@@ -143,11 +143,7 @@ function formatCard(card: Card): Card {
   }
 
   // make sure that tables don't have breaks inside them
-  const replaced = markdown.replaceAll(/(<table>.*?)<\/?br\s*\/?>(.*?<\/table>)/gs, '$1$2')
-  if (replaced !== markdown) {
-    console.log('removed break from table', card.name)
-    markdown = replaced
-  }
+  markdown = markdown.replaceAll(/(<table>.*?)<\/?br\s*\/?>(.*?<\/table>)/gs, '$1$2')
 
   // Assign back to the card
   card.markdown = markdown
@@ -160,15 +156,16 @@ function formatCard(card: Card): Card {
    * We maintain the groups so that we can display dividers in-between the groups
    * Therefore features is an array of objects with key-value features
   */
-  let columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column|$)/gs)
+  const useBasicDescription = card.category === 'spell'
+    || (card.category === 'equipment' && markdown.includes('<ul>'))
 
-  // spells are special, we don't want to capture the end of the string for spells
-  if (card.category === 'spell') {
-    columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column)/gs)
-  }
+  const columns = markdown.matchAll(/(?<=<column.*?>).*?(?=<\/column>|<column|$)/gs)
 
   const featBlocks = [] as Card['features']
   for (const col of columns) {
+    if (useBasicDescription && col[0].includes('---')) {
+      continue
+    }
     // Collect the features
     const feats = col[0]
       .replaceAll(/<br ?\/>/g, '\n\n')
@@ -210,9 +207,9 @@ function formatCard(card: Card): Card {
   /*
    * Calculate the description from the calculated markdown
    */
-  const description = (card.category === 'spell')
-    ? getSpellDescription(markdown)
-    : getDescription(markdown)
+  const description = useBasicDescription
+    ? getBasicDescription(markdown)
+    : getComplexDescription(markdown)
   card.description = prefixImageLinks(description)
 
   /*
@@ -298,11 +295,11 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     }
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Shuriken') {
-    //   console.log('\n')
-    //   console.log(JSON.stringify(item))
-    //   console.log('\n')
-    // }
+    if (card.name === 'Ort') {
+      console.log('\n')
+      console.log(JSON.stringify(item))
+      console.log('\n')
+    }
 
     if (card.category === 'skill') {
       saveRelatedActions(card)

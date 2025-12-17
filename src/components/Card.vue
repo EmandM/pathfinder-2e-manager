@@ -4,8 +4,8 @@ import markdownit from 'markdown-it'
 import mila from 'markdown-it-link-attributes'
 import { useActionImage } from '~/composables/action-to-image'
 import { useAonLink } from '~/composables/aon-link'
+import { inlinePlugin } from '~/composables/block-inliner'
 import { imagePlugin } from '~/composables/image-renderer'
-import { tablePlugin } from '~/composables/table-renderer'
 
 const { source, isBookmarked } = defineProps<{
   source: Card
@@ -29,7 +29,7 @@ md.use(mila, {
   },
 })
 md.use(imagePlugin, 'inline-action')
-md.use(tablePlugin)
+md.use(inlinePlugin)
 
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
@@ -38,7 +38,7 @@ const isCreature = source.category === 'creature' && !source.print_image
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, notPrint: !isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card }">
+  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -111,10 +111,6 @@ hr.divider {
   margin: 0 0 2px 0;
 }
 
-.notPrint .item-desc {
-  padding: 4px;
-}
-
 .item-features {
   display: flex;
   flex-wrap: wrap;
@@ -138,8 +134,25 @@ hr.divider {
   padding-right: 0.25rem;
 }
 
-.notPrint .feature {
-  padding-right: 0.4rem;
+.cardSize:not(.print) {
+  width: 100%;
+  padding: 12px;
+
+  .item-desc {
+    padding: 4px;
+  }
+
+  .feature {
+    padding-right: 0.4rem;
+  }
+
+  .stretcher-bearer {
+    align-items: center;
+  }
+
+  .trait {
+    padding: 4px;
+  }
 }
 
 .bookmark-icon {
@@ -152,10 +165,6 @@ hr.divider {
 
 .stretcher-bearer {
   display: flex;
-}
-
-.notPrint .stretcher-bearer {
-  align-items: center;
 }
 
 .listview-title {
@@ -182,10 +191,6 @@ hr.divider {
   color: white;
   display: inline-block;
   border: 1px solid black;
-}
-
-.notPrint .trait {
-  padding: 4px;
 }
 
 .print .trait {
@@ -280,6 +285,10 @@ hr.divider {
       background-color: #eeeeee;
     }
 
+    th {
+      font-size: 1em;
+    }
+
     td {
       padding: 4px;
 
@@ -297,26 +306,6 @@ hr.divider {
   }
 }
 
-.print .item-markdown:deep(),
-.print .feature:deep() {
-  h2 {
-    display: none;
-  }
-
-  table {
-    width: 100%;
-    margin: 0;
-    table-layout: auto;
-    break-inside: avoid;
-
-    td {
-      padding: 2px;
-      overflow: clip;
-      font-size: 0.9em;
-    }
-  }
-}
-
 .item-image {
   width: 18%;
   img {
@@ -326,26 +315,6 @@ hr.divider {
 
 .image img {
   width: 100%;
-}
-
-.print .item-image {
-  display: none;
-}
-
-.print .item {
-  break-inside: avoid;
-  line-height: 13px;
-  overflow: hidden;
-  height: 100%;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  page-break-inside: avoid;
-  will-change: transform;
-}
-
-.cardSize.notPrint {
-  width: 100%;
-  padding: 12px;
 }
 
 .cardSize.print {
@@ -403,6 +372,48 @@ hr.divider {
     .stretcher-bearer,
     .top-divider {
       width: calc(50% - 7px);
+    }
+  }
+  .item-image {
+    display: none;
+  }
+
+  .item {
+    break-inside: avoid;
+    line-height: 13px;
+    overflow: hidden;
+    height: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    page-break-inside: avoid;
+    will-change: transform;
+  }
+
+  .item-markdown:deep(),
+  .feature:deep() {
+    h2 {
+      display: none;
+    }
+
+    table {
+      width: 100%;
+      margin: 0;
+      table-layout: auto;
+      break-inside: avoid;
+
+      th {
+        font-size: 0.9em;
+      }
+
+      td {
+        padding: 2px;
+        overflow: clip;
+        font-size: 0.9em;
+
+        &:not(td strong) {
+          font-size: 0.8em;
+        }
+      }
     }
   }
 }

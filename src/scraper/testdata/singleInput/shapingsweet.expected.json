@@ -1,0 +1,70 @@
+{
+  "bulk": 0,
+  "category": "equipment",
+  "description": "Many inhabitants of the First World can shape their environment around them; weaker creatures can only make minor changes, while powerful entities such as the Eldest can remake entire landscapes. A shaping sweet is a gelatinous, fruit-flavored candy that confers a whisper of this ability on you when you eat it. For 1 hour after eating a shaping sweet, you can make each of the following changes to your surroundings with an Interact action. You can make each change only once. \n<ul><li>**Alter Weather** You create or eliminate minor precipitation in a 30-foot emanation.</li><li>**Fairy Ring** A ring of flowers and mushrooms appears in a 10-foot burst around you, restoring 1 Hit Point at the start of each of your turns to a randomly chosen fey creature within. The ring lasts for 1 minute.</li><li>**Foliate Vegetation** grows around you in a 10-foot radius burst, creating light undergrowth that lasts for 1 minute.</li><li>**Terrain Shift** The ground in your space rises or falls by 5 feet, remaining at that height for 1 minute.</li></ul>\n\n<column gap=\"tiny\">\n\n</column>",
+  "features": [
+    [
+      [
+        "Price",
+        "6 gp"
+      ],
+      [
+        "Usage",
+        "held in 1 hand"
+      ]
+    ]
+  ],
+  "id": "equipment-3522",
+  "item_category": "Consumables",
+  "item_subcategory": "Other Consumables",
+  "level": 2,
+  "markdown": "<title\r\n    level=\"1\"\r\n    right=\"Item 2\"\r\n    pfs=\"Standard\"\r\n>\r\n[Shaping Sweet](/Equipment.aspx?ID=3522)\r\n</title>\r\n\r\n<spoilers>May contain spoilers from Convocation</spoilers>\r\n\r\n<traits>\r\n<trait label=\"Rare\" url=\"/Traits.aspx?ID=683\" />\r\n<trait label=\"Consumable\" url=\"/Traits.aspx?ID=564\" />\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n</traits>\n\n<column gap=\"tiny\">\r\n\r\n**Source** [Rival Academies](/Sources.aspx?ID=235) pg. 41\n\n**Price** 6 gp\r\n\r\n<row gap=\"medium\">\n\n**Usage** held in 1 hand\n\n</row>\n\n<row gap=\"medium\">\n\n \r\n\r\n \r\n\r\n \r\n</row>\n\n</column>\r\n\r\n---\n\nMany inhabitants of the First World can shape their environment around them; weaker creatures can only make minor changes, while powerful entities such as the Eldest can remake entire landscapes. A shaping sweet is a gelatinous, fruit-flavored candy that confers a whisper of this ability on you when you eat it. For 1 hour after eating a shaping sweet, you can make each of the following changes to your surroundings with an Interact action. You can make each change only once. \n<ul><li>**Alter Weather** You create or eliminate minor precipitation in a 30-foot emanation.</li><li>**Fairy Ring** A ring of flowers and mushrooms appears in a 10-foot burst around you, restoring 1 Hit Point at the start of each of your turns to a randomly chosen fey creature within. The ring lasts for 1 minute.</li><li>**Foliate Vegetation** grows around you in a 10-foot radius burst, creating light undergrowth that lasts for 1 minute.</li><li>**Terrain Shift** The ground in your space rises or falls by 5 feet, remaining at that height for 1 minute.</li></ul>\n\n<column gap=\"tiny\">\n\n</column>",
+  "name": "Shaping Sweet",
+  "pfs": "Standard",
+  "price": 600,
+  "price_raw": "6 gp",
+  "primary_source": "Rival Academies",
+  "primary_source_category": "Lost Omens",
+  "primary_source_group": "Convocation",
+  "primary_source_raw": "Rival Academies pg. 41",
+  "rarity": "rare",
+  "rarity_id": 3,
+  "release_date": "2025-02-26",
+  "resistance": {},
+  "search_text": "<title level=\"1\" right=\"item 2\" pfs=\"standard\" > shaping sweet may contain spoilers from convocation source rival academies pg. 41 price 6 gp usage held in 1 hand --- many inhabitants of the first world can shape their environment around them; weaker creatures can only make minor changes, while powerful entities such as the eldest can remake entire landscapes. a shaping sweet is a gelatinous, fruit-flavored candy that confers a whisper of this ability on you when you eat it. for 1 hour after eating a shaping sweet, you can make each of the following changes to your surroundings with an interact action. you can make each change only once. alter weather you create or eliminate minor precipitation in a 30-foot emanation. fairy ring a ring of flowers and mushrooms appears in a 10-foot burst around you, restoring 1 hit point at the start of each of your turns to a randomly chosen fey creature within. the ring lasts for 1 minute. foliate vegetation grows around you in a 10-foot radius burst, creating light undergrowth that lasts for 1 minute. terrain shift the ground in your space rises or falls by 5 feet, remaining at that height for 1 minute. ",
+  "skill_mod": {},
+  "source": [
+    "Rival Academies"
+  ],
+  "source_category": [
+    "Lost Omens"
+  ],
+  "source_group": [
+    "Convocation"
+  ],
+  "source_raw": [
+    "Rival Academies pg. 41"
+  ],
+  "speed": {},
+  "spoilers": "Convocation",
+  "summary": "Many inhabitants of the First World can shape their environment around them; weaker creatures can only make minor changes, while powerful entities …",
+  "trait": [
+    "Consumable",
+    "Magical",
+    "Rare"
+  ],
+  "trait_group": [
+    "Equipment",
+    "Mechanics",
+    "Rarity"
+  ],
+  "trait_raw": [
+    "Consumable",
+    "Magical",
+    "Rare"
+  ],
+  "type": "Item",
+  "url": "/Equipment.aspx?ID=3522",
+  "usage": "held in 1 hand",
+  "weakness": {}
+}

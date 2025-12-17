@@ -6,7 +6,7 @@ import Token from 'markdown-it/lib/token.mjs'
 
 // Reference is https://github.com/markdown-it/markdown-it/blob/master/lib/renderer.mjs#L77
 
-export function tablePlugin(md: MarkdownIt) {
+export function inlinePlugin(md: MarkdownIt) {
   function getParagraphToken(version: 'open' | 'close'): Token {
     const nesting = version === 'open' ? 1 : -1
     const type = `paragraph_${version}`
@@ -22,7 +22,7 @@ export function tablePlugin(md: MarkdownIt) {
     // Parse inlines
     for (let i = 0, l = tokens.length; i < l; i++) {
       const token = tokens[i]
-      if (token.type === 'html_block' && token.content.includes('<table>')) {
+      if (token.type === 'html_block' && token.content.match(/<(?:table|ul)>/)) {
         indexes.push(i)
       }
     }

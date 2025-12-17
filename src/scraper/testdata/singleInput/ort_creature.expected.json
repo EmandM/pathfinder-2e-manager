@@ -1,0 +1,267 @@
+{
+  "ac": 13,
+  "ac_scale": "Moderate",
+  "ac_scale_number": 3,
+  "attack_bonus": [
+    8
+  ],
+  "attack_bonus_scale": [
+    "High"
+  ],
+  "attack_bonus_scale_number": [
+    4
+  ],
+  "category": "creature",
+  "charisma": -3,
+  "charisma_scale": "Low",
+  "charisma_scale_number": 2,
+  "constitution": 3,
+  "constitution_scale": "High",
+  "constitution_scale_number": 4,
+  "creature_ability": [
+    "Subservience"
+  ],
+  "creature_family": "Devil",
+  "description": "These shapeless masses of quivering flesh are the least of devilkind. Pathetic creatures from Hell's first layer, orts roam alongside damned and suffering souls. Nessaris can combine the essence of a mob of orts to concentrate their collective wickedness within a single form, granting it an infernal sentience and transforming it into a more powerful devil (see the nessari's Shape Devils ability).",
+  "dexterity": 0,
+  "dexterity_scale": "Low",
+  "dexterity_scale_number": 2,
+  "features": [
+    [
+      [
+        "Recall Knowledge - Fiend",
+        "([Religion](/Skills.aspx?ID=46)): DC 14"
+      ],
+      [
+        "Unspecific Lore",
+        ": DC 12"
+      ],
+      [
+        "Specific Lore",
+        ": DC 9"
+      ]
+    ],
+    [
+      [
+        "Perception",
+        "+0; [greater darkvision](/MonsterAbilities.aspx?ID=59)"
+      ],
+      [
+        "Languages",
+        "**Skills**"
+      ],
+      [
+        "Str",
+        "+2"
+      ],
+      [
+        "Dex",
+        "+0"
+      ],
+      [
+        "Con",
+        "+3"
+      ],
+      [
+        "Int",
+        "-5"
+      ],
+      [
+        "Wis",
+        "+0"
+      ],
+      [
+        "Cha",
+        "-3"
+      ]
+    ],
+    [
+      [
+        "AC",
+        "13"
+      ],
+      [
+        "Fort",
+        "+9"
+      ],
+      [
+        "Ref",
+        "+6"
+      ],
+      [
+        "Will",
+        "+2"
+      ],
+      [
+        "HP",
+        "20"
+      ],
+      [
+        "Immunities",
+        "[fire](/Domains.aspx?ID=76), [mental](/Traits.aspx?ID=647)"
+      ],
+      [
+        "Resistances",
+        "physical 3 (except [silver](/Equipment.aspx?ID=379)), [poison](/Traits.aspx?ID=669) 5"
+      ],
+      [
+        "Weaknesses",
+        "[holy](/Traits.aspx?ID=517) 3"
+      ]
+    ],
+    [
+      [
+        "Speed",
+        "20 feet"
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "Melee",
+        "<actions string=\"Single Action\" />"
+      ],
+      [
+        "Damage",
+        "1d4+2 slashing"
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "Subservience",
+        "Orts have little drive of their own, but other devils can take command of them. A non-ort [devil](/Traits.aspx?ID=575) can issue a command to all orts within 60 feet of it with a single action, which has the [auditory](/Traits.aspx?ID=541) and [concentrate](/Traits.aspx?ID=561) traits. The devil picks one of the following orders orts can understand, and the orts follow that order. The command and its effects end once the commander is out of the ort's sight, when a new command is issued by the same or another devil, or when the ort dies. \n<ul><li>**Kill** The ort attacks one target the commander singles out and gains a +1 circumstance bonus to attack rolls against the target.</li><li>**Defend** The ort circles the commander and attacks any creature that comes near. It gains a +1 circumstance bonus to AC and saves.</li><li>**Fetch** The ort gains a +10–foot circumstance bonus to its Speed and attempts to get an object or person the commander singles out. It attacks anyone and anything that gets in the way.</li><li>**Work** The ort performs drudge work dictated by the commander.</li></ul>"
+      ]
+    ]
+  ],
+  "fortitude_save": 9,
+  "fortitude_save_scale": "High",
+  "fortitude_save_scale_number": 4,
+  "hp": 20,
+  "hp_raw": "20",
+  "hp_scale": "High",
+  "hp_scale_number": 4,
+  "id": "creature-2905",
+  "image": [
+    "/Images/Monsters/Ort.webp"
+  ],
+  "immunity": [
+    "fire",
+    "mental"
+  ],
+  "intelligence": -5,
+  "intelligence_scale": "Low",
+  "intelligence_scale_number": 2,
+  "legacy_id": [
+    "creature-108"
+  ],
+  "legacy_name": [
+    "Lemure"
+  ],
+  "level": 0,
+  "markdown": "<title level=\"1\" pfs=\"Standard\">[Ort (Drudge Devil)](/Monsters.aspx?ID=2905)</title>\r\n\r\n<row gap=\"medium\">\r\n\r\n<column gap=\"medium\" flex=\"1 1 400px\">\r\n\r\nThese shapeless masses of quivering flesh are the least of devilkind. Pathetic creatures from Hell's first layer, orts roam alongside damned and suffering souls. Nessaris can combine the essence of a mob of orts to concentrate their collective wickedness within a single form, granting it an infernal sentience and transforming it into a more powerful devil (see the nessari's Shape Devils ability). \r\n\r\n<column gap=\"tiny\">\r\n**[Recall Knowledge - Fiend](/Rules.aspx?ID=563)**\r\n([Religion](/Skills.aspx?ID=46)): DC 14\r\n\r\n**[Unspecific Lore](/Rules.aspx?ID=563)**: DC 12\r\n\r\n**[Specific Lore](/Rules.aspx?ID=563)**: DC 9\r\n</column>\r\n\r\n</column>\r\n\r\n<column gap=\"medium\">\r\n<image src=\"/images/Monsters/Ort.webp\" />\r\n</column>\r\n\r\n</row>\r\n\r\n<title level=\"2\" right=\"Creature 0\">[Ort](/Monsters.aspx?ID=2905)</title>\r\n\r\n<traits>\r\n<trait label=\"Medium\" />\r\n<trait label=\"Devil\" url=\"/Traits.aspx?ID=575\" />\r\n<trait label=\"Fiend\" url=\"/Traits.aspx?ID=600\" />\r\n<trait label=\"Mindless\" url=\"/Traits.aspx?ID=652\" />\r\n<trait label=\"Unholy\" url=\"/Traits.aspx?ID=521\" />\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [Monster Core](/Sources.aspx?ID=221) pg. 86 <sup>1.1</sup>\n\n**Perception** +0; [greater darkvision](/MonsterAbilities.aspx?ID=59)\r\n\r\n**Languages**\n\n**Skills**\r\n[Athletics](/Skills.aspx?ID=3) +6\r\n\r\n<row gap=\"medium\">\r\n**Str** +2\r\n\r\n**Dex** +0\r\n\r\n**Con** +3\r\n\r\n**Int** -5\r\n\r\n**Wis** +0\r\n\r\n**Cha** -3\r\n</row>\n\n</column>\r\n\r\n---\r\n\r\n<column gap=\"tiny\">\r\n\r\n<row gap=\"medium\">\r\n**AC** 13 \r\n\r\n**Fort** +9 \r\n\r\n**Ref** +6 \r\n\r\n**Will** +2 \n\n</row>\r\n\r\n<row gap=\"medium\">\r\n**HP** 20\n\n</row>\r\n\r\n**Immunities**\r\n[fire](/Domains.aspx?ID=76), [mental](/Traits.aspx?ID=647)\r\n\r\n**Resistances**\r\nphysical 3 (except [silver](/Equipment.aspx?ID=379)), [poison](/Traits.aspx?ID=669) 5\r\n\r\n**Weaknesses**\r\n[holy](/Traits.aspx?ID=517) 3\n\n</column>\r\n\r\n---\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Speed** 20 feet\r\n\r\n**Melee**\r\n<actions string=\"Single Action\" />\r\nclaw +8 ([Agile](/Traits.aspx?ID=170), [Magical](/Traits.aspx?ID=103), [Unholy](/Traits.aspx?ID=521)),\r\n**Damage** 1d4+2 slashing\n\n**Subservience**   Orts have little drive of their own, but other devils can take command of them. A non-ort [devil](/Traits.aspx?ID=575) can issue a command to all orts within 60 feet of it with a single action, which has the [auditory](/Traits.aspx?ID=541) and [concentrate](/Traits.aspx?ID=561) traits. The devil picks one of the following orders orts can understand, and the orts follow that order. The command and its effects end once the commander is out of the ort's sight, when a new command is issued by the same or another devil, or when the ort dies. \n<ul><li>**Kill** The ort attacks one target the commander singles out and gains a +1 circumstance bonus to attack rolls against the target.</li><li>**Defend** The ort circles the commander and attacks any creature that comes near. It gains a +1 circumstance bonus to AC and saves.</li><li>**Fetch** The ort gains a +10–foot circumstance bonus to its Speed and attempts to get an object or person the commander singles out. It attacks anyone and anything that gets in the way.</li><li>**Work** The ort performs drudge work dictated by the commander.</li></ul>\r\n\r\n</column>\n\n<document level=\"2\" id=\"creature-family-389\" />",
+  "name": "Ort",
+  "npc": false,
+  "perception": 0,
+  "perception_scale": "Terrible",
+  "perception_scale_number": 1,
+  "pfs": "Standard",
+  "primary_source": "Monster Core",
+  "primary_source_category": "Rulebooks",
+  "primary_source_raw": "Monster Core pg. 86",
+  "rarity": "common",
+  "rarity_id": 1,
+  "reflex_save": 6,
+  "reflex_save_scale": "Moderate",
+  "reflex_save_scale_number": 3,
+  "release_date": "2024-03-27",
+  "resistance": {
+    "bludgeoning": 3,
+    "physical": 3,
+    "piercing": 3,
+    "poison": 5,
+    "slashing": 3
+  },
+  "resistance_raw": "physical 3 (except  silver ),  poison  5",
+  "search_text": " ort (drudge devil) these shapeless masses of quivering flesh are the least of devilkind. pathetic creatures from hell's first layer, orts roam alongside damned and suffering souls. nessaris can combine the essence of a mob of orts to concentrate their collective wickedness within a single form, granting it an infernal sentience and transforming it into a more powerful devil (see the nessari's shape devils ability). recall knowledge - fiend (religion): dc 14 unspecific lore : dc 12 specific lore : dc 9 ort source monster core pg. 86 1.1 perception +0; greater darkvision languages skills athletics +6 str +2 dex +0 con +3 int -5 wis +0 cha -3 --- ac 13 fort +9 ref +6 will +2 hp 20 immunities fire, mental resistances physical 3 (except silver), poison 5 weaknesses holy 3 --- speed 20 feet melee single action claw +8 (agile, magical, unholy), damage 1d4+2 slashing subservience orts have little drive of their own, but other devils can take command of them. a non-ort devil can issue a command to all orts within 60 feet of it with a single action, which has the auditory and concentrate traits. the devil picks one of the following orders orts can understand, and the orts follow that order. the command and its effects end once the commander is out of the ort's sight, when a new command is issued by the same or another devil, or when the ort dies. kill the ort attacks one target the commander singles out and gains a +1 circumstance bonus to attack rolls against the target. defend the ort circles the commander and attacks any creature that comes near. it gains a +1 circumstance bonus to ac and saves. fetch the ort gains a +10–foot circumstance bonus to its speed and attempts to get an object or person the commander singles out. it attacks anyone and anything that gets in the way. work the ort performs drudge work dictated by the commander. ",
+  "sense": " greater darkvision ",
+  "size": [
+    "Medium"
+  ],
+  "size_id": [
+    3
+  ],
+  "skill": [
+    "Athletics"
+  ],
+  "skill_mod": {
+    "athletics": 6
+  },
+  "source": [
+    "Monster Core"
+  ],
+  "source_category": [
+    "Rulebooks"
+  ],
+  "source_raw": [
+    "Monster Core pg. 86"
+  ],
+  "speed": {
+    "land": 20,
+    "max": 20
+  },
+  "speed_raw": "20 feet",
+  "strength": 2,
+  "strength_scale": "Moderate",
+  "strength_scale_number": 3,
+  "strike_damage_average": [
+    4
+  ],
+  "strike_damage_scale": [
+    "Moderate"
+  ],
+  "strike_damage_scale_number": [
+    3
+  ],
+  "strongest_save": [
+    "fort",
+    "fortitude"
+  ],
+  "summary": "These shapeless masses of quivering flesh are the least of devilkind. Pathetic creatures from Hell's first layer, orts roam alongside damned and …",
+  "trait": [
+    "Devil",
+    "Fiend",
+    "Mindless",
+    "Unholy",
+    "Medium"
+  ],
+  "trait_group": [
+    "Monster",
+    "Creature Type",
+    "Mechanics"
+  ],
+  "trait_raw": [
+    "Devil",
+    "Fiend",
+    "Mindless",
+    "Unholy"
+  ],
+  "type": "Creature",
+  "url": "/Monsters.aspx?ID=2905",
+  "vision": "Greater darkvision",
+  "weakest_save": [
+    "will"
+  ],
+  "weakness": {
+    "holy": 3
+  },
+  "weakness_raw": " holy  3",
+  "will_save": 2,
+  "will_save_scale": "Terrible",
+  "will_save_scale_number": 1,
+  "wisdom": 0,
+  "wisdom_scale": "Low",
+  "wisdom_scale_number": 2
+}

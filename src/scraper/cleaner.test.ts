@@ -14,16 +14,18 @@ describe('cleanSearch', () => {
     'animal_feature',
     'folklore_enthusiast',
     'energy_breath',
+    'shapingsweet',
+    'ort_creature',
   ])('%s - cleans single input', (input) => {
     runTestForFilePrefix(`singleInput/${input}`)
   })
 
   it.skip('runs a single test as expected', () => {
-    runTestForFilePrefix('singleInput/topplingfurniture')
+    runTestForFilePrefix('singleInput/acid_grip')
   })
 
   it.skip('builds up a test as expected', () => {
-    buildExpectedForPrefix('singleInput/energy_breath')
+    buildExpectedForPrefix('singleInput/ort_creature')
   })
 
   it('adds skills to the associated actions', () => {
