@@ -142,6 +142,13 @@ function formatCard(card: Card): Card {
     markdown = markdown.replaceAll(/\*\*(Charisma|Constitution|Dexterity|Intelligence|Strength|Wisdom)\*\*/g, '$1')
   }
 
+  // make sure that tables don't have breaks inside them
+  const replaced = markdown.replaceAll(/(<table>.*?)<\/?br\s*\/?>(.*?<\/table>)/gs, '$1$2')
+  if (replaced !== markdown) {
+    console.log('removed break from table', card.name)
+    markdown = replaced
+  }
+
   // Assign back to the card
   card.markdown = markdown
   card.search_text = getText(card).toLowerCase()

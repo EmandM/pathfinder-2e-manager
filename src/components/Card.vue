@@ -5,6 +5,7 @@ import mila from 'markdown-it-link-attributes'
 import { useActionImage } from '~/composables/action-to-image'
 import { useAonLink } from '~/composables/aon-link'
 import { imagePlugin } from '~/composables/image-renderer'
+import { tablePlugin } from '~/composables/table-renderer'
 
 const { source, isBookmarked } = defineProps<{
   source: Card
@@ -28,6 +29,7 @@ md.use(mila, {
   },
 })
 md.use(imagePlugin, 'inline-action')
+md.use(tablePlugin)
 
 const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
@@ -252,6 +254,65 @@ hr.divider {
 
     img {
       display: none;
+    }
+
+    h2 {
+      font-size: 1.2em;
+      margin-bottom: 0;
+    }
+
+    table {
+      width: 99%;
+      table-layout: fixed;
+      border-top: 1px solid #999999;
+      border-bottom: 1px solid #999999;
+    }
+  }
+}
+
+.item-markdown:deep(),
+.feature:deep() {
+  table {
+    border-collapse: collapse;
+    margin: 12px auto 8px;
+
+    tbody tr:nth-child(odd) {
+      background-color: #eeeeee;
+    }
+
+    td {
+      padding: 4px;
+
+      &:first-child {
+        padding-left: 8px;
+      }
+      &:last-child {
+        padding-right: 8px;
+      }
+
+      &:not(td strong) {
+        font-size: 0.9em;
+      }
+    }
+  }
+}
+
+.print .item-markdown:deep(),
+.print .feature:deep() {
+  h2 {
+    display: none;
+  }
+
+  table {
+    width: 100%;
+    margin: 0;
+    table-layout: auto;
+    break-inside: avoid;
+
+    td {
+      padding: 2px;
+      overflow: clip;
+      font-size: 0.9em;
     }
   }
 }

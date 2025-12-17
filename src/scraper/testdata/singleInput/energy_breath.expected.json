@@ -1,0 +1,102 @@
+{
+  "actions": "Single Action",
+  "actions_number": 2,
+  "bulk": 0.1,
+  "bulk_raw": "L",
+  "category": "equipment",
+  "description": "Distilled from the energy of dangerous spells, an _energy breath potion_ grants you the Energy Breath action for 1 hour after you imbibe the concoction. The potency of the breath depends on the potion's type, based on how long the distilled ingredients were aged. This potion has the trait matching the damage type.\n\nThe damage is 6d6, and the save DC is 29.",
+  "features": [
+    [
+      [
+        "Usage",
+        "held in 1 hand"
+      ],
+      [
+        "Bulk",
+        "L"
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "Activate",
+        "<actions string=\"Single Action\" /> ([manipulate](/Traits.aspx?ID=104))"
+      ]
+    ],
+    [
+      [
+        "Energy Breath",
+        "<actions string=\"Single Action\" /> Each creature in an area takes damage depending on its basic saving throw. The damage amount and save DC depend on the potion's energy type. The damage type is the same as the potion's energy type. The area and save depend on the energy type, as seen in the table below. After you use Energy Breath, you can't do so again for 1d4 rounds."
+      ],
+      [
+        "newline",
+        ""
+      ],
+      [
+        "",
+        "<table>\n<tr> <th>Energy Type</th> <th>Area (Save)</th> </tr><tr> <td>Acid</td> <td>30-foot line (Reflex) </td> </tr>\n    <tr> <td>Cold</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Electricity</td> <td>30-foot line (Reflex)</td> </tr>\n    <tr> <td>Fire</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Sonic</td> <td>15-foot cone (Fortitude)</td> </tr>\n </table>"
+      ]
+    ],
+    [
+      [
+        "Price",
+        "400 gp"
+      ]
+    ]
+  ],
+  "id": "equipment-2941-2810",
+  "item_category": "Consumables",
+  "item_parent_id": "equipment-2941",
+  "item_subcategory": "Potions",
+  "legacy_id": [
+    "equipment-185"
+  ],
+  "legacy_name": [
+    "Dragon's Breath Potion"
+  ],
+  "level": 12,
+  "markdown": "<title\r\n    level=\"1\"\r\n    right=\"Item 7+\"\r\n    pfs=\"Standard\"\r\n>\r\n[Energy Breath Potion](/Equipment.aspx?ID=2941)\r\n</title>\n\n<traits>\r\n<trait label=\"Consumable\" url=\"/Traits.aspx?ID=564\" />\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n<trait label=\"Potion\" url=\"/Traits.aspx?ID=672\" />\r\n</traits>\n\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n<row gap=\"medium\">\n\n**Usage** held in 1 hand\r\n\r\n**Bulk** L\r\n</row>\n\n<row gap=\"medium\">\r\n<row gap=\"tiny\"><row>**Activate**</row><actions string=\"Single Action\" /><row>([manipulate](/Traits.aspx?ID=104))</row></row>\r\n\r\n \r\n\r\n \r\n\r\n \r\n</row>\n\n</column>\r\n\r\n---\n\nDistilled from the energy of dangerous spells, an _energy breath potion_ grants you the Energy Breath action for 1 hour after you imbibe the concoction. The potency of the breath depends on the potion's type, based on how long the distilled ingredients were aged. This potion has the trait matching the damage type.\n\n**Energy Breath** <actions string=\"Single Action\" /> Each creature in an area takes damage depending on its basic saving throw. The damage amount and save DC depend on the potion's energy type. The damage type is the same as the potion's energy type. The area and save depend on the energy type, as seen in the table below. After you use Energy Breath, you can't do so again for 1d4 rounds. \n\n## \n<row gap=\"tiny\">\n<table>\n<tr> <th>Energy Type</th> <th>Area (Save)</th> </tr><tr> <td>Acid</td> <td>30-foot line (Reflex) </td> </tr>\n    <tr> <td>Cold</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Electricity</td> <td>30-foot line (Reflex)</td> </tr>\n    <tr> <td>Fire</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Sonic</td> <td>15-foot cone (Fortitude)</td> </tr>\n </table>\n</row>\n\n<column gap=\"tiny\">\n\n</column>\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 12\"\r\npfs=\"Standard\"\r\n>\r\nEnergy Breath Potion (Moderate)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n**Price** 400 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe damage is 6d6, and the save DC is 29.\r\n\r\n",
+  "name": "Energy Breath Potion (Moderate)",
+  "pfs": "Standard",
+  "price": 40000,
+  "price_raw": "400 gp",
+  "primary_source": "GM Core",
+  "primary_source_category": "Rulebooks",
+  "primary_source_raw": "GM Core pg. 259",
+  "rarity": "common",
+  "rarity_id": 1,
+  "release_date": "2023-11-15",
+  "resistance": {},
+  "search_text": "<title level=\"1\" right=\"item 7+\" pfs=\"standard\" > energy breath potion source gm core pg. 259 2.0 usage held in 1 hand bulk l activate single action (manipulate) --- distilled from the energy of dangerous spells, an energy breath potion grants you the energy breath action for 1 hour after you imbibe the concoction. the potency of the breath depends on the potion's type, based on how long the distilled ingredients were aged. this potion has the trait matching the damage type. energy breath single action each creature in an area takes damage depending on its basic saving throw. the damage amount and save dc depend on the potion's energy type. the damage type is the same as the potion's energy type. the area and save depend on the energy type, as seen in the table below. after you use energy breath, you can't do so again for 1d4 rounds. ## energy type area (save) acid 30-foot line (reflex) cold 15-foot cone (reflex) electricity 30-foot line (reflex) fire 15-foot cone (reflex) sonic 15-foot cone (fortitude) <title level=\"2\" right=\"item 12\" pfs=\"standard\" > energy breath potion (moderate) source gm core pg. 259 2.0 price 400 gp --- the damage is 6d6, and the save dc is 29. ",
+  "skill_mod": {},
+  "source": [
+    "GM Core"
+  ],
+  "source_category": [
+    "Rulebooks"
+  ],
+  "source_raw": [
+    "GM Core pg. 259"
+  ],
+  "speed": {},
+  "summary": "The damage is 6d6, and the save DC is 29.",
+  "trait": [
+    "Consumable",
+    "Magical",
+    "Potion"
+  ],
+  "trait_group": [
+    "Equipment",
+    "Mechanics"
+  ],
+  "trait_raw": [
+    "Consumable",
+    "Magical",
+    "Potion"
+  ],
+  "type": "Item",
+  "url": "/Equipment.aspx?ID=2941",
+  "usage": "held in 1 hand",
+  "weakness": {}
+}

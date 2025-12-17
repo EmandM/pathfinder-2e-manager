@@ -1,0 +1,80 @@
+{
+  "_index": "aon66",
+  "_id": "equipment-2941-2810",
+  "_score": null,
+  "_source": {
+    "actions": "Single Action",
+    "actions_number": 2,
+    "base_item_markdown": "",
+    "bulk": 0.1,
+    "bulk_raw": "L",
+    "category": "equipment",
+    "exclude_from_search": false,
+    "id": "equipment-2941-2810",
+    "item_category": "Consumables",
+    "item_parent_id": "equipment-2941",
+    "item_subcategory": "Potions",
+    "legacy_id": [
+      "equipment-185"
+    ],
+    "legacy_name": [
+      "Dragon's Breath Potion"
+    ],
+    "level": 12,
+    "markdown": "<title\r\n    level=\"1\"\r\n    right=\"Item 7+\"\r\n    pfs=\"Standard\"\r\n>\r\n[Energy Breath Potion](/Equipment.aspx?ID=2941)\r\n</title>\n\n<traits>\r\n<trait label=\"Consumable\" url=\"/Traits.aspx?ID=564\" />\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n<trait label=\"Potion\" url=\"/Traits.aspx?ID=672\" />\r\n</traits>\n\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n<row gap=\"medium\">\n\n**Usage** held in 1 hand\r\n\r\n**Bulk** L\r\n</row>\n\n<row gap=\"medium\">\r\n<row gap=\"tiny\"><row>**Activate**</row><actions string=\"Single Action\" /><row>([manipulate](/Traits.aspx?ID=104))</row></row>\r\n\r\n \r\n\r\n \r\n\r\n \r\n</row>\n\n</column>\r\n\r\n---\n\nDistilled from the energy of dangerous spells, an _energy breath potion_ grants you the Energy Breath action for 1 hour after you imbibe the concoction. The potency of the breath depends on the potion's type, based on how long the distilled ingredients were aged. This potion has the trait matching the damage type.\n\n**Energy Breath** <actions string=\"Single Action\" /> Each creature in an area takes damage depending on its basic saving throw. The damage amount and save DC depend on the potion's energy type. The damage type is the same as the potion's energy type. The area and save depend on the energy type, as seen in the table below. After you use Energy Breath, you can't do so again for 1d4 rounds. \n\n## \n<row gap=\"tiny\">\n<table>\n<tr> <th>Energy Type<br /></th> <th>Area (Save)</th> </tr><tr> <td>Acid</td> <td>30-foot line (Reflex) </td> </tr>\n    <tr> <td>Cold</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Electricity</td> <td>30-foot line (Reflex)</td> </tr>\n    <tr> <td>Fire</td> <td>15-foot cone (Reflex)</td> </tr>\n    <tr> <td>Sonic</td> <td>15-foot cone (Fortitude)</td> </tr>\n </table>\n</row>\n\n<column gap=\"tiny\">\n\n</column>\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 7\"\r\npfs=\"Standard\"\r\n>\r\nEnergy Breath Potion (Lesser)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n**Price** 70 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe damage is 4d6, and the save DC is 23.\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 12\"\r\npfs=\"Standard\"\r\n>\r\nEnergy Breath Potion (Moderate)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n**Price** 400 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe damage is 6d6, and the save DC is 29.\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 17\"\r\npfs=\"Standard\"\r\n>\r\nEnergy Breath Potion (Greater)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\n\n**Price** 3,000 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe damage is 10d6, and the save DC is 37.",
+    "name": "Energy Breath Potion (Moderate)",
+    "pfs": "Standard",
+    "price": 40000,
+    "price_raw": "400 gp",
+    "primary_source": "GM Core",
+    "primary_source_raw": "GM Core pg. 259",
+    "primary_source_category": "Rulebooks",
+    "rarity": "common",
+    "rarity_id": 1,
+    "release_date": "2023-11-15",
+    "resistance": {},
+    "search_markdown": "<traits>\r\n<trait label=\"Consumable\" url=\"/Traits.aspx?ID=564\" />\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n<trait label=\"Potion\" url=\"/Traits.aspx?ID=672\" />\r\n</traits>\r\n\r\n<additional-info>\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>\r\n\r\n**Price** 400 gp\r\n\r\n<row gap=\"medium\">\r\n \r\n\r\n**Usage** held in 1 hand\r\n\r\n**Bulk** L\r\n</row>\n\n<row gap=\"medium\">\r\n<row gap=\"tiny\"><row>**Activate**</row><actions string=\"Single Action\" /><row>([manipulate](/Traits.aspx?ID=104))</row></row>\r\n\r\n \r\n\r\n \r\n</row>\r\n</additional-info>\r\n\r\n---\r\n\r\n<summary>\r\nThe damage is 6d6, and the save DC is 29.\r\n</summary>",
+    "skill_mod": {},
+    "source": [
+      "GM Core"
+    ],
+    "source_raw": [
+      "GM Core pg. 259"
+    ],
+    "source_category": [
+      "Rulebooks"
+    ],
+    "source_markdown": "[GM Core](/Sources.aspx?ID=218) pg. 259 <sup>2.0</sup>",
+    "speed": {},
+    "spell_markdown": "",
+    "summary": "The damage is 6d6, and the save DC is 29.",
+    "summary_markdown": "The damage is 6d6, and the save DC is 29.",
+    "text": "<title level=\"1\" right=\"Item 7+\" pfs=\"Standard\" > Energy Breath Potion Source GM Core pg. 259 2.0 Usage held in 1 hand Bulk L Activate Single Action (manipulate) --- Distilled from the energy of dangerous spells, an energy breath potion grants you the Energy Breath action for 1 hour after you imbibe the concoction. The potency of the breath depends on the potion's type, based on how long the distilled ingredients were aged. This potion has the trait matching the damage type. Energy Breath Single Action Each creature in an area takes damage depending on its basic saving throw. The damage amount and save DC depend on the potion's energy type. The damage type is the same as the potion's energy type. The area and save depend on the energy type, as seen in the table below. After you use Energy Breath, you can't do so again for 1d4 rounds. ## Energy Type Area (Save) Acid 30-foot line (Reflex) Cold 15-foot cone (Reflex) Electricity 30-foot line (Reflex) Fire 15-foot cone (Reflex) Sonic 15-foot cone (Fortitude) <title level=\"2\" right=\"Item 7\" pfs=\"Standard\" > Energy Breath Potion (Lesser) Source GM Core pg. 259 2.0 Price 70 gp --- The damage is 4d6, and the save DC is 23. <title level=\"2\" right=\"Item 12\" pfs=\"Standard\" > Energy Breath Potion (Moderate) Source GM Core pg. 259 2.0 Price 400 gp --- The damage is 6d6, and the save DC is 29. <title level=\"2\" right=\"Item 17\" pfs=\"Standard\" > Energy Breath Potion (Greater) Source GM Core pg. 259 2.0 Price 3,000 gp --- The damage is 10d6, and the save DC is 37.",
+    "trait": [
+      "Consumable",
+      "Magical",
+      "Potion"
+    ],
+    "trait_group": [
+      "Equipment",
+      "Mechanics"
+    ],
+    "trait_markdown": "[Consumable](/Traits.aspx?ID=564), [Magical](/Traits.aspx?ID=644), [Potion](/Traits.aspx?ID=672)",
+    "trait_raw": [
+      "Consumable",
+      "Magical",
+      "Potion"
+    ],
+    "type": "Item",
+    "url": "/Equipment.aspx?ID=2941",
+    "usage": "held in 1 hand",
+    "usage_markdown": "held in 1 hand",
+    "weakness": {}
+  },
+  "sort": [
+    12,
+    40000,
+    "energy breath potion (moderate)",
+    33181
+  ]
+}

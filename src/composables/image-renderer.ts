@@ -6,12 +6,16 @@ import { useActionImage } from './action-to-image'
 // Reference is https://github.com/markdown-it/markdown-it/blob/master/lib/renderer.mjs#L77
 
 export function imagePlugin(md: MarkdownIt, className: string) {
+  const inlineRender = md.renderer.rules.html_inline || function (tokens, idx, options, env, self) {
+    return self.renderToken(tokens, idx, options)
+  }
+
   md.renderer.rules.html_inline = function (tokens, idx, options, env, self) {
     const content = tokens[idx].content
 
     const actionTag = content.match(/<actions string="(.+)" \/>/s)
     if (!actionTag || !actionTag[1]) {
-      return self.renderToken(tokens, idx, options)
+      return inlineRender(tokens, idx, options, env, self)
     }
 
     const actionName = actionTag[1]
