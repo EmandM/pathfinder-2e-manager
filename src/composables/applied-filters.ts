@@ -19,7 +19,6 @@ export class AppliedFilterCollection {
       set = { filter, appliedOptions: new Map() }
       this.filters.set(filter.key, set)
     }
-    console.log('adding filter', filter)
 
     set.appliedOptions.set(selectedValue, FilterState.includes)
   }
@@ -67,10 +66,7 @@ export class AppliedFilterCollection {
 
   getAppliedValues(filter: Filter): string[] {
     const internal = this.filters.get(filter.key)
-    if (!(internal && internal.appliedOptions)) {
-      return []
-    }
-    return internal.appliedOptions.keys().toArray()
+    return internal?.appliedOptions?.keys()?.toArray() || []
   }
 
   /**

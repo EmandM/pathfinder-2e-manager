@@ -32,6 +32,7 @@ function handleChange() {
         filterable
         size="large"
         style="width: 180px"
+        :disabled="options.length === 0"
         @change="handleChange()"
       >
         <el-option

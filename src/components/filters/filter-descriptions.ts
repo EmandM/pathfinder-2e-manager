@@ -25,36 +25,37 @@ abstract class FilterClass<K extends keyof Card> {
     return `${value}`
   }
 
-  hydrate(cards: Card[], toExclude: string[] = []) {
-    const set = new Set<string>()
+  // Hydrate all valid options from the given cards, excluding the options pass into toExclude
+  hydrate(cards: Card[], toExclude: string[]) {
+    const excludeSet = new Set(toExclude)
+    const allValues = this.hydrateValues(cards)
+    this.options = [...allValues.difference(excludeSet)]
+  }
 
-    const addToSet = (value: any) => {
-      const text = this.getLabelText(value)
-      if (!toExclude.includes(text)) {
-        set.add(text)
-      }
-    }
+  // Override this to customize how options are collected
+  hydrateValues(cards: Card[]): Set<string> {
+    const set = new Set<string>()
 
     for (const card of cards) {
       const values = card[this.key]
 
       if (Array.isArray(values)) {
         for (const value of values) {
-          addToSet(value)
+          set.add(this.getLabelText(value))
         }
       }
       else if (typeof values === 'object') {
         console.warn('Unimplemented - object fields')
       }
       else if (typeof values === 'boolean') {
-        addToSet(values)
+        set.add(this.getLabelText(values))
       }
       else if (values) {
-        addToSet(values)
+        set.add(this.getLabelText(values))
       }
     }
 
-    this.options = [...set]
+    return set
   }
 
   public getTag(option: string) {
@@ -71,6 +72,41 @@ class StringArrayFilter<K extends KeysMatching<Array<string>>> extends FilterCla
 
   isMatch(value: Array<string>, filterOption: string): boolean {
     return value.includes(filterOption)
+  }
+}
+
+class FuzzyStringFilter<K extends KeysMatching<string>> extends FilterClass<K> {
+  keysToMatch: Set<string>
+
+  constructor(name: string, key: K, color: string, allowedOptions: string[]) {
+    super(name, key, color)
+    this.keysToMatch = new Set(allowedOptions)
+  }
+
+  isMatch(value: string, filterOption: string): boolean {
+    return value.toLowerCase().includes(filterOption.toLowerCase())
+  }
+
+  hydrateValues(cards: Card[]): Set<string> {
+    const set = new Set<string>()
+
+    for (const card of cards) {
+      const value = card[this.key]
+      if (!value) {
+        continue
+      }
+
+      this.keysToMatch.forEach((allowedOption) => {
+        if (value.toLowerCase().includes(allowedOption.toLowerCase())) {
+          set.add(allowedOption)
+        }
+      })
+
+      if (this.keysToMatch.isSubsetOf(set)) {
+        break
+      }
+    }
+    return set
   }
 }
 
@@ -96,8 +132,8 @@ class BookmarkFilter extends FilterClass<'id'> {
     return bookmarkManager.hasBookmark(filterOption, cardId)
   }
 
-  hydrate(_cards: Card[]): void {
-    this.options = bookmarkManager.getListNames()
+  hydrateValues(_cards: Card[]): Set<string> {
+    return new Set(bookmarkManager.getListNames())
   }
 }
 
@@ -156,7 +192,7 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     shortcut: new ValueFilter('Spell Type', 'spell_type', color.darkblue),
     selectable: [
       new StringArrayFilter('Tradition', 'tradition', color.orange),
-      new StringArrayFilter('Saving Throw', 'saving_throw', color.pink),
+      new FuzzyStringFilter('Saving Throw', 'saving_throw', color.pink, ['AC', 'Reflex', 'Will', 'Fortitude']),
       new ValueFilter('Actions', 'actions', color.bluegreen),
     ],
   },

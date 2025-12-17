@@ -19,7 +19,7 @@ export interface Card {
   level: number
   spell_type: string
   tradition: string[]
-  saving_throw: string[]
+  saving_throw: string
   damage_type: string[]
   weapon_category: string[]
   weapon_group: string[]

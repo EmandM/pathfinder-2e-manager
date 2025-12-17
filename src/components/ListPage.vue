@@ -48,7 +48,7 @@ if (collection == null) {
 
     // Pre-add the shortcut filters
     if (filters.shortcut) {
-      filters.shortcut.hydrate(cards)
+      filters.shortcut.hydrate(cards, [])
       shortcut.value = filters.shortcut
 
       appliedFilters.addShortcutFilter(filters.shortcut)
@@ -65,8 +65,6 @@ else {
 
 // Called each time the filters change
 function doFilter() {
-  console.log('filtering')
-
   filteredCards = useFilteredList(cards, appliedFilters)
 
   // Use the filtered cards to update the options for the filters

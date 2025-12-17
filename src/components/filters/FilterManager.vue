@@ -34,8 +34,8 @@ watchEffect(() => mainDropdownOptions.value = filterList.map(filter => filter.na
 const shownFilterTags: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
   for (const filter of shownFilterTags.value) {
-    const inputFilter = filterList.find(f => f.key = filter.filter.key)
-    filter.filter.options = inputFilter.options
+    const inputFilter = filterList.find(f => f.key === filter.filter.key)
+    filter.filter.options = inputFilter.options.sort()
   }
 }
 
@@ -94,7 +94,6 @@ function showFilterSelect(name: string, init: boolean = false) {
       filter.options = [...newFilter.options.filter(val => !existing.appliedOptions.has(val))].sort()
     }
 
-    console.log(`Adding ${name} to the shownFilterDropdowns list`)
     shownSubDropdowns.value.set(name, filter)
   }
 
@@ -110,6 +109,7 @@ function hideFilterSelect(name: string) {
 function addFilter(filter: Filter, selected?: string, initialState?: FilterState) {
   if (!filter.isSingleOption) {
     filter.options = [...remove(filter.options, selected)]
+    shownSubDropdowns.value.set(filter.name, filter)
   }
 
   shownFilterTags.value.push({
@@ -135,12 +135,10 @@ function removeFilterTag(removeTag: SelectedFilter) {
   else {
     // Otherwise add it back to the sub-dropdown
     const subDropdown = shownSubDropdowns.value.get(removeTag.filter.name)
-    if (!subDropdown) {
-      console.error('Could not find value of filter to remove', removeTag, shownSubDropdowns)
-      return
+    if (subDropdown) {
+      subDropdown.options.push(removeTag.selectedValue)
+      subDropdown.options.sort()
     }
-    subDropdown.options.push(removeTag.selectedValue)
-    subDropdown.options.sort()
   }
 
   // Remove from the tag display
