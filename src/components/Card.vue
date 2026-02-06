@@ -31,7 +31,7 @@ md.use(mila, {
 md.use(imagePlugin, 'inline-action')
 md.use(inlinePlugin)
 
-const traits = source.trait ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
+const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
 const isCreature = source.category === 'creature' && !source.print_image
