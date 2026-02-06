@@ -11,6 +11,7 @@ interface Override {
   trait_raw?: string[]
   xl_card: boolean
   print_image: boolean
+  name?: string
 }
 
 interface PrintCustomisations {
@@ -122,7 +123,7 @@ class Printer {
   }
 
   // Set Overrides
-  private setField<T extends keyof Override>(id: Card['id'], fieldName: T, value: Override[T]) {
+  setField<T extends keyof Override>(id: Card['id'], fieldName: T, value: Override[T]) {
     const override = this.getOverride(id)
     override[fieldName] = value
     this.overrides.value[id] = override

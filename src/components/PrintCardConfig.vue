@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Card } from '~/composables/types'
 import { computed, ref } from 'vue'
+import IconEdit from '~icons/material-symbols-light/edit'
 import { usePrintCustomization } from '~/composables/print'
 
 const { source } = defineProps<{
@@ -13,14 +14,15 @@ const noOverride = computed(() => !printer.getConfiguredOverride(source.id))
 
 const count = ref((existing?.count || existing?.count === 0) ? existing.count : 1)
 const description = ref(existing?.description || source.description)
+const name = ref(existing?.name || source.name)
 const traits = ref(existing?.trait_raw || source.trait_raw)
 const xlCard = ref(existing?.xl_card || false)
 const printImage = ref(existing?.print_image || false)
 const imageDisabled = !source.image
 
 const descriptionDialogVisible = ref(false)
-
 const traitDialogVisible = ref(false)
+const nameDialogVisible = ref(false)
 
 function handleCountChange(value: number | undefined) {
   if (!value || value < 0) {
@@ -31,7 +33,7 @@ function handleCountChange(value: number | undefined) {
 }
 
 function handleDescriptionCancel() {
-  description.value = source.description
+  description.value = printer.getConfiguredOverride(source.id)?.description ?? source.description
   descriptionDialogVisible.value = false
 }
 
@@ -41,13 +43,23 @@ function handleDescriptionSave() {
 }
 
 function handleTraitsCancel() {
-  traits.value = source.trait_raw
+  traits.value = printer.getConfiguredOverride(source.id)?.trait_raw ?? source.trait_raw
   traitDialogVisible.value = false
 }
 
 function handleTraitsSave() {
   printer.setTraits(source.id, traits.value)
   traitDialogVisible.value = false
+}
+
+function handleNameCancel() {
+  name.value = printer.getConfiguredOverride(source.id)?.name ?? source.name
+  nameDialogVisible.value = false
+}
+
+function handleNameSave() {
+  printer.setField(source.id, 'name', name.value)
+  nameDialogVisible.value = false
 }
 
 function handleXlCardChange(newVal: boolean) {
@@ -67,7 +79,10 @@ function handleReset() {
 
 <template>
   <div class="item">
-    <span>{{ source.name }}</span>
+    <div class="name-container">
+      <span class="name">{{ source.name }}</span>
+      <el-button :icon="IconEdit" class="edit-name" circle size="small" @click="nameDialogVisible = true" />
+    </div>
 
     <div class="actions">
       <div class="action">
@@ -131,6 +146,27 @@ function handleReset() {
       </div>
     </template>
   </el-dialog>
+
+  <el-dialog v-model="nameDialogVisible" :title="source.name" width="500" draggable>
+    <el-input v-model="name" />
+
+    <template #footer>
+      <div class="dialog-footer">
+        <el-button
+          class="reset"
+          type="warning"
+          :disabled="name === source.name"
+          @click="() => name = source.name"
+        >
+          Reset
+        </el-button>
+        <el-button @click="handleNameCancel">Cancel</el-button>
+        <el-button type="success" @click="handleNameSave">
+          Save
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <style scoped lang="scss">
@@ -140,6 +176,17 @@ function handleReset() {
   align-items: center;
   padding: 8px 0;
 
+  .name-container {
+    display: flex;
+    align-items: center;
+
+    .edit-name {
+      margin: 0 8px;
+      // height: 24px;
+      // width: 24px;
+    }
+  }
+
   .actions {
     display: flex;
 
@@ -148,6 +195,10 @@ function handleReset() {
 
       .el-checkbox {
         margin-right: 8px;
+      }
+
+      &.el-input-number {
+        width: 100px;
       }
     }
   }
