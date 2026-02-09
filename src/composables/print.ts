@@ -5,14 +5,13 @@ import { useStorage } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-interface Override {
+interface PrintConfiguration {
   count?: number
-  description?: string
-  trait_raw?: string[]
   xl_card: boolean
   print_image: boolean
-  name?: string
 }
+
+type Override = PrintConfiguration & Partial<Card>
 
 interface PrintCustomisations {
   [key: Card['id']]: Override
@@ -43,6 +42,13 @@ class Printer {
     return !!this.overrides.value[id]
   }
 
+  private assignOverride<T extends keyof Card>(field: T, override: Omit<Override, 'count'>, card: Card) {
+    const value = override[field] as Card[T]
+    if (value) {
+      card[field] = value
+    }
+  }
+
   private getOverride(id: Card['id']): Override {
     if (!this.overrides.value[id]) {
       this.overrides.value[id] = {
@@ -61,16 +67,13 @@ class Printer {
     const override = this.getOverride(card.id)
     const moddedCard = Object.assign({}, card)
 
-    const overrideFields = Object.keys(override)
-    overrideFields.forEach((field) => {
+    Object.keys(override).forEach((field) => {
       if (field === 'count') {
         return
       }
 
-      if (override[field]) {
-        // eslint-disable-next-line ts/no-unsafe-assignment
-        moddedCard[field] = override[field]
-      }
+      const cardField = field as keyof Omit<Override, 'count'>
+      this.assignOverride(cardField, override, moddedCard)
     })
 
     if (override.count === 0) {
