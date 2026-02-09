@@ -257,7 +257,7 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   return [key, value]
 }
 
-const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead']
+const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead', 'Secrets of Magic']
 /**
  * Returns true if the source was published after the remaster started.
  * Some older sources are manually included.
