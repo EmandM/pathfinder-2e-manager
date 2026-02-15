@@ -169,6 +169,10 @@ function formatCard(card: Card): Card {
     // Collect the features
     const feats = col[0]
       .replaceAll(/<br ?\/>/g, '\n\n')
+      // Rexexr: (<actions string=\"[\w\s]*\" \/>)(?:\\r|\\n)\\n
+      .replaceAll(/(<actions string="[\w\s]*" \/>)(?:\r|\n)\n/g, '$1 ')
+      .replaceAll(/\*\*[\w\s]*\*\*(?:\r|\n)\n\*\*/g, '**')
+      // Rexexr (?:\*\*(.+?)\*\*|## (.+?)<row .+?>)(.+?)(?:(?=(?:\\r|\\n)\]n)|$)
       .matchAll(/(?:\*\*(.+?)\*\*|## (.+?)<row .+?>)(.+?)(?:(?=(?:\r|\n)\n)|$)/gs)
     const group: [string, string][] = []
     let hasFeats = false
@@ -225,6 +229,7 @@ function formatCard(card: Card): Card {
   const extra_keys = ['exclude_from_search', 'text']
   for (const key of Object.keys(card)) {
     if (key.includes('_markdown') || extra_keys.includes(key))
+      // @ts-expect-error Parameter 'name' implicitly has an 'any' type.ts(7006)
       delete card[key]
   }
 
@@ -295,11 +300,11 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     }
 
     // Uncomment to print off matching file for testing
-    if (card.name === 'Ort') {
-      console.log('\n')
-      console.log(JSON.stringify(item))
-      console.log('\n')
-    }
+    // if (card.name === 'Gurlunk') {
+    //   console.log('\n')
+    //   console.log(JSON.stringify(item))
+    //   console.log('\n')
+    // }
 
     if (card.category === 'skill') {
       saveRelatedActions(card)

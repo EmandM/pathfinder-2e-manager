@@ -47,8 +47,8 @@
         "+0; [greater darkvision](/MonsterAbilities.aspx?ID=59)"
       ],
       [
-        "Languages",
-        "**Skills**"
+        "Skills",
+        "[Athletics](/Skills.aspx?ID=3) +6"
       ],
       [
         "Str",
@@ -120,7 +120,7 @@
       ],
       [
         "Melee",
-        "<actions string=\"Single Action\" />"
+        "<actions string=\"Single Action\" /> claw +8 ([Agile](/Traits.aspx?ID=170), [Magical](/Traits.aspx?ID=103), [Unholy](/Traits.aspx?ID=521)),"
       ],
       [
         "Damage",

@@ -156,7 +156,7 @@
       ],
       [
         "Melee",
-        "<actions string=\"Single Action\" />"
+        "<actions string=\"Single Action\" /> jaws +7 ([Finesse](/Traits.aspx?ID=179), [Force](/Traits.aspx?ID=75), [Magical](/Traits.aspx?ID=103)),"
       ],
       [
         "Damage",
