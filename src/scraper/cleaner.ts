@@ -262,7 +262,8 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   return [key, value]
 }
 
-const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead', 'Secrets of Magic']
+const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead', 'Secrets of Magic', 'Dark Archive']
+const excludedSources = ['Pathfinder Adventure Path #219: Lord of the Trinity Star']
 /**
  * Returns true if the source was published after the remaster started.
  * Some older sources are manually included.
@@ -277,6 +278,9 @@ function isAValidEntry(item: Card): boolean {
   }
   if (item.item_child_id) {
     console.log('Skipping item with children:', item.name)
+    return false
+  }
+  if (excludedSources.includes(item.primary_source)) {
     return false
   }
   return true
