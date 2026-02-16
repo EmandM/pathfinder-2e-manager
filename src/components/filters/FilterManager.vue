@@ -35,6 +35,10 @@ const shownFilterTags: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
   for (const filter of shownFilterTags.value) {
     const inputFilter = filterList.find(f => f.key === filter.filter.key)
+    if (!inputFilter) {
+      console.error('couldn\'t update filter options, filter was undefined, this shouldn\'t happen')
+      return
+    }
     filter.filter.options = inputFilter.options.sort()
   }
 }
@@ -42,7 +46,7 @@ function updateOptions() {
 // Display the filters that are already applied (local state)
 appliedFilters.filters.forEach((applied, _) => {
   // Don't hydrate the shortcut filter
-  if (applied.filter.key === shortcut.key) {
+  if (shortcut && applied.filter.key === shortcut.key) {
     return
   }
 
@@ -74,12 +78,12 @@ function onChange() {
 function showFilterSelect(name: string, init: boolean = false) {
   const newFilter = filterList.find(filter => filter.name === name)
   if (newFilter === undefined) {
-    console.error('selected filter doesn\'t exist', name)
+    console.warn('selected filter doesn\'t exist', name)
     return
   }
 
   if (newFilter.isSingleOption) {
-    addFilter(newFilter)
+    addFilter(newFilter, '')
   }
   else {
     // Do a deep object copy of the filter so we don't intefer with underlying state
@@ -106,7 +110,8 @@ function hideFilterSelect(name: string) {
   shownSubDropdowns.value.delete(name)
 };
 
-function addFilter(filter: Filter, selected?: string, initialState?: FilterState) {
+function addFilter(filter: Filter, selected: string, initialState?: FilterState) {
+  // If this filter is not a single option, remove this option from the list of options
   if (!filter.isSingleOption) {
     filter.options = [...remove(filter.options, selected)]
     shownSubDropdowns.value.set(filter.name, filter)

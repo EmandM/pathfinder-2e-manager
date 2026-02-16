@@ -1,7 +1,7 @@
 export const red = '#ffcfd2'
 export const softRed = '#ffd6a5'
 export const orange = '#fde4cf'
-export const darkorage = '#ffcfd2'
+export const darkorange = '#ffcfd2'
 export const yellow = '#fbf8cc'
 export const limegreen = '#e4ffd6'
 export const green = '#b9fbc0'

@@ -17,6 +17,9 @@ abstract class FilterClass<K extends keyof Card> {
     this.name = name
     this.key = key
     this.color = color
+    this.options = []
+    this.isSingleOption = false
+    this.shouldHide = false
   }
 
   abstract isMatch(cardValue: Card[K], filterOption: string): boolean
@@ -200,14 +203,19 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     shortcut: new StringArrayFilter('Weapon Category', 'weapon_category', color.darkblue),
     selectable: [
       new StringArrayFilter('Damage Type', 'damage_type', color.pink),
-      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorage),
+      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorange),
       new StringArrayFilter('Weapon Type', 'weapon_type', color.softRed),
+      new StringArrayFilter('Favoured by deity', 'deity', color.orange),
     ],
   },
   equipment: {
     selectable: [
       new ValueFilter('Category', 'item_category', color.bluegreen),
       new ValueFilter('Subcategory', 'item_subcategory', color.blue),
+      new StringArrayFilter('Damage Type', 'damage_type', color.pink),
+      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorange),
+      new StringArrayFilter('Weapon Type', 'weapon_type', color.softRed),
+      new StringArrayFilter('Favoured by deity', 'deity', color.orange),
     ],
   },
   skill: {
@@ -231,7 +239,10 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     selectable: [new HasImageFilter(color.pink)],
   },
   deity: {
-    selectable: [new HasImageFilter(color.pink)],
+    selectable: [
+      new HasImageFilter(color.pink),
+      new StringArrayFilter('Favoured by deity', 'deity', color.orange),
+    ],
   },
   feat: {
     selectable: [new StringArrayFilter('Skill', 'skill', color.bluegreen)],

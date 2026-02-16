@@ -20,10 +20,6 @@ export interface Card {
   spell_type: string
   tradition: string[]
   saving_throw: string
-  damage_type: string[]
-  weapon_category: string[]
-  weapon_group: string[]
-  weapon_type: string[]
   item_category: string
   item_child_id?: string[]
   item_parent_id?: string
@@ -42,16 +38,23 @@ export interface Card {
   size: string[1]
   skill: string[]
 
+  // Weapon
+  deity: string[]
+  damage_type: string[]
+  weapon_category: string[]
+  weapon_group: string[]
+  weapon_type: string[]
+
   // Hazard
   hazard_type: string
   complexity: string
 
   // Action
   associated_skill: string[] // added manually to track the skill associated with an action
+  is_trained: boolean
 
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
-  is_trained: boolean
 
   // Print configuration
   xl_card: boolean
