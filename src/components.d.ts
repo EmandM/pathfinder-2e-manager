@@ -54,6 +54,7 @@ declare module 'vue' {
     Search: typeof import('./components/filters/Search.vue')['default']
     SearchMenuItem: typeof import('./components/SearchMenuItem.vue')['default']
     Select: typeof import('./components/filters/Select.vue')['default']
+    WeaponHeader: typeof import('./components/WeaponHeader.vue')['default']
   }
   export interface GlobalDirectives {
     vInfiniteScroll: typeof import('element-plus/es')['ElInfiniteScroll']
