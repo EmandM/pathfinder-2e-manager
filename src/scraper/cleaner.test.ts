@@ -1,4 +1,4 @@
-import type { Card } from 'src/composables/types'
+import type { Card } from '../../src/composables/types'
 import type { SearchEntry } from './cleaner'
 import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
