@@ -1,15 +1,15 @@
 export const actionToImage = {
   'Reaction': 'action_reaction',
   'Single Action': 'action_single',
+  'One Action': 'action_single',
   'Two Actions': 'action_double',
   'Three Actions': 'action_triple',
-  'Single Action to Three Actions': 'action_range',
   'Free Action': 'action_free',
 }
 
-export function useActionImage(type: string): string {
+export function useActionImage(type: keyof typeof actionToImage): string {
   if (!actionToImage[type]) {
-    console.error('no image found for type')
+    console.error('no image found for type', type)
     return type
   }
   return `${import.meta.env.BASE_URL}img/${actionToImage[type]}_black.png`

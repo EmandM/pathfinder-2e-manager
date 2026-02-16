@@ -5,7 +5,7 @@ import mila from 'markdown-it-link-attributes'
 import { useAonLink } from '~/composables/aon-link'
 import { inlinePlugin } from '~/composables/block-inliner'
 import { isDark } from '~/composables/dark'
-import { useActionImage, useDiceImage, useStatBlock, useWeaponTypeImage } from '~/composables/image-finder'
+import { useDiceImage, useStatBlock, useWeaponTypeImage } from '~/composables/image-finder'
 import { imagePlugin } from '~/composables/image-renderer'
 
 const { source, isBookmarked } = defineProps<{
@@ -36,6 +36,7 @@ const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLower
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
 const isCreature = source.category === 'creature' && !source.print_image
+const actionString = `<actions string="${source.actions}" />`
 </script>
 
 <template>
@@ -44,10 +45,8 @@ const isCreature = source.category === 'creature' && !source.print_image
       <div class="stretcher-bearer">
         <div class="stretcher">
           <div class="listview-title">
-            {{ source.name }}
-            <div v-if="source.actions_number < 7" class="action-holder">
-              <img :src="useActionImage(source.actions)" class="action-icon" :alt="source.actions">
-            </div>
+            <span class="title">{{ source.name }}</span>
+            <span v-if="source.actions_number < 7" class="action-holder" v-html="md.renderInline(actionString, { actionClass: 'action-icon' })" />
           </div>
         </div>
         <div class="listview-item-level">
@@ -141,11 +140,12 @@ hr.divider {
     .inline-action {
       height: 14px;
     }
-    .dark .inline-action {
-      -webkit-filter: invert(1);
-      filter: invert(1);
-    }
   }
+}
+
+.dark .item-features:deep() .inline-action {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .feature.newline {
@@ -200,6 +200,30 @@ hr.divider {
   vertical-align: middle;
   margin: 0;
   display: inline-block;
+
+  .title {
+    margin-right: 0.2em;
+  }
+
+  .action-holder {
+    width: auto;
+    display: inline-block;
+    margin-right: 0.3em;
+    padding-bottom: 0.1em;
+
+    &:deep() .action-icon {
+      display: inline;
+      padding-bottom: 0.1em;
+      vertical-align: middle;
+      height: 1em;
+      margin: 0 -0.1em;
+    }
+  }
+}
+
+.dark .action-holder:deep() .action-icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .listview-item-level {
@@ -242,22 +266,7 @@ hr.divider {
   }
 }
 
-.action-holder {
-  width: auto;
-  display: inline-block;
-  margin-right: 0.3em;
-  padding-bottom: 0.1em;
-}
-
-.action-icon {
-  display: inline;
-  margin-right: 0.3em;
-  padding-bottom: 0.1em;
-  vertical-align: middle;
-  height: 1em;
-}
-
-.dark .action-icon {
+.deep .action-holder:deep() .action-icon {
   -webkit-filter: invert(1);
   filter: invert(1);
 }
@@ -337,8 +346,13 @@ hr.divider {
       }
     }
 
-    img {
+    img:not(.inline-action) {
       display: none;
+    }
+
+    img.inline-action {
+      height: 1em;
+      margin: 0.3em 0 -0.1em;
     }
 
     h2 {
@@ -353,6 +367,11 @@ hr.divider {
       border-bottom: 1px solid #999999;
     }
   }
+}
+
+.dark .item-markdown:deep() .inline-action {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .item-markdown:deep(),

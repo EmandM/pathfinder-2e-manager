@@ -23,7 +23,7 @@ export function inlinePlugin(md: MarkdownIt) {
     for (let i = 0, l = tokens.length; i < l; i++) {
       const token = tokens[i]
       if (token.type === 'html_block' && token.content.match(/<(?:table|ul)>/)) {
-        indexes.push(i)
+        indexes.unshift(i)
       }
     }
 
