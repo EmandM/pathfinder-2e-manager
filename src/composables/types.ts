@@ -1,4 +1,4 @@
-import type { actionToImage } from '~/composables/action-to-image'
+import type { actionToImage } from '~/composables/image-finder'
 
 export interface Card {
   id: string
@@ -41,9 +41,11 @@ export interface Card {
   // Weapon
   deity: string[]
   damage_type: string[]
-  weapon_category: string[]
-  weapon_group: string[]
-  weapon_type: string[]
+  weapon_category: string
+  weapon_group: string
+  weapon_type: string
+  damage_die: number
+  damage: string
 
   // Hazard
   hazard_type: string

@@ -2,9 +2,10 @@
 import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
 import mila from 'markdown-it-link-attributes'
-import { useActionImage } from '~/composables/action-to-image'
 import { useAonLink } from '~/composables/aon-link'
 import { inlinePlugin } from '~/composables/block-inliner'
+import { isDark } from '~/composables/dark'
+import { useActionImage, useDiceImage, useStatBlock, useWeaponTypeImage } from '~/composables/image-finder'
 import { imagePlugin } from '~/composables/image-renderer'
 
 const { source, isBookmarked } = defineProps<{
@@ -38,7 +39,7 @@ const isCreature = source.category === 'creature' && !source.print_image
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card }">
+  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card, dark: isDark }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -56,6 +57,27 @@ const isCreature = source.category === 'creature' && !source.print_image
         <div v-if="!isPrint" class="buttons">
           <BookmarkButton :is-bookmarked="isBookmarked" @click="emit('bookmarkClick')" />
           <LinkButton :link="source.url" />
+        </div>
+      </div>
+
+      <div v-if="isPrint && source.category === 'weapon' && source.damage_die" style="margin-top: 2px">
+        <div style="display: flex; flex-wrap: wrap">
+          <img :src="useWeaponTypeImage(source.weapon_type)" class="weapon-icon" alt="Dice to hit">
+          <div class="stat-block">
+            <img :src="useStatBlock()" class="stat-block-icon" alt="Stat block">
+            <div class="stat-block-title">
+              <b v-if="source.weapon_type === 'Ranged'">Dex</b><b v-else>Str</b><b>Prof</b><b>Item</b>
+            </div>
+          </div>
+          <div v-if="source.damage_die > 1" style="display: flex; flex: 1">
+            <img :src="useDiceImage(source.damage_die)" class="dice-icon" :alt="source.damage">
+            <span style="flex: 1" />
+            <div style="flex-direction: column; display: flex;">
+              <span style="font-size: 0.9em; height: 9px">O <b>B</b></span>
+              <span style="font-size: 0.9em; height: 9px">O <b>P</b></span>
+              <span style="font-size: 0.9em; height: 9px">O <b>S</b></span>
+            </div>
+          </div>
         </div>
       </div>
       <hr class="divider top-divider">
@@ -118,6 +140,10 @@ hr.divider {
   &:deep() {
     .inline-action {
       height: 14px;
+    }
+    .dark .inline-action {
+      -webkit-filter: invert(1);
+      filter: invert(1);
     }
   }
 }
@@ -229,6 +255,60 @@ hr.divider {
   padding-bottom: 0.1em;
   vertical-align: middle;
   height: 1em;
+}
+
+.dark .action-icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+.weapon-icon {
+  height: 30px;
+  padding-right: 0.2em;
+  padding-bottom: 0.1em;
+  vertical-align: middle;
+}
+
+.dark .weapon-icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+.dice-icon {
+  vertical-align: middle;
+  -webkit-filter: invert(1);
+  filter: invert(1);
+}
+
+.dark .dice-icon {
+  -webkit-filter: invert(0);
+  filter: invert(0);
+}
+
+.stat-block {
+  display: inline-grid;
+  width: 6.5em;
+  padding-right: 0.3em;
+}
+
+.stat-block-title {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.stat-block-title b {
+  font-weight: 700;
+  font-size: 0.8em;
+}
+
+.stat-block-icon {
+  width: 100%;
+  height: auto;
+}
+
+.dark .stat-block-icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 .copyright {
