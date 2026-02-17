@@ -15,10 +15,6 @@ export function useActionImage(type: keyof typeof actionToImage): string {
   return `${import.meta.env.BASE_URL}img/${actionToImage[type]}_black.png`
 }
 
-export function useDiceImage(type: number): string {
-  return `${import.meta.env.BASE_URL}img/icon_d${type}.png`
-}
-
 export function useStatBlock(): string {
   return `${import.meta.env.BASE_URL}img/stat_block.png`
 }
