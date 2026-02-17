@@ -7,7 +7,7 @@ import { inlinePlugin } from '~/composables/block-inliner'
 import { isDark } from '~/composables/dark'
 import { imagePlugin } from '~/composables/image-renderer'
 
-const { source, isBookmarked } = defineProps<{
+const { source, isBookmarked, isPrint } = defineProps<{
   source: Card
   isBookmarked?: boolean
   isPrint?: boolean
@@ -31,11 +31,14 @@ md.use(mila, {
 md.use(imagePlugin, 'inline-action')
 md.use(inlinePlugin)
 
+const featuresToFilter = ['favored weapon']
+
 const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
 const isCreature = source.category === 'creature' && !source.print_image
 const actionString = `<actions string="${source.actions}" />`
+const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && featuresToFilter.includes(key.toLowerCase()))))
 </script>
 
 <template>
@@ -69,14 +72,14 @@ const actionString = `<actions string="${source.actions}" />`
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
           <div v-for="skill in source.associated_skill" :key="skill" class="trait size">{{ skill }}</div>
 
-          <div v-for="(list, idx) in source.features" :key="idx">
+          <div v-for="(list, idx) in features" :key="idx">
             <div class="item-desc item-features">
               <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{ newline: feature === 'newline' }">
                 <b v-html="md.renderInline(feature)" /> <span v-html="md.renderInline(value)" />
               </div>
             </div>
 
-            <hr v-if="idx < source.features.length - 1 || source.description" class="divider">
+            <hr v-if="idx < features.length - 1 || source.description" class="divider">
           </div>
 
           <div class="item-desc">
