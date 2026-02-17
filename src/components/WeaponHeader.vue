@@ -18,7 +18,7 @@ const { source } = defineProps<{
         </div>
       </div>
       <div v-if="source.damage_die > 1" style="display: flex; flex: 1">
-        <div class="dicier">{{ source.damage_die }}_ON_D{{ source.damage_die }}</div>
+        <div class="dicier">D{{ source.damage_die }}</div>
         <span style="flex: 1" />
         <div style="flex-direction: column; display: flex;">
           <span style="font-size: 0.9em; height: 9px">O <b>B</b></span>
@@ -38,11 +38,7 @@ const { source } = defineProps<{
 
 .dicier {
   font-family: Dicier, sans-serif;
-  font-feature-settings:
-    'liga' 1,
-    'kern' 1,
-    'calt' 1,
-    'dlig' 1;
+  font-feature-settings: 'cv24' 1;
   font-size: 28px;
   line-height: 1.2;
   color: brown;
