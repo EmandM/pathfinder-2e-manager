@@ -9,7 +9,7 @@ import { cleanSearch } from './cleaner.ts'
 const config = {
   // These values should be static, and tell the scraper how to access the AON elastic instance.
   root: 'https://elasticsearch.aonprd.com/',
-  index: 'aon',
+  index: 'aon-test',
 
   // Comment out any targets you do not want to scrape.
   targets: [

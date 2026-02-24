@@ -262,7 +262,7 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   return [key, value]
 }
 
-const validOldSources = ['Treasure Vault', 'Troubles in Otari', 'Book of the Dead', 'Secrets of Magic', 'Dark Archive']
+const validOldSources = ['Troubles in Otari', 'Book of the Dead', 'Secrets of Magic']
 const excludedSources = ['Pathfinder Adventure Path #219: Lord of the Trinity Star']
 /**
  * Returns true if the source was published after the remaster started.
