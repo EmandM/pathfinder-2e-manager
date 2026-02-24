@@ -34,6 +34,8 @@ const config = {
     'vehicle',
     'weapon',
     'weapon-group',
+    'class',
+    'heritage',
 
     // Need to retreive action after skill as the results are combined
     'action',
@@ -41,7 +43,6 @@ const config = {
     // Other categories that exist
     // 'article',
     // "rules",
-    // 'class',
   ],
 }
 
@@ -54,6 +55,7 @@ const advancedQueries: { [key: string]: estypes.QueryDslQueryContainer } = {
   shield: {
     bool: { filter: { query_string: { query: 'category:(armor OR equipment OR shield OR siege-weapon OR vehicle OR weapon) item_category:"Shields" !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, must_not: { term: { exclude_from_search: true } } },
   },
+  heritage: { bool: { filter: [{ bool: { should: [{ terms: { type: ['heritage'] } }] } }, { query_string: { query: ' !category:item-bonus', default_operator: 'AND', fields: ['name', 'legacy_name', 'remaster_name', 'text^0.1', 'trait_raw', 'type'], minimum_should_match: 0 } }, { bool: { must_not: { exists: { field: 'remaster_id' } } } }], must_not: [{ exists: { field: 'item_child_id' } }, { term: { exclude_from_search: true } }] } },
 }
 
 const client = new Client({
