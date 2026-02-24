@@ -46,6 +46,7 @@ export interface Card {
   weapon_type: string
   damage_die: number
   damage: string
+  hands: string
 
   // Hazard
   hazard_type: string

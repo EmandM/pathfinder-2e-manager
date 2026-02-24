@@ -119,6 +119,9 @@ class ValueFilter<K extends KeysMatching<string | number>> extends FilterClass<K
   }
 
   isMatch(value: string | number, filterOption: string): boolean {
+    if (typeof value === 'number') {
+      value = `${value}`
+    }
     return value === filterOption
   }
 }
@@ -200,12 +203,14 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     ],
   },
   weapon: {
-    shortcut: new StringArrayFilter('Weapon Category', 'weapon_category', color.darkblue),
+    shortcut: new ValueFilter('Weapon Category', 'weapon_category', color.darkblue),
     selectable: [
       new StringArrayFilter('Damage Type', 'damage_type', color.pink),
-      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorange),
-      new StringArrayFilter('Weapon Type', 'weapon_type', color.softRed),
+      new ValueFilter('Weapon Group', 'weapon_group', color.darkorange),
+      new ValueFilter('Weapon Type', 'weapon_type', color.softRed),
       new StringArrayFilter('Favoured by deity', 'deity', color.orange),
+      new ValueFilter('Dice size', 'damage_die', color.limegreen),
+      new ValueFilter('Hands', 'hands', color.green),
     ],
   },
   equipment: {
@@ -213,9 +218,11 @@ const filterByPage: { [key: string]: FiltersForPage } = {
       new ValueFilter('Category', 'item_category', color.bluegreen),
       new ValueFilter('Subcategory', 'item_subcategory', color.blue),
       new StringArrayFilter('Damage Type', 'damage_type', color.pink),
-      new StringArrayFilter('Weapon Group', 'weapon_group', color.darkorange),
-      new StringArrayFilter('Weapon Type', 'weapon_type', color.softRed),
+      new ValueFilter('Weapon Group', 'weapon_group', color.darkorange),
+      new ValueFilter('Weapon Type', 'weapon_type', color.softRed),
       new StringArrayFilter('Favoured by deity', 'deity', color.orange),
+      new ValueFilter('Dice size', 'damage_die', color.limegreen),
+      new ValueFilter('Hands', 'hands', color.green),
     ],
   },
   skill: {
