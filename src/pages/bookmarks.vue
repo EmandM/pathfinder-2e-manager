@@ -17,7 +17,7 @@ function handleReloadClick() {
   <div class="container bookmark-page py-4">
     <div
       v-for="(list, index) in manager.lists.value"
-      :key="index"
+      :key="list.name"
       class="bookmark-item"
     >
       <BookmarkManager
