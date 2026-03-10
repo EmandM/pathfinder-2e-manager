@@ -16,16 +16,17 @@ describe('cleanSearch', () => {
     'energy_breath',
     'shapingsweet',
     'ort_creature',
+    'ringofdiscretion',
   ])('%s - cleans single input', (input) => {
     runTestForFilePrefix(`singleInput/${input}`)
   })
 
   it.skip('runs a single test as expected', () => {
-    runTestForFilePrefix('singleInput/acid_grip')
+    runTestForFilePrefix('singleInput/ringofdiscretion')
   })
 
   it.skip('builds up a test as expected', () => {
-    buildExpectedForPrefix('singleInput/ort_creature')
+    buildExpectedForPrefix('singleInput/ringofdiscretion')
   })
 
   it('adds skills to the associated actions', () => {
