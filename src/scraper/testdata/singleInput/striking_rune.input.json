@@ -1,0 +1,69 @@
+{
+  "_index": "aon74",
+  "_id": "equipment-2829-2659",
+  "_score": null,
+  "_source": {
+    "base_item_markdown": "",
+    "bulk": 0,
+    "category": "equipment",
+    "exclude_from_search": false,
+    "id": "equipment-2829-2659",
+    "item_category": "Runes",
+    "item_parent_id": "equipment-2829",
+    "item_subcategory": "Fundamental Weapon Runes",
+    "legacy_id": [
+      "equipment-280"
+    ],
+    "level": 4,
+    "markdown": "<title\r\n    level=\"1\"\r\n    right=\"Item 4+\"\r\n    pfs=\"Standard\"\r\n>\r\n[Striking](/Equipment.aspx?ID=2829)\r\n</title>\n\n<traits>\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n</traits>\n\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 236\n\n<row gap=\"medium\">\n\n**Usage** etched onto a weapon\n\n</row>\n\n<row gap=\"medium\">\n\n \r\n\r\n \r\n\r\n \r\n</row>\n\n</column>\r\n\r\n---\n\nA _striking rune_ stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a _+1 striking [dagger](/Weapons.aspx?ID=3)_ would deal 2d4 damage instead of 1d4 damage.<br /> You can upgrade the _striking rune_ already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. The Price of the upgrade is the difference between the two runes' Prices.\n\n<column gap=\"tiny\">\n\n</column>\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 4\"\r\npfs=\"Standard\"\r\n>\r\nStriking\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 236, [Core Rulebook](/Sources.aspx?ID=1) pg. 581\n\n**Price** 65 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 12\"\r\npfs=\"Standard\"\r\n>\r\nStriking (Greater)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 236, [Core Rulebook](/Sources.aspx?ID=1) pg. 581\n\n**Price** 1,065 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe weapon deals three weapon damage dice.\r\n\r\n<title\r\nlevel=\"2\"\r\nright=\"Item 19\"\r\npfs=\"Standard\"\r\n>\r\nStriking (Major)\r\n</title>\n\n<traits>\r\n\r\n</traits>\r\n\r\n<column gap=\"tiny\">\r\n\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 236, [Core Rulebook](/Sources.aspx?ID=1) pg. 581\n\n**Price** 31,065 gp\r\n\r\n<row gap=\"medium\">\n\n</row>\n\n</column>\r\n\r\n---\r\n\r\nThe weapon deals four weapon damage dice.",
+    "name": "Striking",
+    "pfs": "Standard",
+    "price": 6500,
+    "price_raw": "65 gp",
+    "primary_source": "GM Core",
+    "primary_source_raw": "GM Core pg. 236",
+    "primary_source_category": "Rulebooks",
+    "rarity": "common",
+    "rarity_id": 1,
+    "release_date": "2023-11-15",
+    "resistance": {},
+    "search_markdown": "<traits>\r\n<trait label=\"Magical\" url=\"/Traits.aspx?ID=644\" />\r\n</traits>\r\n\r\n<additional-info>\r\n**Source** [GM Core](/Sources.aspx?ID=218) pg. 236\r\n\r\n**Price** 65 gp\r\n\r\n<row gap=\"medium\">\r\n \r\n\r\n**Usage** etched onto a weapon\r\n\r\n \r\n</row>\n\n<row gap=\"medium\">\n\n \r\n\r\n \r\n</row>\r\n</additional-info>\r\n\r\n---\r\n\r\n<summary>\r\nA  striking rune  stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a  +1 …\r\n</summary>",
+    "skill_mod": {},
+    "source": [
+      "GM Core"
+    ],
+    "source_raw": [
+      "GM Core pg. 236"
+    ],
+    "source_category": [
+      "Rulebooks"
+    ],
+    "source_markdown": "[GM Core](/Sources.aspx?ID=218) pg. 236",
+    "speed": {},
+    "spell_markdown": "",
+    "summary": "A  striking rune  stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a  +1 …",
+    "summary_markdown": "A  striking rune  stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a  +1 …",
+    "text": "<title level=\"1\" right=\"Item 4+\" pfs=\"Standard\" > Striking Source GM Core pg. 236 Usage etched onto a weapon --- A striking rune stores destructive magic in the weapon, increasing the weapon damage dice it deals to two instead of one. For instance, a +1 striking dagger would deal 2d4 damage instead of 1d4 damage. You can upgrade the striking rune already etched on a weapon to a stronger version, increasing the values of the existing rune to those of the new rune. The Price of the upgrade is the difference between the two runes' Prices. <title level=\"2\" right=\"Item 4\" pfs=\"Standard\" > Striking Source GM Core pg. 236, Core Rulebook pg. 581 Price 65 gp <title level=\"2\" right=\"Item 12\" pfs=\"Standard\" > Striking (Greater) Source GM Core pg. 236, Core Rulebook pg. 581 Price 1,065 gp --- The weapon deals three weapon damage dice. <title level=\"2\" right=\"Item 19\" pfs=\"Standard\" > Striking (Major) Source GM Core pg. 236, Core Rulebook pg. 581 Price 31,065 gp --- The weapon deals four weapon damage dice.",
+    "trait": [
+      "Magical"
+    ],
+    "trait_group": [
+      "Mechanics"
+    ],
+    "trait_markdown": "[Magical](/Traits.aspx?ID=644)",
+    "trait_raw": [
+      "Magical"
+    ],
+    "type": "Item",
+    "url": "/Equipment.aspx?ID=2829",
+    "usage": "etched onto a weapon",
+    "usage_markdown": "etched onto a weapon",
+    "weakness": {}
+  },
+  "sort": [
+    4,
+    6500,
+    "striking",
+    28719
+  ]
+}

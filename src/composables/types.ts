@@ -56,6 +56,10 @@ export interface Card {
   associated_skill: string[] // added manually to track the skill associated with an action
   is_trained: boolean
 
+  // Runes
+  rune_target?: string
+  rune_category?: string
+
   // Created on hydrate filters to avoid having to .toLowerCase() every time we search
   search_text: string
 

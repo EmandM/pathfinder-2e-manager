@@ -117,6 +117,34 @@ function getComplexDescription(markdown: string): string {
   return description.trim()
 }
 
+function getRuneDetails(card: Card): [string?, string?] {
+  const targets = [
+    'Weapon',
+    'Armor',
+    'Shield',
+    'Accessory',
+  ]
+  const categories = [
+    'Fundamental',
+    'Property',
+    'Filigrees',
+  ]
+
+  let category: string
+  let target: string
+
+  const subCategories = card.item_subcategory.split(' ')
+  for (const subCategory of subCategories) {
+    if (targets.includes(subCategory)) {
+      target = subCategory
+    }
+    if (categories.includes(subCategory)) {
+      category = subCategory
+    }
+  }
+  return [category, target]
+}
+
 /**
  * Reformats the Archives of Nethys result for manager usage.
  * - Splits markdown and text to remove nested items (nested items will each have their own result).
@@ -223,6 +251,12 @@ function formatCard(card: Card): Card {
     card.skill = new Set(card.skill).values().toArray()
   }
 
+  if (card.item_category && card.item_category.toLowerCase() === 'runes') {
+    const [category, target] = getRuneDetails(card)
+    card.rune_category = category
+    card.rune_target = target
+  }
+
   /*
    * Clean out unneded keys (needs to be last)
   */
@@ -304,7 +338,7 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     }
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Gurlunk') {
+    // if (card.name === 'Striking') {
     //   console.log('\n')
     //   console.log(JSON.stringify(item))
     //   console.log('\n')

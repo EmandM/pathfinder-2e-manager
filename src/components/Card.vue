@@ -67,8 +67,10 @@ const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && fe
       <div class="flex">
         <div class="desc-container flex-1">
           <div v-if="show_rarity" class="trait" :class="source.rarity?.toLowerCase()">{{ source.rarity }}</div>
-          <div v-if="!!source.size" class="trait size">{{ source.size[0] }}</div>
-          <div v-if="source.is_trained" class="trait trained">Trained</div>
+          <div v-if="!!source.size" class="trait green_trait">{{ source.size[0] }}</div>
+          <div v-if="source.is_trained" class="trait blue_trait">Trained</div>
+          <div v-if="!!source.rune_category" class="trait blue_trait">{{ source.rune_category }}</div>
+          <div v-if="!!source.rune_target" class="trait green_trait">{{ source.rune_target }}</div>
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
           <div v-for="skill in source.associated_skill" :key="skill" class="trait size">{{ skill }}</div>
 
@@ -240,11 +242,11 @@ hr.divider {
     background-color: #0c1466;
   }
 
-  &.size {
+  &.green_trait {
     background-color: #478c42;
   }
 
-  &.trained {
+  &.blue_trait {
     background-color: #4287f5;
   }
 }
