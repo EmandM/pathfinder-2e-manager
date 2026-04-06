@@ -75,7 +75,7 @@ const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && fe
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
           <div v-for="skill in source.associated_skill" :key="skill" class="trait size">{{ skill }}</div>
 
-          <div v-if="!isRune" class="further-desc">
+          <div class="further-desc">
             <div v-for="(list, idx) in features" :key="idx">
               <div class="item-desc item-features">
                 <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{ newline: feature === 'newline' }">
@@ -217,6 +217,10 @@ hr.divider {
 .listview-item-level {
   font-size: 0.8rem;
   float: right;
+}
+
+.print.rune .further-desc {
+  visibility: hidden;
 }
 
 .trait {
