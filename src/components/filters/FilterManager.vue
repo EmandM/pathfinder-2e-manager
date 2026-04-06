@@ -34,7 +34,6 @@ watchEffect(() => mainDropdownOptions.value = filterList.map(filter => filter.na
 
 const shownFilterTags: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
-  console.log('updating options')
   for (const filter of shownFilterTags.value) {
     const inputFilter = filterList.find(f => f.key === filter.filter.key)
     if (!inputFilter) {
@@ -44,7 +43,7 @@ function updateOptions() {
     filter.filter.options = inputFilter.options.sort()
   }
 }
-// const filterRef = ref(filterList)
+// The change in the rehydrate count indicates that the filters have been rehydrated and so need to be redrawn
 watch(() => rehydrateCount, updateOptions)
 
 // Display the filters that are already applied (local state)

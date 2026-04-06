@@ -30,6 +30,10 @@ const cards: Card[] = collection ?? [] // all cards for the current page
 let filteredCards: Card[] = [] // all cards that match the current applied filters
 const displayed: Ref<Card[]> = ref([]) // cards to display (generated from filter)
 
+// Increment an int to tell the child to repaint
+// bit of a hack to get around the fact the filter rehydration is super nested
+const rehydrateCount = ref(0)
+
 /*
  * Set up composables
  */
@@ -63,9 +67,6 @@ else {
   isLoaded.value = true
 }
 
-// Increment an int to tell the child to repaint
-// bit of a hack to get around the fact the filter rehydration is super nested
-const rehydrateCount = ref(0)
 // Called each time the filters change
 function doFilter() {
   filteredCards = useFilteredList(cards, appliedFilters)

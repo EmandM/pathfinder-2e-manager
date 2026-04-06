@@ -64,17 +64,12 @@ export class AppliedFilterCollection {
     this.filters.set(filter.key, set)
   }
 
+  // Used to remove already applied values from the filter select
   getAppliedValues(filter: Filter): string[] {
     const internal = this.filters.get(filter.key)
     if (!internal || !internal.appliedOptions) {
       return []
     }
-    // const applied = []
-    // for (const [key, state] of internal.appliedOptions) {
-    //   if (state === FilterState.includes) {
-
-    //   }
-    // }
     return Object.keys(internal?.appliedOptions) || []
   }
 
