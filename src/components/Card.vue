@@ -37,12 +37,13 @@ const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLower
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
 const isCreature = source.category === 'creature' && !source.print_image
+const isRune = source.item_category && source.item_category.toLowerCase() === 'runes'
 const actionString = `<actions string="${source.actions}" />`
 const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && featuresToFilter.includes(key.toLowerCase()))))
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, long: isCreature && source.xl_card, split: !isCreature && source.xl_card, dark: isDark }">
+  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, rune: isRune, long: isCreature && source.xl_card, split: !isCreature && source.xl_card, dark: isDark }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -74,27 +75,29 @@ const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && fe
           <div v-for="trait in traits" :key="trait" class="trait">{{ trait }}</div>
           <div v-for="skill in source.associated_skill" :key="skill" class="trait size">{{ skill }}</div>
 
-          <div v-for="(list, idx) in features" :key="idx">
-            <div class="item-desc item-features">
-              <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{ newline: feature === 'newline' }">
-                <b v-html="md.renderInline(feature)" /> <span v-html="md.renderInline(value)" />
+          <div v-if="!isRune" class="further-desc">
+            <div v-for="(list, idx) in features" :key="idx">
+              <div class="item-desc item-features">
+                <div v-for="[feature, value] in list" :key="feature" class="feature" :class="{ newline: feature === 'newline' }">
+                  <b v-html="md.renderInline(feature)" /> <span v-html="md.renderInline(value)" />
+                </div>
               </div>
+
+              <hr v-if="idx < features.length - 1 || source.description" class="divider">
             </div>
 
-            <hr v-if="idx < features.length - 1 || source.description" class="divider">
+            <div class="item-desc">
+              <span class="item-markdown" v-html="md.render(source.description)" />
+            </div>
+            <div v-if="!isPrint" class="copyright">
+              {{ source.primary_source }}
+            </div>
+            <div v-if="source.xl_card && isPrint && !isCreature" />
           </div>
 
-          <div class="item-desc">
-            <span class="item-markdown" v-html="md.render(source.description)" />
+          <div v-for="image in source.image" :key="image" class="item-image">
+            <img :src="useAonLink(image)">
           </div>
-          <div v-if="!isPrint" class="copyright">
-            {{ source.primary_source }}
-          </div>
-          <div v-if="source.xl_card && isPrint && !isCreature" />
-        </div>
-
-        <div v-for="image in source.image" :key="image" class="item-image">
-          <img :src="useAonLink(image)">
         </div>
       </div>
     </div>
@@ -451,6 +454,10 @@ hr.divider {
       }
     }
   }
+}
+
+.cardSize.print.rune {
+  height: 55px;
 }
 
 .buttons {
