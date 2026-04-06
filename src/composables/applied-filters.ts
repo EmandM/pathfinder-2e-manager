@@ -66,9 +66,15 @@ export class AppliedFilterCollection {
 
   getAppliedValues(filter: Filter): string[] {
     const internal = this.filters.get(filter.key)
-    if (!internal || !internal.appliedOptions || internal.appliedOptions.size === 0) {
+    if (!internal || !internal.appliedOptions) {
       return []
     }
+    // const applied = []
+    // for (const [key, state] of internal.appliedOptions) {
+    //   if (state === FilterState.includes) {
+
+    //   }
+    // }
     return Object.keys(internal?.appliedOptions) || []
   }
 

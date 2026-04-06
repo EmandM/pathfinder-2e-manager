@@ -63,6 +63,9 @@ else {
   isLoaded.value = true
 }
 
+// Increment an int to tell the child to repaint
+// bit of a hack to get around the fact the filter rehydration is super nested
+const rehydrateCount = ref(0)
 // Called each time the filters change
 function doFilter() {
   filteredCards = useFilteredList(cards, appliedFilters)
@@ -72,6 +75,7 @@ function doFilter() {
     filter.hydrate(filteredCards, appliedFilters.getAppliedValues(filter))
   }
   filterList.value = filters.selectable
+  rehydrateCount.value++
 
   displayed.value = []
   offset = 0
@@ -104,6 +108,7 @@ function doPrint() {
     :filter-list="filterList"
     :level-options="levelFilter"
     :applied-filters="appliedFilters"
+    :rehydrate-count="rehydrateCount"
     @change="doFilter"
     @print="doPrint"
   />

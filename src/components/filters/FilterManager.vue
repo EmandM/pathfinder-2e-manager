@@ -2,17 +2,18 @@
 import type { Ref } from 'vue'
 import type { Filter } from './filter-descriptions'
 import type { AppliedFilterCollection } from '~/composables/applied-filters'
-import { ref, watchEffect } from 'vue'
+import { ref, watch, watchEffect } from 'vue'
 import { capitalizeFirstLetter } from '~/composables/capitalize'
 import { remove } from '~/composables/remove'
 import { FilterState } from '~/composables/types'
 import Select from './Select.vue'
 
-const { filterList, appliedFilters, shortcut } = defineProps<{
+const { filterList, levelOptions, appliedFilters, shortcut, rehydrateCount } = defineProps<{
   filterList: Filter[]
   levelOptions: string[]
   appliedFilters: AppliedFilterCollection
   shortcut?: Filter
+  rehydrateCount: number
 }>()
 const emit = defineEmits<{
   change: []
@@ -33,6 +34,7 @@ watchEffect(() => mainDropdownOptions.value = filterList.map(filter => filter.na
 
 const shownFilterTags: Ref<SelectedFilter[]> = ref([])
 function updateOptions() {
+  console.log('updating options')
   for (const filter of shownFilterTags.value) {
     const inputFilter = filterList.find(f => f.key === filter.filter.key)
     if (!inputFilter) {
@@ -42,6 +44,8 @@ function updateOptions() {
     filter.filter.options = inputFilter.options.sort()
   }
 }
+// const filterRef = ref(filterList)
+watch(() => rehydrateCount, updateOptions)
 
 // Display the filters that are already applied (local state)
 appliedFilters.filters.forEach((applied, _) => {
@@ -72,7 +76,7 @@ watchEffect(() => {
 
 function onChange() {
   emit('change')
-  setTimeout(updateOptions)
+  // setTimeout(updateOptions)
 }
 
 function showFilterSelect(name: string, init: boolean = false) {
@@ -155,6 +159,7 @@ function removeFilterTag(removeTag: SelectedFilter) {
 };
 
 function handleTagState(tag: SelectedFilter, state: FilterState) {
+  console.log('Updating tag ', tag, 'to state', tag.selectedValue, state)
   appliedFilters.updateState(tag.filter.key, tag.selectedValue, state)
   onChange()
 }

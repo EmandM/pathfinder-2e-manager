@@ -18,12 +18,8 @@ export interface Card {
   range: number
   level: number
   spell_type: string
-  tradition: string[]
   saving_throw: string
-  item_category: string
-  item_child_id?: string[]
-  item_parent_id?: string
-  item_subcategory: string
+  tradition: string[]
   image: string[]
   type: string
   text: string
@@ -47,6 +43,16 @@ export interface Card {
   damage_die: number
   damage: string
   hands: string
+
+  // Equipment
+  item_category?: string
+  item_child_id?: string[]
+  item_parent_id?: string
+  item_subcategory?: string
+
+  // Armor
+  armor_category: string
+  armor_group: string
 
   // Hazard
   hazard_type: string
