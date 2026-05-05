@@ -39,6 +39,7 @@
     "@unocss/eslint-plugin": "^66.0.0",
     "@vitejs/plugin-vue": "^5.2.1",
     "@vue/compiler-sfc": "^3.5.13",
+    "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.7.0",
     "eslint": "^9.16.0",
     "eslint-plugin-format": "^1.0.1",
@@ -49,7 +50,7 @@
     "unplugin-vue-components": "^28.4.0",
     "unplugin-vue-router": "^0.11.2",
     "vite": "^6.0.3",
-    "vite-ssg": "^25.2.0",
+    "vite-ssg": "^28.3.0",
     "vitest": "^3.2.4",
     "vue-tsc": "^2.2.4"
   }
