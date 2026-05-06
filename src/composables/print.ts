@@ -150,17 +150,24 @@ class Printer {
   }
 }
 
-const printer = new Printer()
+// Lazy instantiate singleton so tests can setup the mock before anything is created
+let printer: Printer
+function getPrinter() {
+  if (!printer) {
+    printer = new Printer()
+  }
+  return printer
+}
 
 export function usePrinter() {
   const router = useRouter()
 
   return function goToPrint(items: Card[]): void {
-    printer.printList.value = items
+    getPrinter().printList.value = items
     void router.push('/print')
   }
 }
 
 export function usePrintCustomization() {
-  return printer
+  return getPrinter()
 }

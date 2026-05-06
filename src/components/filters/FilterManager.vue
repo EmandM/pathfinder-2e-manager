@@ -57,7 +57,6 @@ appliedFilters.filters.forEach((applied, _) => {
   applied.appliedOptions.forEach((state, value) => {
     addFilter(applied.filter, value, state)
   })
-  emit('change')
 })
 
 let shortcutTags: SelectedFilter[] = []
@@ -79,17 +78,19 @@ function onChange() {
 }
 
 function showFilterSelect(name: string, init: boolean = false) {
+  console.log('showing filter select for', name, 'init:', init)
   const newFilter = filterList.find(filter => filter.name === name)
   if (newFilter === undefined) {
-    console.warn('selected filter doesn\'t exist', name)
+    console.warn(`selected filter doesn't exist`, name)
     return
   }
 
-  if (newFilter.isSingleOption) {
+  // init will add the filter later.
+  if (newFilter.isSingleOption && !init) {
     addFilter(newFilter, '')
   }
   else {
-    // Do a deep object copy of the filter so we don't intefer with underlying state
+    // Do a deep object copy of the filter so we don't interfere with underlying state
     const filter: Filter = newFilter
     const existing = appliedFilters.filters.get(newFilter.key)
 
@@ -114,6 +115,7 @@ function hideFilterSelect(name: string) {
 };
 
 function addFilter(filter: Filter, selected: string, initialState?: FilterState) {
+  console.log('adding filter', filter.name, selected, initialState)
   // If this filter is not a single option, remove this option from the list of options
   if (!filter.isSingleOption) {
     filter.options = [...remove(filter.options, selected)]
@@ -158,7 +160,6 @@ function removeFilterTag(removeTag: SelectedFilter) {
 };
 
 function handleTagState(tag: SelectedFilter, state: FilterState) {
-  console.log('Updating tag ', tag, 'to state', tag.selectedValue, state)
   appliedFilters.updateState(tag.filter.key, tag.selectedValue, state)
   onChange()
 }

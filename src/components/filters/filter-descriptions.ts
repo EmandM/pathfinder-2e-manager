@@ -181,10 +181,15 @@ class HasImageFilter extends FilterClass<'image'> {
   }
 }
 
+// exporting some filters for testing
+export const traitFilter = new StringArrayFilter('Traits', 'trait', color.red)
+export const rarityFilter = new ValueFilter('Rarity', 'rarity', color.limegreen)
+export const hasImageFilter = new HasImageFilter(color.pink)
+
 const baseFilters: Filter[] = [
-  new StringArrayFilter('Traits', 'trait', color.red),
+  traitFilter,
   new StringArrayFilter('Source', 'source', color.yellow),
-  new ValueFilter('Rarity', 'rarity', color.limegreen),
+  rarityFilter,
   new StringArrayFilter('Source Category', 'source_category', color.green),
   new BookmarkFilter(color.purple),
 ]
@@ -243,11 +248,11 @@ const filterByPage: { [key: string]: FiltersForPage } = {
     selectable: [],
   },
   creature: {
-    selectable: [new HasImageFilter(color.pink)],
+    selectable: [hasImageFilter],
   },
   deity: {
     selectable: [
-      new HasImageFilter(color.pink),
+      hasImageFilter,
       new StringArrayFilter('Favoured by deity', 'deity', color.orange),
     ],
   },

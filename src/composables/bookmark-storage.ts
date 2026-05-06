@@ -1,6 +1,7 @@
 import type { RemovableRef } from '@vueuse/core'
 import type { Card } from './types'
 import { useStorage } from '@vueuse/core'
+import { ref } from 'vue'
 import { dataImportAll } from './data-importer'
 import { keyBy } from './key-by'
 
@@ -9,11 +10,11 @@ const defaultListName = 'bookmarks'
 export interface BookmarkList {
   name: string
   bookmarked: {
-    [key: Card['id']]: Card
+    [key: Card['id']]: Card | undefined
   }
 }
 
-class Bookmarker {
+export class Bookmarker {
   lists: RemovableRef<BookmarkList[]>
   active: RemovableRef<number>
 
@@ -23,7 +24,19 @@ class Bookmarker {
   }
 
   private activeList(): BookmarkList {
-    return this.lists.value.at(this.active.value)
+    const active = this.lists.value.at(this.active.value)
+    if (active) {
+      return active
+    }
+    if (this.lists.value.length <= 0) {
+      console.error('no bookmark lists found, creating default list')
+      this.createList()
+    }
+    else {
+      console.error('active bookmark list index is out of bounds, defaulting to first list')
+      this.active.value = 0
+    }
+    return this.activeList()
   }
 
   private getList(name: string): BookmarkList | undefined {
@@ -53,6 +66,9 @@ class Bookmarker {
     if (id === this.active.value) {
       console.error('cannot delete active bookmark list')
       return
+    }
+    if (this.active.value >= id) {
+      this.active.value -= 1
     }
     this.lists.value.splice(id, 1)
 
@@ -111,10 +127,13 @@ class Bookmarker {
 
   updateData() {
     console.log('Starting update of all bookmarked cards')
-    const types = {}
+    const types: { [key: string]: boolean } = {}
 
     this.lists.value.forEach((list) => {
       Object.values(list.bookmarked).forEach((card) => {
+        if (!card) {
+          return
+        }
         types[card.category] = true
       })
     })
@@ -126,7 +145,7 @@ class Bookmarker {
         for (const id in list.bookmarked) {
           const updated = cardLookup[id]
           if (!updated) {
-            console.warn(`No updated card found for ${list.bookmarked[id].name}`)
+            console.warn(`No updated card found for ${list.bookmarked[id]?.name}`)
             continue
           }
           list.bookmarked[id] = updated
@@ -138,11 +157,11 @@ class Bookmarker {
 
   getCardsInList(name: string): Card[] {
     const list = this.getList(name)
-    if (!list) {
+    if (!list || !list.bookmarked) {
       return []
     }
 
-    return Object.values(list.bookmarked)
+    return Object.values(list.bookmarked).filter((card): card is Card => !!card)
   }
 }
 
@@ -152,6 +171,9 @@ const defaultList: BookmarkList[] = [{
 }]
 
 export function useBookmarks() {
+  if (import.meta.env.MODE === 'test') {
+    return new Bookmarker(ref([...defaultList]), ref(0))
+  }
   const lists = useStorage('bookmarkLists', defaultList)
   const active = useStorage('activeBookmarkList', 0)
   return new Bookmarker(lists, active)

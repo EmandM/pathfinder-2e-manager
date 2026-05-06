@@ -8,6 +8,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import VueRouter from 'unplugin-vue-router/vite'
+/// <reference types="vitest/config" />
 
 import { defineConfig } from 'vite'
 
@@ -71,4 +72,14 @@ export default defineConfig({
       autoInstall: true,
     }),
   ],
+
+  // Vitest test configuration
+  test: {
+    environment: 'jsdom',
+    server: {
+      deps: {
+        inline: ['element-plus'],
+      },
+    },
+  },
 })

@@ -1,4 +1,12 @@
 import { useDark, useToggle } from '@vueuse/core'
+import { ref } from 'vue'
 
-export const isDark = useDark()
-export const toggleDark = useToggle(isDark)
+function createDarkMode() {
+  if (import.meta.env.MODE === 'test') {
+    return { isDark: ref(false), toggleDark: () => {} }
+  }
+  const isDark = useDark()
+  return { isDark, toggleDark: useToggle(isDark) }
+}
+
+export const { isDark, toggleDark } = createDarkMode()

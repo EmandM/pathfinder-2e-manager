@@ -45,10 +45,10 @@ export interface Card {
   hands: string
 
   // Equipment
-  item_category?: string
+  item_category: string
   item_child_id?: string[]
   item_parent_id?: string
-  item_subcategory?: string
+  item_subcategory: string
 
   // Armor
   armor_category: string
