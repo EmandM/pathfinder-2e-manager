@@ -78,7 +78,6 @@ function onChange() {
 }
 
 function showFilterSelect(name: string, init: boolean = false) {
-  console.log('showing filter select for', name, 'init:', init)
   const newFilter = filterList.find(filter => filter.name === name)
   if (newFilter === undefined) {
     console.warn(`selected filter doesn't exist`, name)
@@ -115,7 +114,6 @@ function hideFilterSelect(name: string) {
 };
 
 function addFilter(filter: Filter, selected: string, initialState?: FilterState) {
-  console.log('adding filter', filter.name, selected, initialState)
   // If this filter is not a single option, remove this option from the list of options
   if (!filter.isSingleOption) {
     filter.options = [...remove(filter.options, selected)]
