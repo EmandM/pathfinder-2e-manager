@@ -19,16 +19,17 @@ describe('cleanSearch', () => {
     'ringofdiscretion',
     'striking_rune',
     'shuriken',
+    'legerdemain_handkerchief_equipment',
   ])('%s - cleans single input', (input) => {
     runTestForFilePrefix(`singleInput/${input}`)
   })
 
   it.skip('runs a single test as expected', () => {
-    runTestForFilePrefix('singleInput/striking_rune')
+    runTestForFilePrefix('singleInput/ringofdiscretion')
   })
 
   it.skip('builds up a test as expected', () => {
-    buildExpectedForPrefix('singleInput/striking_rune')
+    buildExpectedForPrefix('singleInput/ringofdiscretion')
   })
 
   it('adds skills to the associated actions', () => {

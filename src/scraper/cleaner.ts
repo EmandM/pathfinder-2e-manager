@@ -296,7 +296,7 @@ function getFeature(pair: RegExpExecArray): [string, string] {
   return [key, value]
 }
 
-const validOldSources = ['Troubles in Otari', 'Book of the Dead', 'Secrets of Magic', 'Guns & Gears (Remastered)', 'Ancestry Guide', 'Treasure Vault']
+const validOldSources = ['Troubles in Otari', 'Book of the Dead', 'Secrets of Magic', 'Guns & Gears (Remastered)', 'Ancestry Guide', 'Treasure Vault (Remastered)']
 const excludedSources = ['Pathfinder Adventure Path #219: Lord of the Trinity Star']
 /**
  * Returns true if the source was published after the remaster started.
@@ -333,16 +333,17 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
 
   search.forEach((item) => {
     let card = item._source
-    if (!isAValidEntry(card)) {
-      return
-    }
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Striking') {
+    // if (card.name === 'Shuriken') {
     //   console.log('\n')
     //   console.log(JSON.stringify(item))
     //   console.log('\n')
     // }
+
+    if (!isAValidEntry(card)) {
+      return
+    }
 
     if (card.category === 'skill') {
       saveRelatedActions(card)
