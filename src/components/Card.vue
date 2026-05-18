@@ -40,10 +40,12 @@ const isCreature = source.category === 'creature' && !source.print_image
 const isRune = source.item_category && source.item_category.toLowerCase() === 'runes'
 const actionString = `<actions string="${source.actions}" />`
 const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && featuresToFilter.includes(key.toLowerCase()))))
+const isWide = isCreature || (source.xl_card && !source.print_image)
+const isSplit = (source.xl_card && !source.print_image) && !isCreature
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, large: isCreature || source.xl_card, rune: isRune, long: isCreature && source.xl_card, split: !isCreature && source.xl_card, dark: isDark }">
+  <div class="cardSize" :class="{ print: isPrint, wide: isWide, rune: isRune, long: isCreature && source.xl_card, split: isSplit, dark: isDark }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -92,7 +94,7 @@ const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && fe
             <div v-if="!isPrint" class="copyright">
               {{ source.primary_source }}
             </div>
-            <div v-if="source.xl_card && isPrint && !isCreature" />
+            <div v-if="isSplit" />
           </div>
 
           <div v-for="image in source.image" :key="image" class="item-image">
@@ -383,14 +385,14 @@ hr.divider {
     color: inherit;
     text-decoration: none;
   }
-  &.large {
+  &.wide {
     grid-column: span 2;
   }
   &.long {
     grid-row: span 2;
     height: 650px;
   }
-  &.large.split {
+  &.wide.split {
     background:
       linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
       linear-gradient(to left, black 0.5px, transparent 0.5px) 48% 100%,
