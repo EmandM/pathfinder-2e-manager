@@ -392,6 +392,10 @@ hr.divider {
     grid-row: span 2;
     height: 650px;
   }
+  &.rune {
+    grid-row: span 0.25;
+    height: 55px;
+  }
   &.wide.split {
     background:
       linear-gradient(to left, black 0.5px, transparent 0.5px) 100% 0,
@@ -460,10 +464,6 @@ hr.divider {
       }
     }
   }
-}
-
-.cardSize.print.rune {
-  height: 55px;
 }
 
 .buttons {
