@@ -89,7 +89,7 @@ class Printer {
     }
 
     if (override.count) {
-      toReturn.push(...Array.from({ length: override.count - 1 }, () => moddedCard))
+      toReturn.push(...Array.from({ length: override.count - 1 }).fill(moddedCard))
     }
 
     return toReturn

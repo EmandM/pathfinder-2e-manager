@@ -13,7 +13,7 @@ function getInnerFromRegexes(markdown: string, blockRegex: RegExp, itemRegex: Re
     return []
   }
 
-  let out: string[] = null
+  let out: string[] = []
   blocks.forEach((actionBlock) => {
     const ids = actionBlock.match(itemRegex)
     if (!ids) {
@@ -27,7 +27,7 @@ function getInnerFromRegexes(markdown: string, blockRegex: RegExp, itemRegex: Re
     }
   })
 
-  return out || []
+  return out
 }
 
 /**
@@ -38,30 +38,28 @@ interface SkillInfo {
   skills: string[]
 }
 
-interface InfoMap {
-  [key: string]: SkillInfo
-}
-
 /**
  * Defines blocks of info and whether the items in this block are trained
  */
 class ActionToSkill {
-  actionsToInfo: InfoMap
+  actionsToInfo: Map<string, SkillInfo>
 
   constructor() {
-    this.actionsToInfo = {} as InfoMap
+    this.actionsToInfo = new Map()
   }
 
   add(key: string, skill: string, isTrained: boolean) {
-    if (this.actionsToInfo[key]) {
-      this.actionsToInfo[key].skills.push(skill)
+    let current = this.actionsToInfo.get(key)
+    if (current) {
+      current.skills.push(skill)
     }
     else {
-      this.actionsToInfo[key] = {
+      current = {
         skills: [skill],
         isTrained,
       }
     }
+    this.actionsToInfo.set(key, current)
   }
 
   addMany(keys: string[], skill: string, isTrained: boolean) {
@@ -70,12 +68,16 @@ class ActionToSkill {
     }
   }
 
-  get(key: string): SkillInfo {
-    return this.actionsToInfo[key]
+  get(key: string): SkillInfo | undefined {
+    return this.actionsToInfo.get(key)
+  }
+
+  isPopulated(): boolean {
+    return this.actionsToInfo.size > 0
   }
 }
 
-let actionToSkill: ActionToSkill = null
+let actionToSkill = new ActionToSkill()
 
 const untrainedGeneral = /<title((?!<\/title>).)*Untrained General Actions<\/title>.*?(?=<title|$)/s
 const untrained = /<title((?!<\/title>).)*Untrained Actions<\/title>.*?(?=<title|$)/s
@@ -99,7 +101,7 @@ export function saveRelatedActions(card: Card) {
 
 export function checkActionToSkill(firstEntry: Card) {
   if (firstEntry.category === 'skill') {
-    if (actionToSkill) {
+    if (actionToSkill.isPopulated()) {
       console.error('actionToSkill object is already populated. Ensure skill scrape is not processed twice')
     }
     actionToSkill = new ActionToSkill()
@@ -115,7 +117,7 @@ export function checkActionToSkill(firstEntry: Card) {
 export function applySkillToAction(action: Card): Card {
   if (!actionToSkill) {
     console.error('actionToSkill object is unpopulated. Ensure skill scrape is processed before action scrape')
-    return
+    return action
   }
 
   const skills = action.associated_skill || []

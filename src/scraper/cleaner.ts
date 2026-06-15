@@ -130,8 +130,8 @@ function getRuneDetails(card: Card): [string?, string?] {
     'Filigrees',
   ]
 
-  let category: string
-  let target: string
+  let category: string | undefined
+  let target: string | undefined
 
   const subCategories = card.item_subcategory.split(' ')
   for (const subCategory of subCategories) {

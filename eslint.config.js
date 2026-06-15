@@ -27,5 +27,6 @@ export default antfu({
   rules: {
     'no-console': [0],
     'ts/strict-boolean-expressions': [0],
+    'e18e/prefer-regex-test': [0],
   },
 })

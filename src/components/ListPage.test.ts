@@ -15,7 +15,7 @@ import ListPage from './ListPage.vue'
 
 vi.spyOn(dataImporterModule, 'dataImporter').mockReturnValue(ref({} as ImportResult))
 vi.spyOn(printModule, 'usePrinter').mockReturnValue(() => {})
-vi.spyOn(bookmarkModule, 'useBookmarks').mockReturnValue(new bookmarkModule.Bookmarker(ref([]), ref(0)))
+vi.spyOn(bookmarkModule, 'useBookmarks').mockReturnValue(new bookmarkModule.Bookmarker(ref([] as bookmarkModule.BookmarkList[]), ref(0)))
 
 function makeCard(id: number, overrides: Partial<Card> = {}): Card {
   return { id, name: `Card ${id}`, search_text: `card ${id}`, level: 1, ...overrides } as Card
