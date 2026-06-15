@@ -30,7 +30,6 @@ jobs:
         name: Install pnpm
         with:
           version: 11
-          cache: true
       - name: Set up Node
         uses: actions/setup-node@v6
         with:
@@ -38,15 +37,17 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm ci
+      - name: Check tests pass
+        run: pnpm test
       - name: Build
-        run: npm run build
+        run: pnpm build
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v6
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           # Upload dist folder
           path: ./dist
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
