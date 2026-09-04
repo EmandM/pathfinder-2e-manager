@@ -1,6 +1,7 @@
-import type MarkdownIt from 'markdown-it'
-import type { StateCore } from 'markdown-it/dist/index.cjs.js'
-import Token from 'markdown-it/lib/token.mjs'
+import type { MarkdownIt, StateCore, Token } from 'markdown-it'
+import * as MarkdownItModule from 'markdown-it'
+
+const TokenBuilder = MarkdownItModule.default.Token
 
 // Use https://markdown-it.github.io/#md3=%7B%22source%22%3A%22sometext%22%2C%22defaults%22%3A%7B%22html%22%3Atrue%2C%22xhtmlOut%22%3Afalse%2C%22breaks%22%3Afalse%2C%22langPrefix%22%3A%22language-%22%2C%22linkify%22%3Afalse%2C%22typographer%22%3Afalse%2C%22_highlight%22%3Afalse%2C%22_strict%22%3Afalse%2C%22_view%22%3A%22debug%22%7D%7D to debug markdown tokens
 
@@ -10,7 +11,7 @@ export function inlinePlugin(md: MarkdownIt) {
   function getParagraphToken(version: 'open' | 'close'): Token {
     const nesting = version === 'open' ? 1 : -1
     const type = `paragraph_${version}`
-    const token = new Token(type, 'p', nesting)
+    const token = new TokenBuilder(type, 'p', nesting)
     token.block = true
     return token
   }

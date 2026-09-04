@@ -19,7 +19,7 @@ export default defineConfig({
   base: '/pathfinder-2e-manager/',
   resolve: {
     alias: {
-      '~/': `${path.resolve(__dirname, 'src')}/`,
+      '~/': `${path.resolve(import.meta.dirname, 'src')}/`,
     },
   },
 
@@ -27,7 +27,6 @@ export default defineConfig({
     preprocessorOptions: {
       scss: {
         additionalData: `@use "~/styles/element/index.scss" as *;`,
-        api: 'modern-compiler',
       },
     },
   },

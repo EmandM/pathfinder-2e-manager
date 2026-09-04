@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import type { Card } from '~/composables/types'
 import markdownit from 'markdown-it'
-import mila from 'markdown-it-link-attributes'
 import { useAonLink } from '~/composables/aon-link'
 import { inlinePlugin } from '~/composables/block-inliner'
 import { isDark } from '~/composables/dark'
@@ -24,11 +23,7 @@ md.normalizeLink = function (link: string) {
   }
   return useAonLink(link)
 }
-md.use(mila, {
-  attrs: {
-    target: '_blank',
-  },
-})
+
 md.use(imagePlugin, 'inline-action')
 md.use(inlinePlugin)
 
