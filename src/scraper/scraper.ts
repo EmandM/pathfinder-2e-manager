@@ -35,6 +35,8 @@ const config = {
     'weapon',
     'weapon-group',
     'class',
+    'class-feature',
+    'cause',
     'heritage',
 
     // Need to retreive action after skill as the results are combined

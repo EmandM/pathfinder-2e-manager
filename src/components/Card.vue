@@ -6,6 +6,7 @@ import { useAonLink } from '~/composables/aon-link'
 import { inlinePlugin } from '~/composables/block-inliner'
 import { isDark } from '~/composables/dark'
 import { imagePlugin } from '~/composables/image-renderer'
+import { isRune } from '~/composables/rune'
 
 const { source, isBookmarked, isPrint } = defineProps<{
   source: Card
@@ -31,13 +32,13 @@ md.use(mila, {
 md.use(imagePlugin, 'inline-action')
 md.use(inlinePlugin)
 
-const featuresToFilter = ['favored weapon']
+const featuresToFilter = ['favored weapon', 'deities', 'lesson', 'bloodline']
 
 const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
 const isCreature = source.category === 'creature' && !source.print_image
-const isRune = source.item_category && source.item_category.toLowerCase() === 'runes'
+const isShortRune = isRune(source) && !source.full_rune
 const actionString = `<actions string="${source.actions}" />`
 const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && featuresToFilter.includes(key.toLowerCase()))))
 const isWide = isCreature || (source.xl_card && !source.print_image)
@@ -45,7 +46,7 @@ const isSplit = (source.xl_card && !source.print_image) && !isCreature
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, wide: isWide, rune: isRune, long: isCreature && source.xl_card, split: isSplit, dark: isDark }">
+  <div class="cardSize" :class="{ print: isPrint, wide: isWide, rune: isShortRune, long: isCreature && source.xl_card, split: isSplit, dark: isDark }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">
@@ -221,7 +222,7 @@ hr.divider {
   float: right;
 }
 
-.print.rune .further-desc {
+.print.rune:not(.long) .further-desc {
   visibility: hidden;
 }
 

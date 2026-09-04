@@ -3,6 +3,7 @@ import type { Card } from '~/composables/types'
 import { computed, ref } from 'vue'
 import IconEdit from '~icons/material-symbols-light/edit'
 import { usePrintCustomization } from '~/composables/print'
+import { isRune } from '~/composables/rune'
 
 const { source } = defineProps<{
   source: Card
@@ -17,8 +18,9 @@ const description = ref(existing?.description || source.description)
 const name = ref(existing?.name || source.name)
 const traits = ref(existing?.trait_raw || source.trait_raw)
 const xlCard = ref(existing?.xl_card || false)
-const printImage = ref(existing?.print_image || false)
-const imageDisabled = !source.image
+const fullRune = ref(existing?.full_rune || false)
+// const printImage = ref(existing?.print_image || false)
+// const imageDisabled = !source.image
 
 const descriptionDialogVisible = ref(false)
 const traitDialogVisible = ref(false)
@@ -66,9 +68,13 @@ function handleXlCardChange(newVal: boolean) {
   printer.setFlag(source.id, 'xl_card', newVal)
 }
 
-function handlePrintImage(newVal: boolean) {
-  printer.setFlag(source.id, 'print_image', newVal)
+function handleFullRuneChange(newVal: boolean) {
+  printer.setFlag(source.id, 'full_rune', newVal)
 }
+
+// function handlePrintImage(newVal: boolean) {
+//   printer.setFlag(source.id, 'print_image', newVal)
+// }
 
 function handleReset() {
   printer.resetOverride(source.id)
@@ -86,8 +92,9 @@ function handleReset() {
 
     <div class="actions">
       <div class="action">
+        <el-checkbox v-if="isRune(source)" v-model="fullRune" label="full sized" @change="handleFullRuneChange" />
         <el-checkbox v-model="xlCard" label="XL" @change="handleXlCardChange" />
-        <el-checkbox v-model="printImage" label="print image" :disabled="imageDisabled" @change="handlePrintImage" />
+        <!-- <el-checkbox v-model="printImage" label="print image" :disabled="imageDisabled" @change="handlePrintImage" /> -->
       </div>
       <el-button class="action" plain @click="descriptionDialogVisible = true">
         Description

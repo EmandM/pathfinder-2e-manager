@@ -72,6 +72,7 @@ export interface Card {
   // Print configuration
   xl_card: boolean
   print_image: boolean
+  full_rune: boolean
 }
 
 export enum FilterState {

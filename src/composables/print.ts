@@ -9,6 +9,7 @@ interface PrintConfiguration {
   count?: number
   xl_card: boolean
   print_image: boolean
+  full_rune: boolean
 }
 
 type Override = PrintConfiguration & Partial<Card>
@@ -54,6 +55,7 @@ class Printer {
       this.overrides.value[id] = {
         xl_card: false,
         print_image: false,
+        full_rune: false,
       }
     }
     return this.overrides.value[id]
@@ -89,7 +91,8 @@ class Printer {
     }
 
     if (override.count) {
-      toReturn.push(...Array.from({ length: override.count - 1 }).fill(moddedCard))
+      const cards = Array.from({ length: override.count - 1 }).fill(moddedCard) as Card[]
+      toReturn.push(...cards)
     }
 
     return toReturn
