@@ -335,7 +335,7 @@ export function cleanSearch(search: SearchEntry[]): Card[] {
     let card = item._source
 
     // Uncomment to print off matching file for testing
-    // if (card.name === 'Shuriken') {
+    // if (card.name === 'Acid Grip') {
     //   console.log('\n')
     //   console.log(JSON.stringify(item))
     //   console.log('\n')

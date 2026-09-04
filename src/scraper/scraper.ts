@@ -9,7 +9,7 @@ import { cleanSearch } from './cleaner.ts'
 const config = {
   // These values should be static, and tell the scraper how to access the AON elastic instance.
   root: 'https://elasticsearch.aonprd.com/',
-  index: 'aon-test',
+  index: 'aon',
 
   // Comment out any targets you do not want to scrape.
   targets: [
@@ -62,6 +62,10 @@ const advancedQueries: { [key: string]: estypes.QueryDslQueryContainer } = {
 
 const client = new Client({
   node: config.root,
+  headers: {
+    'accept': '*/*',
+    'content-type': 'application/json',
+  },
 })
 
 async function retrieveTargets() {

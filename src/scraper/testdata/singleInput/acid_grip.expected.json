@@ -6,7 +6,7 @@
     "Telvrys",
     "The Devourer"
   ],
-  "description": "An ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus 1d6 [persistent acid damage](/Conditions.aspx?ID=29) depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds.\r\n\r\n**Critical Success** The creature is unaffected.<br />\r\n**Success** The creature takes half damage and no persistent damage, and the claw [moves](/Rules.aspx?ID=451) it up to 5 feet in a direction of your choice.<br />\r\n**Failure** The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.<br />\r\n**Critical Failure** The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice.\n\n\r\n**Heightened (+2)** The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+  "description": "An ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus 1d6 [persistent acid damage](/Conditions.aspx?ID=29) depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds.\n\n**Critical Success** The creature is unaffected.<br />\n**Success** The creature takes half damage and no persistent damage, and the claw [moves](/Rules.aspx?ID=451) it up to 5 feet in a direction of your choice.<br />\n**Failure** The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.<br />\n**Critical Failure** The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice.\n\n\n**Heightened (+2)** The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
   "features": [
     [
       [
@@ -20,6 +20,10 @@
       [
         "Range",
         "120 feet"
+      ],
+      [
+        "newline",
+        ""
       ],
       [
         "Target",
@@ -49,6 +53,7 @@
     10
   ],
   "id": "spell-1436",
+  "is_standard_ancestry_feat": false,
   "legacy_id": [
     "spell-2"
   ],
@@ -56,7 +61,7 @@
     "Acid Arrow"
   ],
   "level": 2,
-  "markdown": "<title level=\"1\" right=\"Spell 2\" pfs=\"Standard\">\r\n[Acid Grip](/Spells.aspx?ID=1436)\r\n<actions string=\"Two Actions\" />\r\n</title>\n\n<traits>\r\n<trait label=\"Acid\" url=\"/Traits.aspx?ID=3\" />\r\n<trait label=\"Concentrate\" url=\"/Traits.aspx?ID=32\" />\r\n<trait label=\"Manipulate\" url=\"/Traits.aspx?ID=104\" />\r\n</traits>\r\n\r\n<column gap=\"tiny\">\n\n**Source** [Player Core](/Sources.aspx?ID=216) pg. 314 <sup>2.0</sup>\n\n**Traditions**\r\n[Arcane](/SpellLists.aspx?Tradition=1), [Primal](/SpellLists.aspx?Tradition=4)\n\n**Deities**\r\n[Telvrys](/Deities.aspx?ID=668), [The Devourer](/Deities.aspx?ID=339)\n\n<row gap=\"medium\">\n\n \n\n</row>\r\n\r\n<row gap=\"medium\">\r\n**Range** 120 feet\n\n**Target** 1 creature\r\n</row>\r\n\r\n<row gap=\"medium\">\r\n**Defense**\r\nReflex\n\n</row>\r\n\r\n</column>\r\n\r\n---\r\n\r\nAn ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus 1d6 [persistent acid damage](/Conditions.aspx?ID=29) depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds.\r\n\r\n**Critical Success** The creature is unaffected.<br />\r\n**Success** The creature takes half damage and no persistent damage, and the claw [moves](/Rules.aspx?ID=451) it up to 5 feet in a direction of your choice.<br />\r\n**Failure** The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.<br />\r\n**Critical Failure** The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice.\n\n---\r\n**Heightened (+2)** The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+  "markdown": "<title level=\"1\" right=\"Spell 2\" pfs=\"Standard\">\n[Acid Grip](/Spells.aspx?ID=1436)\n<actions string=\"Two Actions\" />\n</title>\n\n<traits>\n<trait label=\"Acid\" url=\"/Traits.aspx?ID=3\" />\n<trait label=\"Concentrate\" url=\"/Traits.aspx?ID=32\" />\n<trait label=\"Manipulate\" url=\"/Traits.aspx?ID=104\" />\n</traits>\n\n<column gap=\"tiny\">\n\n**Source** [Player Core](/Sources.aspx?ID=216) pg. 314\n\n**Traditions**\n[Arcane](/SpellLists.aspx?Tradition=1), [Primal](/SpellLists.aspx?Tradition=4)\n\n**Deities**\n[Telvrys](/Deities.aspx?ID=668), [The Devourer](/Deities.aspx?ID=339)\n\n<row gap=\"medium\">\n\n \n\n</row>\n\n<row gap=\"medium\">\n**Range** 120 feet\n\n**Target** 1 creature\n</row>\n\n<row gap=\"medium\">\n**Defense**\nReflex\n\n</row>\n\n</column>\n\n---\n\nAn ephemeral, taloned hand grips the target, burning it with magical acid. The target takes 2d8 acid damage plus 1d6 [persistent acid damage](/Conditions.aspx?ID=29) depending on its Reflex save. A creature taking persistent damage from this spell takes a –10-foot status penalty to its Speeds.\n\n**Critical Success** The creature is unaffected.<br />\n**Success** The creature takes half damage and no persistent damage, and the claw [moves](/Rules.aspx?ID=451) it up to 5 feet in a direction of your choice.<br />\n**Failure** The creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice.<br />\n**Critical Failure** The creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice.\n\n---\n**Heightened (+2)** The initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
   "name": "Acid Grip",
   "pfs": "Standard",
   "primary_source": "Player Core",
@@ -69,7 +74,7 @@
   "release_date": "2023-11-15",
   "resistance": {},
   "saving_throw": "Reflex",
-  "search_text": "\nacid grip two actions source player core pg. 314 2.0 traditions arcane, primal deities telvrys, the devourer range 120 feet target 1 creature defense reflex --- an ephemeral, taloned hand grips the target, burning it with magical acid. the target takes 2d8 acid damage plus 1d6 persistent acid damage depending on its reflex save. a creature taking persistent damage from this spell takes a –10-foot status penalty to its speeds. critical success the creature is unaffected. success the creature takes half damage and no persistent damage, and the claw moves it up to 5 feet in a direction of your choice. failure the creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice. critical failure the creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice. --- heightened (+2) the initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
+  "search_text": "\nacid grip\ntwo actions source player core pg. 314 traditions arcane, primal deities telvrys, the devourer range 120 feet target 1 creature defense reflex --- an ephemeral, taloned hand grips the target, burning it with magical acid. the target takes 2d8 acid damage plus 1d6 persistent acid damage depending on its reflex save. a creature taking persistent damage from this spell takes a –10-foot status penalty to its speeds. critical success the creature is unaffected. success the creature takes half damage and no persistent damage, and the claw moves it up to 5 feet in a direction of your choice. failure the creature takes full damage and persistent damage, and the claw moves it up to 10 feet in a direction of your choice. critical failure the creature takes double damage and full persistent damage, and the claw moves it up to 20 feet in a direction of your choice. --- heightened (+2) the initial damage increases by 2d8, and the persistent acid damage increases by 1d6.",
   "skill_mod": {},
   "source": [
     "Player Core"
