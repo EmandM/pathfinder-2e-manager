@@ -4,8 +4,8 @@ import markdownit from 'markdown-it'
 import { useAonLink } from '~/composables/aon-link'
 import { inlinePlugin } from '~/composables/block-inliner'
 import { isDark } from '~/composables/dark'
+import { calculateCardDisplay } from '~/composables/display-card-utils'
 import { imagePlugin } from '~/composables/image-renderer'
-import { isRune } from '~/composables/rune'
 
 const { source, isBookmarked, isPrint } = defineProps<{
   source: Card
@@ -29,19 +29,17 @@ md.use(inlinePlugin)
 
 const featuresToFilter = ['favored weapon', 'deities', 'lesson', 'bloodline']
 
+const cardInfo = calculateCardDisplay(source)
 const traits = source.trait_raw ? source.trait_raw.filter(trait => trait.toLowerCase() !== source.rarity) : []
 const card_type = source.spell_type || source.type
 const show_rarity = source.rarity !== 'common'
-const isCreature = source.category === 'creature' && !source.print_image
-const isShortRune = isRune(source) && !source.full_rune
 const actionString = `<actions string="${source.actions}" />`
 const features = source.features.map(f => f.filter(([key, _]) => !(isPrint && featuresToFilter.includes(key.toLowerCase()))))
-const isWide = isCreature || (source.xl_card && !source.print_image)
-const isSplit = (source.xl_card && !source.print_image) && !isCreature
+const isSplit = (source.xl_card && !source.print_image) && !cardInfo.isCreature()
 </script>
 
 <template>
-  <div class="cardSize" :class="{ print: isPrint, wide: isWide, rune: isShortRune, long: isCreature && source.xl_card, split: isSplit, dark: isDark }">
+  <div class="cardSize" :class="{ print: isPrint, wide: cardInfo.printWide(), rune: cardInfo.printAsShortRune(), long: cardInfo.printLong(), split: isSplit, dark: isDark }">
     <div v-if="!source.print_image" class="item">
       <div class="stretcher-bearer">
         <div class="stretcher">

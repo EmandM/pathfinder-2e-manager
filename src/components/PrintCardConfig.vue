@@ -2,8 +2,8 @@
 import type { Card } from '~/composables/types'
 import { computed, ref } from 'vue'
 import IconEdit from '~icons/material-symbols-light/edit'
+import { calculateCardDisplay } from '~/composables/display-card-utils'
 import { usePrintCustomization } from '~/composables/print'
-import { isRune } from '~/composables/rune'
 
 const { source } = defineProps<{
   source: Card
@@ -25,6 +25,8 @@ const fullRune = ref(existing?.full_rune || false)
 const descriptionDialogVisible = ref(false)
 const traitDialogVisible = ref(false)
 const nameDialogVisible = ref(false)
+
+const cardInfo = calculateCardDisplay(source)
 
 function handleCountChange(value: number | undefined) {
   if (!value || value < 0) {
@@ -92,7 +94,7 @@ function handleReset() {
 
     <div class="actions">
       <div class="action">
-        <el-checkbox v-if="isRune(source)" v-model="fullRune" label="full sized" @change="handleFullRuneChange" />
+        <el-checkbox v-if="cardInfo.isRune()" v-model="fullRune" label="full sized" @change="handleFullRuneChange" />
         <el-checkbox v-model="xlCard" label="XL" @change="handleXlCardChange" />
         <!-- <el-checkbox v-model="printImage" label="print image" :disabled="imageDisabled" @change="handlePrintImage" /> -->
       </div>

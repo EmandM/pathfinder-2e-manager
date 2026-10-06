@@ -4,6 +4,7 @@ import type { Card, KeysMatching } from './types'
 import { useStorage } from '@vueuse/core'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { calculateCardDisplay } from './display-card-utils'
 
 interface PrintConfiguration {
   count?: number
@@ -111,10 +112,11 @@ class Printer {
   }
 
   loadItemsToPrint(): Card[] {
-    const toPrint: Card[] = []
+    let toPrint: Card[] = []
     for (const card of this.printList.value) {
       toPrint.push(...this.applyOverride(card))
     }
+    toPrint = optimizePrintLayout(toPrint)
     return toPrint
   }
 
@@ -173,4 +175,61 @@ export function usePrinter() {
 
 export function usePrintCustomization() {
   return getPrinter()
+}
+
+function optimizePrintLayout(items: Card[]): Card[] {
+  const cardsBySize = {
+    single: [] as Card[],
+    wide: [] as Card[],
+    wideAndLong: [] as Card[],
+    rune: [] as Card[],
+  }
+
+  items.forEach((card) => {
+    const info = calculateCardDisplay(card)
+    if (info.printWide()) {
+      if (info.printLong()) {
+        cardsBySize.wideAndLong.push(card)
+        return
+      }
+      cardsBySize.wide.push(card)
+      return
+    }
+
+    if (info.printAsShortRune()) {
+      cardsBySize.rune.push(card)
+      return
+    }
+
+    cardsBySize.single.push(card)
+  })
+
+  const output = [] as Card[]
+
+  function addSingle() {
+    const next = cardsBySize.single.pop()
+    if (next !== undefined) {
+      output.push(next)
+    }
+  }
+
+  cardsBySize.wideAndLong.forEach((wideAndLong) => {
+    // Each wide and long takes two single cards
+    output.push(wideAndLong)
+    addSingle()
+    addSingle()
+  })
+
+  cardsBySize.wide.forEach((wide) => {
+    // each wide takes one single
+    output.push(wide)
+    addSingle()
+  })
+
+  // Add any remaining single cards together
+  output.push(...cardsBySize.single)
+  // Add any short runes at the end
+  output.push(...cardsBySize.rune)
+
+  return output
 }
